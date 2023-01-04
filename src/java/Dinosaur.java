@@ -1,6 +1,6 @@
 import javax.swing.*;
 
-public class Character {
+public class Dinosaur {
 
     // change into either flappy bird or dinosaur
 
