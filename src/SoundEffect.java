@@ -16,8 +16,9 @@ public class SoundEffect {
     // ================================================================================
     public SoundEffect() {
 
-        soundURL[0] = getClass().getResource("//ding.wav"); // check if folder is done right
-        // add other sound effects here later!
+        soundURL[0] = getClass().getResource("resources/jump.wav");
+        soundURL[1] = getClass().getResource("resources/death.wav");
+        soundURL[2] =getClass().getResource("resources/scoreup.wav");
 
     }
 
