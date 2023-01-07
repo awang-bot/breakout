@@ -23,23 +23,23 @@ public class Cactus extends Rectangle {
      * The third column is the width (px).
      * The fourth column is the height (px).
      */
-    public static final String[][] CACTUS_IMAGES = {{"1", "resources/cactus1.png", "34", "70"}, {"2", "resources/cactus2.png", "68", "70"}, {"3", "resources/cactus3.png", "102", "70"}, {"4", "resources/cactus4.png", "50", "96"}, {"5", "resources/cactus5.png", "100", "96"}, {"6", "resources/cactus6.png", "150", "96"}};
+    public static final String[][] CACTUS_ARR = {{"1", "resources/cactus1.png", "34", "70"}, {"2", "resources/cactus2.png", "68", "70"}, {"3", "resources/cactus3.png", "102", "70"}, {"4", "resources/cactus4.png", "50", "96"}, {"5", "resources/cactus5.png", "100", "96"}, {"6", "resources/cactus6.png", "150", "96"}};
 
     /**
      * Cactus identifiers: 1 - one small, 2 - two small, 3 - three small, 4 - one big, 5 - two big, 6 - group of four
      */
-    public int id;
-    public String imagePath;
-    final BufferedImage buffImage;
+    public final int id;
+    public final String imagePath;
+    public final BufferedImage buffImage;
 
     // ================================================================================
     // CONSTRUCTOR
     // ================================================================================
     public Cactus(int index, int x, int y) {
-        super(x, y, Integer.parseInt(CACTUS_IMAGES[index][2]), Integer.parseInt(CACTUS_IMAGES[index][3]));
+        super(x, y, Integer.parseInt(CACTUS_ARR[index][2]), Integer.parseInt(CACTUS_ARR[index][3]));
 
-        id = Integer.parseInt(CACTUS_IMAGES[index][0]); // set ID
-        imagePath = CACTUS_IMAGES[index][1]; // set image path
+        id = Integer.parseInt(CACTUS_ARR[index][0]); // set ID
+        imagePath = CACTUS_ARR[index][1]; // set image path
         // initialize buffImage
         try {
             buffImage = ImageIO.read(new File(imagePath));
@@ -56,7 +56,7 @@ public class Cactus extends Rectangle {
      * move the cactus 5px left
      */
     public void move() {
-        x -= 5; // speeds up later? maximum speed? or maybe the speed boost will be coded in the gamepanel move()?
+        x -= 5; // speeds up later? maximum speed? or maybe the speed boost will be coded in the GamePanel move()?
     }
 
     public void draw(Graphics g) {

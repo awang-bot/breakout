@@ -3,38 +3,82 @@ January 7, 2023
 Pterodactyl
 This class will manage the characteristics of the pterodactyl obstacle. */
 
-import java.lang.Object;
 import java.awt.*;
 
+/**
+ * <pre>
+ * Anne Liu and Atisa Wang
+ * January 7, 2023
+ *
+ * PTERODACTYL
+ * This class manages the characteristics and methods of the pterodactyl obstacle. </pre>
+ */
 public class Pterodactyl extends Rectangle {
-    // variable declaration
-    public static final int[] HEIGHT_OFF_GROUND_ARR = {20, 60, 120}; // pterodactyl height off the ground array (list of 3 height options)
-    // this height will depend on how big the dinosaur is
-    public int heightOffGround;
-    public String birdImageURL = "resources/pterodactyl.png"; // imageURL for the bird, it never changes images
-    // CHECK THIS IMAGE URL AGAIN -- IT'S NOT CORRECT. WATCHING VIDEO ON ANIMATIONS RN
-    public static final int BIRD_HEIGHT = 20, BIRD_WIDTH = 30; //width, height of object itself
+
+    // ================================================================================
+    // VARIABLES
+    // ================================================================================
+
+    /**
+     * Each row represents a different pterodactyl obstacle.
+     * The first column is the ID.
+     * The second column is the y-coordinate.
+     */
+    public static final String[][] PTERODACTYL_ARR = {{"7", "low"}, {"8", "mid"}, {"9", "high"}};
+    // replace [][1] with actual y-coordinate later
+    /**
+     * Filepath to pterodactyl_down.png.
+     */
+    public final static String FILEPATH_UP = "resources/pterodactyl_up.png";
+    /**
+     * Filepath to pterodactyl_down.png.
+     */
+    public final static String FILEPATH_DOWN = "resources/pterodactyl_down.png";
+    /**
+     * pterodactyl_up.png is 60px tall.
+     */
+    public static final int BIRD_HEIGHT_UP = 20;
+    /**
+     * pterodactyl_down.png is 69px tall.
+     */
+    public static final int BIRD_HEIGHT_DOWN = 20;
+    /**
+     * Pterodactyl PNG is 30px wide.
+     */
+    public static final int BIRD_WIDTH = 30;
+    /**
+     * Animation object to animate the pterodactyl's wings.
+     */
     private Animation birdFlap;
 
-    // constructor
-    public Pterodactyl(int heightNum, int x, int y) // heightNum will be a number from 0 to 2
-    {
+
+    // ================================================================================
+    // CONSTRUCTOR
+    // ================================================================================
+    public Pterodactyl(int index, int x, int y) {
         super(x, y);
+
         birdFlap = new Animation();
-        birdFlap.addFrame(Resource.getResourceImage("resource/pterodactyl_down.png"));
-        heightOffGround = HEIGHT_OFF_GROUND_ARR[heightNum]; // determine the height of the bird off the ground
+        birdFlap.addFrame(Resource.getResourceImage(FILEPATH_UP));
+        birdFlap.addFrame(Resource.getResourceImage(FILEPATH_DOWN));
     }
 
+
+    // ================================================================================
+    // METHODS
+    // ================================================================================
+
+    /**
+     * move the pterodactyl 5px left
+     */
     public void move() {
-        x -= 5; // move the bird to the left
+        x -= 5;
     }
 
-    // draws the current location of the pterodactyl to the screen
     public void draw(Graphics g) {
 
         g.setColor(Color.white);
         g.fillRect(x, y, BIRD_HEIGHT, BIRD_WIDTH);
-    } // end of draw
-
+    }
 
 }
