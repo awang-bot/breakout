@@ -20,7 +20,8 @@ public class Pterodactyl extends Rectangle
   public Pterodactyl(int heightNum, int x, int y) // heightNum will be a number from 0 to 2 
   {
   	super(x,y); 
-	birdFlap = new Animation(Resource.getResourceImage("resource/pterodactyl
+	birdFlap = new Animation();
+	birdFlap.addFrame(Resource.getResourceImage("resource/pterodactyl_down.png"));
   	heightOffGround = HEIGHT_OFF_GROUND_ARR[heightNum]; // determine the height of the bird off the ground
   }
   
