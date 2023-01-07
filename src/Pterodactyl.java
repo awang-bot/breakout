@@ -84,7 +84,7 @@ public class Pterodactyl{
      * move the pterodactyl 5px left
      */
     public void move() {
-        x -= 5;
+        x -= Dinosaur.getSpeedX();
     }
 
     public void draw(Graphics g) {

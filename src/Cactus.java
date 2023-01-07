@@ -56,7 +56,7 @@ public class Cactus extends Rectangle {
      * move the cactus 5px left
      */
     public void move() {
-        x -= 5; // speeds up later? maximum speed? or maybe the speed boost will be coded in the GamePanel move()?
+        x -= Dinosaur.getSpeedX();
     }
 
     public void draw(Graphics g) {

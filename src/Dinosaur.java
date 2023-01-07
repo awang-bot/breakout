@@ -8,15 +8,15 @@ public class Dinosaur {
     // VARIABLES
     // ================================================================================
 
-    // position
+    // TODO add 2d array for different dino modes
     public int x;
     public int y;
-    // dimensions
-    public static int WIDTH; // make final later
-    public static int HEIGHT; // make final later
-    // objects
+    public int speedX;
     public BufferedImage image;
     public Rectangle dinoBoundary;
 
 
+    public static int getSpeedX() {
+        return speedX();
+    }
 }

@@ -3,6 +3,7 @@ January 7, 2022
 Animation
 This program will handle the animations of the obstacles and dinosaurs. */
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,5 +53,16 @@ public class Animation {
     public BufferedImage getFrame() {
         return keyFrames.get(currentFrame);
     }
+
+    public Rectangle getBounds(int id){
+        Rectangle rect = new Rectangle();
+        rect.x = (int) getFrame().getTileGridXOffset() + (getFrame().getWidth() - width)/2;
+        rect.y = Y_LAND - getFrame().getHeight() + (getFrame().getHeight() - height)/2;
+        rect.width = getFrame().getWidth();
+        rect.height = getFrame().getHeight();
+        return rect;
+    }
+
+    // there is a lot going on and a lot of code is wrong but
 
 }
