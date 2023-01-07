@@ -26,18 +26,15 @@ public class Cactus extends Rectangle
     imageURL = Integer.parseInt(cactusGraphicsURL[cactusNum][1]); // determine the URL of the image from the array
     cactusWidth = Integer.parseInt(cactusGraphicsURL[cactusNum][2]); // determine the cactus width and height
     cactusHeight = Integer.parseInt(cactusGraphipcsURL[cactusNum][3]);
-  
+    
+    
   }
- 
   public void draw(Graphics g) {
-		g.setColor(Color.white);
-		g.fillRect(x, y, cactusWidth, cactusHeight);
-    
-    
-	} // end of draw method
-  
-  
-  
+  	g.setColor(Color.white); // set it as white for now
+	g.fillRect(x,y,cactusWidth, cactusHeight); 
+	
+} // end of draw method
+
   
    
 
