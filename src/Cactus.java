@@ -28,25 +28,26 @@ public class Cactus extends Rectangle
   // ================================================================================
   public Cactus(int cactusNum, int x, int y)
   {
-    super(x,y); // position
+    super(x,y, Integer.parseInt(CACTUS_IMAGES[cactusNum][2]), Integer.parseInt(CACTUS_IMAGES[cactusNum][3]));
 
-    id = Integer.parseInt(cactusGraphicsURL[cactusNum][0]); // determine the design number
-    imageURL = cactusGraphicsURL[cactusNum][1]; // determine the URL of the image from the array
-    cactusWidth = Integer.parseInt(cactusGraphicsURL[cactusNum][2]); // determine the cactus width
-    cactusHeight = Integer.parseInt(cactusGraphipcsURL[cactusNum][3]); // cactus height
+    id = Integer.parseInt(CACTUS_IMAGES[cactusNum][0]); // determine the design number
+    imageURL = CACTUS_IMAGES[cactusNum][1]; // determine the URL of the image from the array
+    cactusWidth = Integer.parseInt(CACTUS_IMAGES[cactusNum][2]); // cactus width
+    cactusHeight = Integer.parseInt(CACTUS_IMAGES[cactusNum][3]); // cactus height
   }
   
-  public void move()
-  {
-  	x-=5; // move x 5 pixels to the left
+  public void move() {
+    // move 5 pixels to the left
+    x-=5; // speeds up later? maximum speed? or maybe the speed boost will be coded in the gamepanel move()?
   }
 
 
 
   public void draw(Graphics g) {
-  	g.setColor(Color.white); // set it as white for now
-	g.fillRect(x,y,cactusWidth, cactusHeight); 
-	
+    Graphics2D g2d = (Graphics2D) g;
+    g2d.setColor(new Color(0f, 0f, 0f, 0f));
+	g2d.fillRect(x,y,cactusWidth, cactusHeight);
+	g2d.getbound
 	//draw the actual image, need to import it from resources
 	
 } // end of draw method
