@@ -2,6 +2,7 @@
 Anne Liu & Atisa Wang
 03/01/22
 Main
+This class holds the main menu.
  */
 
 public class Main {

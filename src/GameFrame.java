@@ -12,9 +12,9 @@ public class GameFrame extends JFrame {
     // CONSTRUCTOR
     // ================================================================================
     public GameFrame() {
-        this.setTitle("game name"); // change later
+        this.setTitle("Dinosaur Game"); // change later
         this.setResizable(false);
-        this.setBackground(Color.black); // change?
+        this.setBackground(Color.black);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         panel = new GamePanel();
