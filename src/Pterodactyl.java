@@ -14,11 +14,13 @@ public class Pterodactyl extends Rectangle
   public String birdImageURL = "resources/pterodactyl.png"; // imageURL for the bird, it never changes images
   // CHECK THIS IMAGE URL AGAIN -- IT'S NOT CORRECT. WATCHING VIDEO ON ANIMATIONS RN
   public static final int BIRD_HEIGHT = 20, BIRD_WIDTH = 30; //width, height of object itself
+  private Animation birdFlap;
   
   // constructor
   public Pterodactyl(int heightNum, int x, int y) // heightNum will be a number from 0 to 2 
   {
   	super(x,y); 
+	birdFlap = new Animation(Resource.getResourceImage("resource/pterodactyl
   	heightOffGround = HEIGHT_OFF_GROUND_ARR[heightNum]; // determine the height of the bird off the ground
   }
   
