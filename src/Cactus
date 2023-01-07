@@ -9,7 +9,7 @@ public class Cactus extends Rectangle
 {
   // Variable declaration
   public int cactusWidth, cactusHeight;
-  public String cactusGraphicsURL[5][4]; //(for the order of designing cacti – 0 maps to 1 small cactus, 1 maps to 1 big cactus, 2 maps to 2 small cacti, 3 maps to 2 big cacti and 1 small cactus, 4 maps to 4 cacti)
+  public String cactusGraphicsURL[6][4]; //(for the order of designing cacti – 0 maps to 1 small cactus, 1 maps to 1 big cactus, 2 maps to 2 small cacti, 3 maps to 2 big cacti and 1 small cactus, 4 maps to 4 cacti)
                                   //First column is design number
                                   //Second is graphics url
                                   //Third is rectangle (drawn behind) width
