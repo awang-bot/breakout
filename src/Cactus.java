@@ -9,7 +9,7 @@ public class Cactus extends Rectangle
 {
   // Variable declaration
   public int cactusWidth, cactusHeight;
-  public static final String[][] CACTUS_IMAGES = {{"1", "resources/cactus1.png", "34", "70"}, {"2", "resources/cactus2.png", "68", "70"}, {"3", "resources/cactus3.png", "102", "70"}, {"4", "resources/cactus4.png", "", ""}, {"5", "resources/cactus5.png", "", ""}, {"6", "resources/cactus6.png", "", ""}};
+  public static final String[][] CACTUS_IMAGES = {{"1", "resources/cactus1.png", "34", "70"}, {"2", "resources/cactus2.png", "68", "70"}, {"3", "resources/cactus3.png", "102", "70"}, {"4", "resources/cactus4.png", "50", "96"}, {"5", "resources/cactus5.png", "100", "96"}, {"6", "resources/cactus6.png", "150", "96"}};
                                   //(for the order of designing cacti – 0 maps to 1 small cactus, 1 maps to 1 big cactus, 2 maps to 2 small cacti, 3 maps to 2 big cacti and 1 small cactus, 4 maps to 4 cacti)
                                   //First column is design number
                                   //Second is graphics url
