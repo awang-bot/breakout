@@ -4,7 +4,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.lang.reflect.Executable;
 
 public class GamePanel extends JPanel implements Runnable, KeyListener {
 
@@ -14,6 +13,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     Thread gameThread;
     Image image;
     Graphics graphics;
+    boolean running;
+
+    Score score;
 
     // ================================================================================
     // CONSTRUCTOR
@@ -53,8 +55,32 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     // METHODS
     // ================================================================================
     public void run(){
+        long lastTime = System.nanoTime();
+        double ticks = 60.0;
+        double nanoseconds = 1000000000 / ticks; // 1000000000 ns = 1 sec, so the game will update 60 times per second
+        double delta = 0;
+        while (true) {
+            long now = System.nanoTime();
+            delta += (now - lastTime) / nanoseconds;
+            lastTime = now;
+            if (delta >= 1) {
+                if (running) {
+                    updateGame();
+                }
+                repaint();
+                delta--;
+            }
+        }
+    }
 
-        // update game with update() method
+    /**
+     * Update the game while it is running.
+     */
+    private void updateGame(){
+        // TODO update object positions
+        checkCollision();
+        score.updateScore();
+        score.updateHighScore();
     }
 
     public void paint(Graphics g) {
@@ -89,10 +115,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         */
     }
 
-    /**
-     * Update the game every __ seconds/nanoseconds.
-     */
-    public void updateGame(){
+    private void checkCollision(){
 
     }
 
@@ -127,7 +150,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
      */
     @Override
     public void keyPressed(KeyEvent e) {
-
+        // TODO press space or up_arrow to jump
+        // TODO press down_arrow to go down or crouch
+        // TODO press space or up_arrow to restart or
     }
 
     /**

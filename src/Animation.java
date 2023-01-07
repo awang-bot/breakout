@@ -9,12 +9,16 @@ import java.util.List;
 
 public class Animation {
 
-    // FIXME figure out how all this works
+    // TODO figure out how all this works
 
     // ================================================================================
     // VARIABLES
     // ================================================================================
-    private List<BufferedImage> list;
+
+    /**
+     * Stores the key frames of the animation.
+     */
+    private List<BufferedImage> keyFrames;
     private long deltaTime;
     private int currentFrame = 0;
     private long previousTime;
@@ -24,7 +28,7 @@ public class Animation {
     // ================================================================================
     public Animation(int deltaTime) {
         this.deltaTime = deltaTime;
-        list = new ArrayList<BufferedImage>();
+        keyFrames = new ArrayList<BufferedImage>();
         previousTime = 0;
     }
 
@@ -34,7 +38,7 @@ public class Animation {
     public void updateFrame() {
         if (System.currentTimeMillis() - previousTime >= deltaTime) {
             currentFrame++;
-            if (currentFrame >= list.size()) {
+            if (currentFrame >= keyFrames.size()) {
                 currentFrame = 0;
             }
             previousTime = System.currentTimeMillis();
@@ -42,11 +46,11 @@ public class Animation {
     }
 
     public void addFrame(BufferedImage image) {
-        list.add(image);
+        keyFrames.add(image);
     }
 
     public BufferedImage getFrame() {
-        return list.get(currentFrame);
+        return keyFrames.get(currentFrame);
     }
 
 }

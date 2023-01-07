@@ -11,7 +11,7 @@ import java.io.IOException;
  * PTERODACTYL
  * This class manages the characteristics and methods of the pterodactyl obstacle. </pre>
  */
-public class Pterodactyl extends Rectangle {
+public class Pterodactyl{
 
     // ================================================================================
     // VARIABLES
@@ -44,15 +44,25 @@ public class Pterodactyl extends Rectangle {
      * Animation object to animate the pterodactyl's wings.
      */
     private Animation birdFlap;
+    /**
+     * Pterodactyl x-coordinate
+     */
+    public int x;
+    /**
+     * Pterodactyl y-coordinate
+     */
+    public int y;
 
 
     // ================================================================================
     // CONSTRUCTOR
     // ================================================================================
     public Pterodactyl(int index, int x, int y) {
-        super(x, y);
+        this.x = x;
+        this.y = y;
 
         birdFlap = new Animation(90); // FIXME figure out deltaTime value
+
         try {
             birdFlap.addFrame(ImageIO.read(new File(FILEPATH_UP)));
         } catch (IOException e) {
@@ -83,6 +93,14 @@ public class Pterodactyl extends Rectangle {
         g2d.setColor(new Color(0f, 0f, 0f, 0f)); // transparent colour
         g2d.drawRect(x, y, width, height); // draw rectangle
         // TODO add pterodactyl flying animation with BufferedImage and whatnot
+    }
+
+    public Rectangle getBounds(){
+        return
+    }
+
+    public void outOfScreen(){
+        // TODO if x < GAME_WIDTH ...
     }
 
 }

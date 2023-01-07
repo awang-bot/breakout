@@ -7,6 +7,7 @@ public class Score {
     // ================================================================================
     private int score;
     private static int highScore = 0;
+    // TODO save highScore in file
 
     // ================================================================================
     // CONSTRUCTOR
@@ -35,6 +36,10 @@ public class Score {
     // setters
     public void setScore(int score){
         this.score = score;
+    }
+
+    public void updateScore(){
+        // +1 every 0.1 second or 1e+8 nanosecond
     }
 
     // update high score if current score is greater than previous high score
