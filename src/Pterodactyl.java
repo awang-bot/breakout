@@ -20,8 +20,6 @@ public class Pterodactyl extends Rectangle
   {
   	super(x,y);
   	heightOffGround = HEIGHT_OFF_GROUND_ARR[heightNum];
-
-
   }
   
   public void move()
@@ -33,7 +31,7 @@ public class Pterodactyl extends Rectangle
   public void draw(Graphics g) {
     
 		g.setColor(Color.white);
-		g.fillRect(x, y, BALL_DIAMETER, BALL_DIAMETER);
+		g.fillRect(x, y, BIRD_HEIGHT, BIRD_WIDTH);
 	} // end of draw
   
 
