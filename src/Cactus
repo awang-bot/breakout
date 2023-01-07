@@ -32,6 +32,8 @@ public class Cactus extends Rectangle
   	g.setColor(Color.white); // set it as white for now
 	g.fillRect(x,y,cactusWidth, cactusHeight); 
 	
+	//draw the actual image, need to import it from resources
+	
 } // end of draw method
 
   
