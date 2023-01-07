@@ -9,16 +9,18 @@ public class Pterodactyl extends Rectangle
 {
 
   // variable declaration
-  public int[] heightOffGroundArr; // pterodactyl height off the ground
-  int heightOffGround;
-  String birdImageURL→ {10, 20, 30} (or smth like that)
-  public static final int BIRDHEIGHT, birdWidth; //width, height of object itself
-
+  public static final int[] HEIGHT_OFF_GROUND_ARR = {20, 60, 120}; // pterodactyl height off the ground array (list of 3 height options)
+  							// this height will depend on how big the dinosaur is
+  public int heightOffGround;
+  public String birdImageURL→ {30, 100, 170} (or smth like that)
+  public static final int BIRD_HEIGHT = 20, BIRD_WIDTH = 30; //width, height of object itself
   
   // constructor
-  public Pterodactyl()
+  public Pterodactyl(int heightNum, int x, int y) // heightNum will be a number from 0 to 2 
   {
-    
+  	super(x,y);
+  	heightOffGround = HEIGHT_OFF_GROUND_ARR[heightNum];
+
 
   }
   
