@@ -8,25 +8,45 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Animation {
-    private List<BufferedImage> dinoFrame;
 
-    public Animation() {
-        dinoFrame = new ArrayList<BufferedImage>(); // initialize the dinoFrame arraylist
+    // FIXME figure out how all this works
 
+    // ================================================================================
+    // VARIABLES
+    // ================================================================================
+    private List<BufferedImage> list;
+    private long deltaTime;
+    private int currentFrame = 0;
+    private long previousTime;
+
+    // ================================================================================
+    // CONSTRUCTOR
+    // ================================================================================
+    public Animation(int deltaTime) {
+        this.deltaTime = deltaTime;
+        list = new ArrayList<BufferedImage>();
+        previousTime = 0;
     }
 
-    public void addFrame(BufferedImage frame) {
-        dinoFrame.add(frame);
-    }
-
+    // ================================================================================
+    // METHODS
+    // ================================================================================
     public void updateFrame() {
+        if (System.currentTimeMillis() - previousTime >= deltaTime) {
+            currentFrame++;
+            if (currentFrame >= list.size()) {
+                currentFrame = 0;
+            }
+            previousTime = System.currentTimeMillis();
+        }
+    }
+
+    public void addFrame(BufferedImage image) {
+        list.add(image);
     }
 
     public BufferedImage getFrame() {
-        if (dinoFrame.size() > 0) { // make sure that there is something you can return so it will not error out
-            return frames.get(0);
-        }
-        return null;
+        return list.get(currentFrame);
     }
 
-} // end of Animation class
+}

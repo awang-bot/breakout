@@ -1,9 +1,7 @@
-/* Anne Liu and Atisa Wang
-January 7, 2023
-Pterodactyl
-This class will manage the characteristics of the pterodactyl obstacle. */
-
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * <pre>
@@ -25,7 +23,7 @@ public class Pterodactyl extends Rectangle {
      * The second column is the y-coordinate.
      */
     public static final String[][] PTERODACTYL_ARR = {{"7", "low"}, {"8", "mid"}, {"9", "high"}};
-    // replace [][1] with actual y-coordinate later
+    // FIXME replace [][1] with actual y-coordinate later
     /**
      * Filepath to pterodactyl_down.png.
      */
@@ -35,17 +33,13 @@ public class Pterodactyl extends Rectangle {
      */
     public final static String FILEPATH_DOWN = "resources/pterodactyl_down.png";
     /**
-     * pterodactyl_up.png is 60px tall.
+     * Pterodactyl PNG is 80px tall.
      */
-    public static final int BIRD_HEIGHT_UP = 20;
+    public static final int BIRD_HEIGHT = 80;
     /**
-     * pterodactyl_down.png is 69px tall.
+     * Pterodactyl PNG is 92px wide.
      */
-    public static final int BIRD_HEIGHT_DOWN = 20;
-    /**
-     * Pterodactyl PNG is 30px wide.
-     */
-    public static final int BIRD_WIDTH = 30;
+    public static final int BIRD_WIDTH = 92;
     /**
      * Animation object to animate the pterodactyl's wings.
      */
@@ -58,9 +52,17 @@ public class Pterodactyl extends Rectangle {
     public Pterodactyl(int index, int x, int y) {
         super(x, y);
 
-        birdFlap = new Animation();
-        birdFlap.addFrame(Resource.getResourceImage(FILEPATH_UP));
-        birdFlap.addFrame(Resource.getResourceImage(FILEPATH_DOWN));
+        birdFlap = new Animation(90); // FIXME figure out deltaTime value
+        try {
+            birdFlap.addFrame(ImageIO.read(new File(FILEPATH_UP)));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            birdFlap.addFrame(ImageIO.read(new File(FILEPATH_DOWN)));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
@@ -76,9 +78,11 @@ public class Pterodactyl extends Rectangle {
     }
 
     public void draw(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
 
-        g.setColor(Color.white);
-        g.fillRect(x, y, BIRD_HEIGHT, BIRD_WIDTH);
+        g2d.setColor(new Color(0f, 0f, 0f, 0f)); // transparent colour
+        g2d.drawRect(x, y, width, height); // draw rectangle
+        // TODO add pterodactyl flying animation with BufferedImage and whatnot
     }
 
 }
