@@ -11,7 +11,7 @@ public class Pterodactyl extends Rectangle
   public static final int[] HEIGHT_OFF_GROUND_ARR = {20, 60, 120}; // pterodactyl height off the ground array (list of 3 height options)
   							// this height will depend on how big the dinosaur is
   public int heightOffGround;
-  public String birdImageURL; // imageURL for the bird, it never changes images
+  public String birdImageURL = "resources/pterodactyl.png"; // imageURL for the bird, it never changes images
   public static final int BIRD_HEIGHT = 20, BIRD_WIDTH = 30; //width, height of object itself
   
   // constructor
