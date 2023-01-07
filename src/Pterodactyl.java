@@ -12,6 +12,7 @@ public class Pterodactyl extends Rectangle
   							// this height will depend on how big the dinosaur is
   public int heightOffGround;
   public String birdImageURL = "resources/pterodactyl.png"; // imageURL for the bird, it never changes images
+  // CHECK THIS IMAGE URL AGAIN -- IT'S NOT CORRECT. WATCHING VIDEO ON ANIMATIONS RN
   public static final int BIRD_HEIGHT = 20, BIRD_WIDTH = 30; //width, height of object itself
   
   // constructor
