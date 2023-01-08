@@ -28,6 +28,7 @@ public class Cactus extends Rectangle {
     /**
      * Cactus identifiers: 1 - one small, 2 - two small, 3 - three small, 4 - one big, 5 - two big, 6 - group of four
      */
+    private int cactusWidth, cactusHeight; 
     public final int id;
     public final String imagePath;
     public final BufferedImage buffImage;
@@ -35,9 +36,17 @@ public class Cactus extends Rectangle {
     // ================================================================================
     // CONSTRUCTOR
     // ================================================================================
-    public Cactus(int index, int x, int y) {
+    public Cactus(int index, int x, int y) { 
+    	// the cactus will typically start from the right-most side of the screen
         super(x, y, Integer.parseInt(CACTUS_ARR[index][2]), Integer.parseInt(CACTUS_ARR[index][3]));
 
+        this.x = x;
+        this.y = y;
+        
+        // FIXME: make this more efficient - this seems very INefficient
+        cactusWidth = Integer.parseInt(CACTUS_ARR[index][2]);
+        cactusHeight = Integer.parseInt(CACTUS_ARR[index][3]);
+        
         id = Integer.parseInt(CACTUS_ARR[index][0]); // set ID
         imagePath = CACTUS_ARR[index][1]; // set image path
         // initialize buffImage
@@ -56,12 +65,17 @@ public class Cactus extends Rectangle {
      * move the cactus 5px left
      */
     public void move() {
-        x -= Dinosaur.getSpeedX();
+        x -= 10; // speeds up later? maximum speed? or maybe the speed boost will be coded in the GamePanel move()?
     }
+    
 
     public void draw(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
 
+        /* use this to test the functionality of draw*/
+        g.setColor(Color.red);
+        g.fillRect(x, y, cactusWidth, cactusHeight);
+        
         g2d.setColor(new Color(0f, 0f, 0f, 0f)); // transparent colour
         g2d.drawRect(x, y, width, height); // draw rectangle
         g2d.drawImage(buffImage, x, y, null); // draw cactus png
