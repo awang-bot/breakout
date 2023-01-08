@@ -11,7 +11,7 @@ import java.io.IOException;
  * PTERODACTYL
  * This class manages the characteristics and methods of the pterodactyl obstacle. </pre>
  */
-public class Pterodactyl{
+public class Pterodactyl extends Rectangle {
 
     // ================================================================================
     // VARIABLES
@@ -22,10 +22,12 @@ public class Pterodactyl{
      * The first column is the ID.
      * The second column is the y-coordinate.
      */
-    public static final String[][] PTERODACTYL_ARR = {{"7", "low"}, {"8", "mid"}, {"9", "high"}};
+//    public static final String[][] PTERODACTYL_ARR = {{"7", "low"}, {"8", "mid"}, {"9", "high"}};
+    public static final int[][] PTERODACTYL_ARR = {{7, 100}, {8, 150}, {9, 150}}; // FIXME: check when the first index is used... i don't think it's ever
+
     // FIXME replace [][1] with actual y-coordinate later
     /**
-     * Filepath to pterodactyl_down.png.
+     * Filepath to pterodactyl_up.png.
      */
     public final static String FILEPATH_UP = "resources/pterodactyl_up.png";
     /**
@@ -57,9 +59,17 @@ public class Pterodactyl{
     // ================================================================================
     // CONSTRUCTOR
     // ================================================================================
-    public Pterodactyl(int index, int x, int y) {
-        this.x = x;
-        this.y = y;
+    public Pterodactyl(int index, int x) {
+    	// below is changed because of line 26:     public static final int[][] PTERODACTYL_ARR = {{7, 100}, {8, 150}, {9, 150}};
+//    	super(x, Integer.parseInt(PTERODACTYL_ARR[index][0]));
+//    	this.x = x;
+//        y = Integer.parseInt(PTERODACTYL_ARR[index][0]);
+    	
+    	super(x, PTERODACTYL_ARR[index][1]);
+    	this.x = x;
+        y = PTERODACTYL_ARR[index][1];
+    	
+        // FIXME: make this efficient??
 
         birdFlap = new Animation(90); // FIXME figure out deltaTime value
 
@@ -84,19 +94,24 @@ public class Pterodactyl{
      * move the pterodactyl 5px left
      */
     public void move() {
-        x -= Dinosaur.getSpeedX();
+        x -= 10;
     }
 
     public void draw(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-
-        g2d.setColor(new Color(0f, 0f, 0f, 0f)); // transparent colour
-        g2d.drawRect(x, y, width, height); // draw rectangle
+        
+        /* use this to test the functionality of draw*/
+        g.setColor(Color.black);
+        g.fillRect(x, y, BIRD_WIDTH, BIRD_HEIGHT);
+        
+//        g2d.setColor(new Color(0f, 0f, 0f, 0f)); // transparent colour
+////        g2d.drawRect(x, y, width, height); // draw rectangle
+//        g2d.drawRect(x, y, BIRD_WIDTH, BIRD_HEIGHT); 
         // TODO add pterodactyl flying animation with BufferedImage and whatnot
     }
 
     public Rectangle getBounds(){
-        return
+        return null; //????
     }
 
     public void outOfScreen(){
