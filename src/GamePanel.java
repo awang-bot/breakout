@@ -10,12 +10,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     // ================================================================================
     // VARIABLES
     // ================================================================================
-    public static final int GAME_WIDTH = 526;
-    public static final int GAME_HEIGHT = 150;
-    Thread gameThread;
-    Image image;
-    Graphics graphics;
-    boolean running;
+    public static final int GAME_WIDTH = 526, GAME_HEIGHT = 150;
+	public Thread gameThread;
+    public Image image;
+    public Graphics graphics;
+    public boolean running;
+    public Cactus cactus;
+    public Pterodactyl bird;
+   
 
     Score score;
 
@@ -24,10 +26,15 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     // ================================================================================
     public GamePanel() {
         // TODO initialize objects either in constructor or with a method
-
+//		cactus = new Cactus();
+//		bird = new Pterodactyl();
+		running = true; // ????
+		cactus = null;
+		bird = null;
+    	
         // enable user input
-        this.setFocusable(true);
-        requestFocus();
+        this.setFocusable(true); // allow the focus to be on the game screen
+        requestFocus(); // set the focus on the game screen
 
         // check for key input
         this.addKeyListener(this);
@@ -46,10 +53,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         });
 
         // TODO add this.setPreferredSize(SCREEN_SIZE);
+		this.setPreferredSize(new Dimension(GAME_WIDTH, GAME_HEIGHT));
 
         // thread
         gameThread = new Thread(this);
-        gameThread.start();
+        gameThread.start(); // call run()
 
     }
 
@@ -63,7 +71,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         double delta = 0;
         while (true) {
             long now = System.nanoTime();
-            delta += (now - lastTime) / nanoseconds;
+            delta += (now - lastTime) / nanoseconds; // accumulate the time passed
             lastTime = now;
             if (delta >= 1) {
                 if (running) {
@@ -71,9 +79,23 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 }
                 repaint();
                 delta--;
+                
             }
         }
     }
+    
+    /*
+     * This method will check if the obstacle passes the left border.
+     * If so, it sets the obstacle to null.
+     */
+    public void checkObstacleLeftBorder()
+    {
+    	if(cactus !=null && cactus.x < 0)
+    		cactus = null; // set cactus to null
+    	if(bird !=null && bird.x < 0)
+    		bird = null; // set bird to null 
+    }
+    
 
     /**
      * Update the game while it is running.
@@ -81,8 +103,36 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private void updateGame(){
         // TODO update object positions
         checkCollision();
-        score.updateScore();
-        score.updateHighScore();
+        checkObstacleLeftBorder(); 
+        handleObstacle();
+//        score.updateScore();
+//        score.updateHighScore();
+    }
+    
+    
+    /*
+     * This method handles the cactus and pterodactyl movements.
+     */
+    public void handleObstacle()
+    {
+    	// FIXME maybe this can be a different method in gamepanel? for efficiency
+    	// generate a random integer to choose a random obstacle
+    	if (randomInt(0, 8)<=6) // if the number is from 0 to 6, create a cactus
+    	{
+    		if (cactus == null)
+    			cactus = new Cactus(randomInt(1, 6), GAME_WIDTH, 100); // choose a random number from 1 to 6
+    		// FIXME: change the last parameter to ground.GROUND_BORDER_HEIGHT+cactus height
+//    		cactus.draw(g);
+    		cactus.move();
+    	}
+    	else // otherwise, create a pterodactyl 
+    	{
+    		if (bird == null)
+    			bird = new Pterodactyl(randomInt(1,3), 500); //FIXME: change last param to game_width - the bird's width somehow
+//        	bird.draw(g);
+    		bird.move();
+    		
+    	}
     }
 
     public void paint(Graphics g) {
@@ -90,10 +140,45 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         graphics = image.getGraphics();
         draw(graphics);
         g.drawImage(image, 0, 0, this);
+  
     }
 
+    // helper method to determine a random integer for an obstacle
+    public int randomInt(int add, int multiplier)
+    {
+    	// get a random integer from 
+    	// 0 to 6 are cacti, 7 is for pterodactyl
+    	return (int)(Math.random()*multiplier);
+    }
+    
     public void draw(Graphics g) {
         // TODO GamePanel draw()
+    	
+    	if (cactus != null)
+    		cactus.draw(g);
+    	if (bird != null)
+    		bird.draw(g);
+    	
+    	// in the if-statement, create a new cactus/pterodactyl object (not globally!)
+    	
+//    	// FIXME maybe this can be a different method in gamepanel? for efficiency
+//    	// generate a random integer to choose a random obstacle
+//    	if (randomInt(0, 8)<=6) // if the number is from 0 to 6, create a cactus
+//    	{
+//    		cactus = new Cactus(randomInt(1, 6), GAME_WIDTH, 100); // choose a random number from 1 to 6
+//    		// FIXME: change the last parameter to ground.GROUND_BORDER_HEIGHT+cactus height
+//    		cactus.draw(g);
+////    		cactus.move();
+//    	}
+//    	else // otherwise, create a pterodactyl 
+//    	{
+//    		bird = new Pterodactyl(randomInt(1,3), 500); //FIXME: change last param to game_width - the bird's width somehow
+//    		while (bird.x >0) {
+//        		bird.draw(g);
+////    			bird.move();
+//    		}
+//    	}
+    	
         /*
         // display start button
         if (displayStart) {
@@ -116,9 +201,18 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         }
         */
     }
+    
+//    private void move()
+//    {
+////    	cactus.move();
+////    	bird.move();
+//    	
+//    }
 
     private void checkCollision(){
-
+    	
+    	
+    	
     }
 
     /**
