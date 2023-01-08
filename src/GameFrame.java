@@ -14,7 +14,7 @@ public class GameFrame extends JFrame {
     public GameFrame() {
         this.setTitle("Dinosaur Game"); // change later
         this.setResizable(false);
-        this.setBackground(Color.black);
+        this.setBackground(Color.white);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         panel = new GamePanel();
