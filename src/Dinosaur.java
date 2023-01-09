@@ -30,13 +30,14 @@ public class Dinosaur extends Rectangle {
     public int height; // make final later
     // objects
     public BufferedImage image;
-
-    public boolean start_state = true;
-	public boolean normalRun_state = false;
-	public boolean jump_state = false;
-	public boolean crouch_state = false;
-	public boolean dead = false;
-	Animation normalRun_animation;
+	public int state;
+    public static final int START_STATE = 0;
+	public static final int NORM_STATE = 1;
+	public static final int RUN_STATE = 2;
+	public static final int CROUCH_STATE = 3;
+	public static final int DEAD_STATE = 4;
+	Animation normal_animation;
+	Animation crouch_animation;
     /**
      * when true, the dino is still in the air jumping.
      */
@@ -53,14 +54,27 @@ public class Dinosaur extends Rectangle {
     public Dinosaur(int width, int height)
     {
 //    	super(x, 500, width, height); // the y-coord should be the ground's height
-		normalRun_animation = new Animation(100);
+		// add animation for normal run
+		normal_animation = new Animation(100);
 		try {
-			normalRun_animation.addFrame(ImageIO.read(new File("resources/dino1.png")));
+			normal_animation.addFrame(ImageIO.read(new File("resources/dino1.png")));
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
 		try {
-			normalRun_animation.addFrame(ImageIO.read(new File("resources/dino2.png")));
+			normal_animation.addFrame(ImageIO.read(new File("resources/dino2.png")));
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+		// add animation for crouch run
+		crouch_animation = new Animation(100);
+		try {
+			normal_animation.addFrame(ImageIO.read(new File("resources/dino3.png")));
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+		try {
+			normal_animation.addFrame(ImageIO.read(new File("resources/dino4.png")));
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -68,7 +82,7 @@ public class Dinosaur extends Rectangle {
     	this.height = height;
     	y=500; // initialize y to be 500 to start there
     	yVelocity = -5;
-    	jump_state= true;
+    	state = START_STATE;
     	continueJump = false;
     }
     
@@ -120,8 +134,19 @@ public class Dinosaur extends Rectangle {
  	 */
  	public void move()
  	{
-		 switch(){
-		case: start_state
+		 switch(state){
+			 case START_STATE:
+				 // start dino
+			 case NORM_STATE:
+				 // normal run
+			 case RUN_STATE:
+				 // run
+			 case CROUCH_STATE:
+				 // crouch
+			 case DEAD_STATE:
+				 // dead dino
+		 }
+
 
 // 		if (y<=500 && y>=400)
 // 		{
@@ -151,9 +176,6 @@ public class Dinosaur extends Rectangle {
 // 		}
  	} // end of move
 
-	public Rectangle dinoBounds(){
-		return (this.getBounds());
-	}
 
  	
 }
