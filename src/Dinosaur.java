@@ -55,7 +55,18 @@ public class Dinosaur extends Rectangle {
     public Dinosaur(int width, int height)
     {
 //    	super(x, 500, width, height); // the y-coord should be the ground's height
-		// add animation for normal run
+
+		initializeAnimation();
+
+    	this.width = width;
+    	this.height = height;
+    	y=500; // initialize y to be 500 to start there
+    	yVelocity = -5;
+    	state = START_STATE;
+    	continueJump = false;
+    }
+
+	private void initializeAnimation(){
 		normal_animation = new Animation(100);
 		try {
 			normal_animation.addFrame(ImageIO.read(new File("resources/dino1.png")));
@@ -79,13 +90,7 @@ public class Dinosaur extends Rectangle {
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
-    	this.width = width;
-    	this.height = height;
-    	y=500; // initialize y to be 500 to start there
-    	yVelocity = -5;
-    	state = START_STATE;
-    	continueJump = false;
-    }
+	}
     
     
     // ================================================================================
@@ -94,13 +99,15 @@ public class Dinosaur extends Rectangle {
 	 * draws the current location of the paddle to the screen
 	 */
 	public void draw(Graphics g) {
+		Graphics2D g2d = (Graphics2D) g;
+
 		g.setColor(Color.black);
 		g.fillRect(x, y, width, height);
 		switch(state){
 			case START_STATE:
-				g.drawImage();
+				g.drawImage(ImageIO.read(new File("resources/dino7.png"))); // FIXME no dino7.png import it!!
 			case NORM_STATE:
-				// normal run
+				g2d.drawImage();
 			case RUN_STATE:
 				// run
 			case CROUCH_STATE:
@@ -143,7 +150,7 @@ public class Dinosaur extends Rectangle {
  	}
 
  	/**
- 	 * Move the dinosaur
+ 	 * Update the dinosaur's position.
  	 */
  	public void move()
  	{
@@ -154,7 +161,7 @@ public class Dinosaur extends Rectangle {
 				 // normal run
 			 case RUN_STATE:
 				 // run
-			 case JUMP_STATE -> {
+			 case JUMP_STATE -> { // TODO up and down of jump add some if statements or something
 				 continueJump = true;
 				 y += yVelocity; // add to go back down, minus to go back up
 //	 			up = false;
@@ -172,17 +179,11 @@ public class Dinosaur extends Rectangle {
 
 // 		if (y<=500 && y>=400)
 // 		{
-	 		if (state == JUMP_STATE)
-	 		{
-//
-	 		}
+
 	 		else if (state != JUMP_STATE) {
-//	 			up = true;
-//	 			yVelocity*=-1;
 	 			y+=yVelocity;
 	 			if (y == LOWER_BOUND)
 	 			{
-//	 				up = true;
 	 				yVelocity*=-1;
 	 				continueJump = false;
 	 			}
