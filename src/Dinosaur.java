@@ -68,7 +68,7 @@ public class Dinosaur extends Rectangle {
     	this.height = height;
     	y=500; // initialize y to be 500 to start there
     	yVelocity = -5;
-    	up= true;
+    	jump_state= true;
     	continueJump = false;
     }
     
@@ -91,7 +91,7 @@ public class Dinosaur extends Rectangle {
  	public void keyPressed(KeyEvent e) {
  		if (e.getKeyCode() == 32) {
  			continueJump = true;
- 			up = true;
+ 			jump_state = true;
  		}
 // 			setYDirection(SPEED * -1);
 // 			yVelocity *=-1;
@@ -120,6 +120,9 @@ public class Dinosaur extends Rectangle {
  	 */
  	public void move()
  	{
+		 switch(){
+		case: start_state
+
 // 		if (y<=500 && y>=400)
 // 		{
 	 		if (jump_state)
