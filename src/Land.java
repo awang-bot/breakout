@@ -10,6 +10,9 @@ public class Land {
     // ================================================================================
 
     public static final int LAND_POS_Y = 100; // FIXME change y-coordinate of ground
+    /**
+     *
+     */
     private static final String[] FILEPATH = {"resources/land1.png","resources/land2.png","resources/land3.png"};
     public BufferedImage land1;
     public BufferedImage land2;

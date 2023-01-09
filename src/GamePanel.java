@@ -87,89 +87,25 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             }
         }
     }
-    
-    /**
-     * This method will check if the obstacle passes the left border.
-     * If so, it sets the obstacle to null.
-     */
-    public void checkObstacleLeftBorder()
-    {
-    	if(cactus !=null && cactus.x < 0)
-    		cactus = null; // set cactus to null
-    	if(bird !=null && bird.x < 0)
-    		bird = null; // set bird to null 
-    }
-    
-
-    /**
-     * Update the game while it is running.
-     */
-    private void updateGame(){
-        // TODO update object positions
-//    	if (!dinoOutOfBound())
-//    		dino.move();
-    	dino.midJump();
-        checkCollision();
-        checkObstacleLeftBorder(); 
-        handleObstacle();
-//        score.updateScore();
-//        score.updateHighScore();
-    }
-    
-    
-    /**
-     * This method handles the cactus and pterodactyl movements.
-     */
-    public void handleObstacle()
-    {
-    	// FIXME maybe this can be a different method in gamepanel? for efficiency
-    	// generate a random integer to choose a random obstacle
-    	if (randomInt(0, 8)<=6) // if the number is from 0 to 6, create a cactus
-    	{
-    		if (cactus == null)
-    			cactus = new Cactus(randomInt(1, 6), GAME_WIDTH, 100); // choose a random number from 1 to 6
-    		// FIXME: change the last parameter to ground.GROUND_BORDER_HEIGHT+cactus height
-//    		cactus.draw(g);
-    		cactus.move();
-    	}
-    	else // otherwise, create a pterodactyl 
-    	{
-    		if (bird == null)
-    			bird = new Pterodactyl(randomInt(1,3), 500); //FIXME: change last param to game_width - the bird's width somehow
-//        	bird.draw(g);
-    		bird.move();
-    		
-    	}
-    }
 
     public void paint(Graphics g) {
         image = createImage(getWidth(), getHeight());
         graphics = image.getGraphics();
         draw(graphics);
         g.drawImage(image, 0, 0, this);
-  
+
     }
 
-    /**
-     *  helper method to determine a random integer for an obstacle
-     */
-    public int randomInt(int add, int multiplier)
-    {
-    	// get a random integer from 
-    	// 0 to 6 are cacti, 7 is for pterodactyl
-    	return (int)(Math.random()*multiplier);
-    }
-    
     public void draw(Graphics g) {
         // TODO GamePanel draw()
-    	dino.draw(g);
-    	if (cactus != null)
-    		cactus.draw(g);
-    	if (bird != null)
-    		bird.draw(g);
-    	
-    	// in the if-statement, create a new cactus/pterodactyl object (not globally!)
-    	
+        dino.draw(g);
+        if (cactus != null)
+            cactus.draw(g);
+        if (bird != null)
+            bird.draw(g);
+
+        // in the if-statement, create a new cactus/pterodactyl object (not globally!)
+
 //    	// FIXME maybe this can be a different method in gamepanel? for efficiency
 //    	// generate a random integer to choose a random obstacle
 //    	if (randomInt(0, 8)<=6) // if the number is from 0 to 6, create a cactus
@@ -179,7 +115,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 //    		cactus.draw(g);
 ////    		cactus.move();
 //    	}
-//    	else // otherwise, create a pterodactyl 
+//    	else // otherwise, create a pterodactyl
 //    	{
 //    		bird = new Pterodactyl(randomInt(1,3), 500); //FIXME: change last param to game_width - the bird's width somehow
 //    		while (bird.x >0) {
@@ -187,7 +123,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 ////    			bird.move();
 //    		}
 //    	}
-    	
+
         /*
         // display start button
         if (displayStart) {
@@ -209,6 +145,70 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             pause.render(g)
         }
         */
+    }
+
+    /**
+     * This method will check if the obstacle passes the left border.
+     * If so, it sets the obstacle to null.
+     */
+    public void checkObstacleLeftBorder()
+    {
+    	if(cactus !=null && cactus.x < 0)
+    		cactus = null; // set cactus to null
+    	if(bird !=null && bird.x < 0)
+    		bird = null; // set bird to null
+    }
+
+
+    /**
+     * Update the game while it is running.
+     */
+    private void updateGame(){
+        // TODO update object positions
+//    	if (!dinoOutOfBound())
+//    		dino.move();
+    	dino.midJump();
+        checkCollision();
+        checkObstacleLeftBorder();
+        handleObstacle();
+//        score.updateScore();
+//        score.updateHighScore();
+    }
+
+
+    /**
+     * This method handles the cactus and pterodactyl movements.
+     */
+    public void handleObstacle()
+    {
+    	// FIXME maybe this can be a different method in gamepanel? for efficiency
+    	// generate a random integer to choose a random obstacle
+    	if (randomInt(0, 8)<=6) // if the number is from 0 to 6, create a cactus
+    	{
+    		if (cactus == null)
+    			cactus = new Cactus(randomInt(1, 6), GAME_WIDTH, 100); // choose a random number from 1 to 6
+    		// FIXME: change the last parameter to ground.GROUND_BORDER_HEIGHT+cactus height
+//    		cactus.draw(g);
+    		cactus.move();
+    	}
+    	else // otherwise, create a pterodactyl
+    	{
+    		if (bird == null)
+    			bird = new Pterodactyl(randomInt(1,3), 500); //FIXME: change last param to game_width - the bird's width somehow
+//        	bird.draw(g);
+    		bird.move();
+
+    	}
+    }
+
+    /**
+     *  helper method to determine a random integer for an obstacle
+     */
+    public int randomInt(int add, int multiplier)
+    {
+    	// get a random integer from
+    	// 0 to 6 are cacti, 7 is for pterodactyl
+    	return (int)(Math.random()*multiplier);
     }
 
 

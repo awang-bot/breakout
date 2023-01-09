@@ -63,6 +63,4 @@ public class Animation {
         return rect;
     }
 
-    // there is a lot going on and a lot of code is wrong but
-
 }

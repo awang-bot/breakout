@@ -83,4 +83,12 @@ public class Cactus extends Rectangle {
 
     }
 
+
+    /**
+     * @return A rectangle
+     */
+    public Rectangle cactusBounds(){
+        return (this.getBounds());
+    }
+
 }

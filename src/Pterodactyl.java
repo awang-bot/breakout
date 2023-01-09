@@ -119,9 +119,9 @@ public class Pterodactyl extends Rectangle {
         // TODO add pterodactyl flying animation with BufferedImage and whatnot
     }
 
-//    public Rectangle getBounds(){
-//        return null; //????
-//    }
+    public Rectangle pterodactylBounds(){
+        return (this.getBounds());
+    }
 
 //    public void outOfScreen(){
 //        // TODO if x < GAME_WIDTH ...
