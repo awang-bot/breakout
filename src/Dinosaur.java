@@ -69,7 +69,7 @@ public class Dinosaur extends Rectangle {
     	y=500; // initialize y to be 500 to start there
     	yVelocity = -5;
     	up= true;
-    	continueJump = true;
+    	continueJump = false;
     }
     
     
