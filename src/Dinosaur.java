@@ -125,7 +125,7 @@ public class Dinosaur extends Rectangle {
  	public void keyPressed(KeyEvent e) {
  		if (e.getKeyCode() == 32) {
  			continueJump = true;
- 			jump_state = true;
+ 			JUMP_STATE = true;
  		}
 // 			setYDirection(SPEED * -1);
 // 			yVelocity *=-1;
