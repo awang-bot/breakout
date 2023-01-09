@@ -16,12 +16,13 @@ public class GameFrame extends JFrame {
         this.setResizable(false);
         this.setBackground(Color.white);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setLocationRelativeTo(null);
         panel = new GamePanel();
         this.add(panel);
         this.pack();
 
         this.setVisible(true);
+		this.setLocationRelativeTo(null);// set window in middle of screen
+
     }
 
 
