@@ -65,7 +65,7 @@ public class Cactus extends Rectangle {
      * move the cactus 5px left
      */
     public void move() {
-        x -= 10; // speeds up later? maximum speed? or maybe the speed boost will be coded in the GamePanel move()?
+        x -= 5; // speeds up later? maximum speed? or maybe the speed boost will be coded in the GamePanel move()?
     }
     
 
@@ -76,6 +76,7 @@ public class Cactus extends Rectangle {
         g.setColor(Color.red);
         g.fillRect(x, y, cactusWidth, cactusHeight);
         
+        // FIXME: draw it from the ground and up, not just down from the top y coord
         g2d.setColor(new Color(0f, 0f, 0f, 0f)); // transparent colour
         g2d.drawRect(x, y, width, height); // draw rectangle
         g2d.drawImage(buffImage, x, y, null); // draw cactus png
