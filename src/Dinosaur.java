@@ -34,8 +34,9 @@ public class Dinosaur extends Rectangle {
     public static final int START_STATE = 0;
 	public static final int NORM_STATE = 1;
 	public static final int RUN_STATE = 2;
-	public static final int CROUCH_STATE = 3;
-	public static final int DEAD_STATE = 4;
+	public static final int JUMP_STATE = 3;
+	public static final int CROUCH_STATE = 4;
+	public static final int DEAD_STATE = 5;
 	Animation normal_animation;
 	Animation crouch_animation;
     /**
@@ -69,12 +70,12 @@ public class Dinosaur extends Rectangle {
 		// add animation for crouch run
 		crouch_animation = new Animation(100);
 		try {
-			normal_animation.addFrame(ImageIO.read(new File("resources/dino3.png")));
+			normal_animation.addFrame(ImageIO.read(new File("resources/dino5.png")));
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
 		try {
-			normal_animation.addFrame(ImageIO.read(new File("resources/dino4.png")));
+			normal_animation.addFrame(ImageIO.read(new File("resources/dino6.png")));
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -95,6 +96,18 @@ public class Dinosaur extends Rectangle {
 	public void draw(Graphics g) {
 		g.setColor(Color.black);
 		g.fillRect(x, y, width, height);
+		switch(state){
+			case START_STATE:
+				g.drawImage();
+			case NORM_STATE:
+				// normal run
+			case RUN_STATE:
+				// run
+			case CROUCH_STATE:
+				// crouch
+			case DEAD_STATE:
+				// dead dino
+		}
 	} // end of draw
 
     // ================================================================================
@@ -141,6 +154,15 @@ public class Dinosaur extends Rectangle {
 				 // normal run
 			 case RUN_STATE:
 				 // run
+			 case JUMP_STATE -> {
+				 continueJump = true;
+				 y += yVelocity; // add to go back down, minus to go back up
+//	 			up = false;
+				 if (y == UPPER_BOUND) {
+					 jump_state = false;
+					 yVelocity *= -1;
+				 }
+			 }
 			 case CROUCH_STATE:
 				 // crouch
 			 case DEAD_STATE:
@@ -150,18 +172,11 @@ public class Dinosaur extends Rectangle {
 
 // 		if (y<=500 && y>=400)
 // 		{
-	 		if (jump_state)
+	 		if (state == JUMP_STATE)
 	 		{
-//	 			continueJump = true;
-	 			y += yVelocity; // add to go back down, minus to go back up
-//	 			up = false;
-	 			if (y == UPPER_BOUND)
-	 			{
-	 				jump_state = false;
-	 				yVelocity*=-1;
-	 			}
+//
 	 		}
-	 		else if (!jump_state) {
+	 		else if (state != JUMP_STATE) {
 //	 			up = true;
 //	 			yVelocity*=-1;
 	 			y+=yVelocity;
