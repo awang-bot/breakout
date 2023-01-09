@@ -10,13 +10,16 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     // ================================================================================
     // VARIABLES
     // ================================================================================
-    public static final int GAME_WIDTH = 526, GAME_HEIGHT = 150;
+//    public static final int GAME_WIDTH = 526, GAME_HEIGHT = 150;
+  public static final int GAME_WIDTH = 1500, GAME_HEIGHT = 660;
+
 	public Thread gameThread;
     public Image image;
     public Graphics graphics;
     public boolean running;
     public Cactus cactus;
     public Pterodactyl bird;
+    public Dinosaur dino;
    
 
     Score score;
@@ -31,6 +34,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		running = true; // ????
 		cactus = null;
 		bird = null;
+		dino = new Dinosaur(50,50); // FOR NOW: width = 50, height = 50
     	
         // enable user input
         this.setFocusable(true); // allow the focus to be on the game screen
@@ -84,7 +88,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         }
     }
     
-    /*
+    /**
      * This method will check if the obstacle passes the left border.
      * If so, it sets the obstacle to null.
      */
@@ -102,6 +106,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
      */
     private void updateGame(){
         // TODO update object positions
+//    	if (!dinoOutOfBound())
+//    		dino.move();
+    	dino.midJump();
         checkCollision();
         checkObstacleLeftBorder(); 
         handleObstacle();
@@ -110,7 +117,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     }
     
     
-    /*
+    /**
      * This method handles the cactus and pterodactyl movements.
      */
     public void handleObstacle()
@@ -143,7 +150,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
   
     }
 
-    // helper method to determine a random integer for an obstacle
+    /**
+     *  helper method to determine a random integer for an obstacle
+     */
     public int randomInt(int add, int multiplier)
     {
     	// get a random integer from 
@@ -153,7 +162,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     
     public void draw(Graphics g) {
         // TODO GamePanel draw()
-    	
+    	dino.draw(g);
     	if (cactus != null)
     		cactus.draw(g);
     	if (bird != null)
@@ -201,23 +210,27 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         }
         */
     }
-    
-//    private void move()
-//    {
-////    	cactus.move();
-////    	bird.move();
-//    	
-//    }
+
 
     private void checkCollision(){
     	
     	
     	
     }
+    
+//	/**
+// 	 * check the y-boundary of the dinosaur - it cannot be more than the height of the ground
+// 	 * this is not acc in use so double check if necessary
+// 	 */
+// 	public boolean dinoOutOfBound()
+// 	{
+// 		if (dino.y > 500) //FIXME: change it to less than the ground height
+// 			return true;
+// 		return false;
+// 	}
 
     /**
      * Invoked when mouse button is clicked.
-     * @param e the event to be processed
      */
     public void mousePressedAction(MouseEvent e){
 
@@ -225,7 +238,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
     /**
      * Invoked when mouse cursor hovers.
-     * @param e the event to be processed
      */
     public void mouseHoverAction(MouseEvent e){
 
@@ -233,7 +245,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
     /**
      * Invoked when a key has been typed.
-     * @param e the event to be processed
      */
     @Override
     public void keyTyped(KeyEvent e) {
@@ -242,18 +253,18 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
     /**
      * Invoked when a key has been pressed.
-     * @param e the event to be processed
      */
     @Override
     public void keyPressed(KeyEvent e) {
         // TODO press space or up_arrow to jump
+    	if (!dino.continueJump)
+    		dino.keyPressed(e);
         // TODO press down_arrow to go down or crouch
         // TODO press space or up_arrow to restart or
     }
 
     /**
      * Invoked when a key has been released.
-     * @param e the event to be processed
      */
     @Override
     public void keyReleased(KeyEvent e) {
