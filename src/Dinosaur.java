@@ -122,18 +122,18 @@ public class Dinosaur extends Rectangle {
  	{
 // 		if (y<=500 && y>=400)
 // 		{
-	 		if (up)
+	 		if (jump_state)
 	 		{
 //	 			continueJump = true;
 	 			y += yVelocity; // add to go back down, minus to go back up
 //	 			up = false;
 	 			if (y == UPPER_BOUND)
 	 			{
-	 				up = false;
+	 				jump_state = false;
 	 				yVelocity*=-1;
 	 			}
 	 		}
-	 		else if (!up) {
+	 		else if (!jump_state) {
 //	 			up = true;
 //	 			yVelocity*=-1;
 	 			y+=yVelocity;
