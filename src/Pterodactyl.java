@@ -24,8 +24,11 @@ public class Pterodactyl extends Rectangle {
      * The second column is the y-coordinate.
      */
 //    public static final String[][] PTERODACTYL_ARR = {{"7", "low"}, {"8", "mid"}, {"9", "high"}};
-    public static final int[][] PTERODACTYL_ARR = {{1, 100}, {2, 150}, {3, 150}}; // FIXME y-coordinates and we might not need image ids?
-     /**
+    public static final int[][] PTERODACTYL_ARR = {{1, 100}, {2, 150}, {3, 150}}; // FIXME: check when the first index is used... i don't think it's ever
+
+
+    // FIXME replace [][1] with actual y-coordinate later
+     /** 
       * Filepath to pterodactyl_up.png.
      */
     public final static String FILEPATH_UP = "resources/pterodactyl_up.png";
@@ -33,6 +36,7 @@ public class Pterodactyl extends Rectangle {
      * Filepath to pterodactyl_down.png.
      */
     public final static String FILEPATH_DOWN = "resources/pterodactyl_down.png";
+    
     /**
      * Pterodactyl PNG is 80px tall.
      */
@@ -56,9 +60,7 @@ public class Pterodactyl extends Rectangle {
     /**
      * Pterodactyl image
      */
-    // i don't think we need the imagepath/buffimage
-//    public final String imagePath;
-//    public final BufferedImage buffImage;
+    public BufferedImage image;
 
 
     // ================================================================================
@@ -87,6 +89,9 @@ public class Pterodactyl extends Rectangle {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        
+    	birdFlap.updateFrame(); // FIXME remove??
+        image = birdFlap.getFrame();
     }
 
 
@@ -98,7 +103,9 @@ public class Pterodactyl extends Rectangle {
      * move the pterodactyl 5px left
      */
     public void move() {
-        x -= 5;
+    	birdFlap.updateFrame();
+    	image = birdFlap.getFrame();
+    	x -= 5;
     }
 
     public void draw(Graphics g) {
@@ -108,10 +115,12 @@ public class Pterodactyl extends Rectangle {
         g.setColor(Color.blue);
         g.fillRect(x, y, BIRD_WIDTH, BIRD_HEIGHT);
         
+        g2d.drawImage(image, x, y, null);
+        
         // FIXME: draw it from the ground and up, not just down from the top y coord
-        g2d.setColor(new Color(0f, 0f, 0f, 0f)); // transparent colour
-        g2d.drawRect(x, y, width, height); // draw rectangle
-        g2d.drawRect(x, y, BIRD_WIDTH, BIRD_HEIGHT); 
+//        g2d.setColor(new Color(0f, 0f, 0f, 0f)); // transparent colour
+//        g2d.drawRect(x, y, width, height); // draw rectangle
+//        g2d.drawRect(x, y, BIRD_WIDTH, BIRD_HEIGHT); 
         // TODO add pterodactyl flying animation with BufferedImage and whatnot
     }
 
