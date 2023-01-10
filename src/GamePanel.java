@@ -1,10 +1,3 @@
-/*
-Anne and Atisa
-January 7, 2023
-GamePanel
-This program will act as the main game loop
-*/
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -12,66 +5,77 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+/**
+ * <pre>  Anne and Atisa
+ * January 7, 2023
+ * GamePanel
+ * This program will act as the main game loop</pre>
+ */
 public class GamePanel extends JPanel implements Runnable, KeyListener {
 
     // ================================================================================
     // VARIABLES
     // ================================================================================
-//    public static final int GAME_WIDTH = 526, GAME_HEIGHT = 150;
-  public static final int GAME_WIDTH = 1500, GAME_HEIGHT = 660;
-
-	public Thread gameThread;
+    public static final int GAME_WIDTH = 1500;
+    public static final int GAME_HEIGHT = 660;
+    public static final Dimension SCREEN_SIZE = new Dimension(GAME_WIDTH, GAME_HEIGHT);
+    public Thread gameThread;
     public Image image;
     public Graphics graphics;
     public boolean running;
     public Cactus cactus;
     public Pterodactyl bird;
     public Dinosaur dino;
-    /** 
-     * true if the dino is dead
-     */
-    public boolean die; // TODO: when die is true, switch to a menu state?
+    public Score score;
+    public int xSpeed; // TODO connect speed of ground, cactus, and pterodactyl
+    // TODO game speeds up over time
 
-    Score score;
+    // TODO states...
+    public int state;
+    private static final int START_STATE = 0; // start button
+    private static final int GAME_STATE = 1; // game is running
+    private static final int DEAD_STATE = 2; // restart, return to menu?? should we have a menu?
+    private static final int MENU_STATE = 4; // MAYbe..
+    public boolean pause = false; // pause game during game
+    public boolean dead = false;
 
     // ================================================================================
     // CONSTRUCTOR
     // ================================================================================
     public GamePanel() {
-        // TODO initialize objects either in constructor or with a method
 //		cactus = new Cactus();
 //		bird = new Pterodactyl();
-		running = true; // ????
+		running = true;
 		cactus = null;
 		bird = null;
-		dino = new Dinosaur(); // FOR NOW: width = 50, height = 50
+		dino = new Dinosaur();
     	
-        // enable user input
-        this.setFocusable(true); // allow the focus to be on the game screen
-        requestFocus(); // set the focus on the game screen
+        this.setFocusable(true);
+        requestFocus();
 
-        // check for key input
         this.addKeyListener(this);
-        // check for mouse click
         addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 mousePressedAction(e);
             }
         });
 
-        // check for mouse hover
+        addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                mousePressedAction(e);
+            }
+        });
+
         addMouseMotionListener(new MouseAdapter() {
             public void mouseMoved(MouseEvent e) {
                 mouseHoverAction(e);
             }
         });
 
-        // TODO add this.setPreferredSize(SCREEN_SIZE);
-		this.setPreferredSize(new Dimension(GAME_WIDTH, GAME_HEIGHT));
+        this.setPreferredSize(SCREEN_SIZE);
 
-        // thread
         gameThread = new Thread(this);
-        gameThread.start(); // call run()
+        gameThread.start();
 
     }
 
@@ -81,11 +85,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     public void run(){
         long lastTime = System.nanoTime();
         double ticks = 60.0;
-        double nanoseconds = 1000000000 / ticks; // 1000000000 ns = 1 sec, so the game will update 60 times per second
+        double nanoseconds = 1000000000 / ticks;
         double delta = 0;
         while (true) {
             long now = System.nanoTime();
-            delta += (now - lastTime) / nanoseconds; // accumulate the time passed
+            delta += (now - lastTime) / nanoseconds;
             lastTime = now;
             if (delta >= 1) {
                 if (running) {
@@ -107,13 +111,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     }
 
     public void draw(Graphics g) {
-        // TODO GamePanel draw()
+
         dino.draw(g);
         if (cactus != null)
             cactus.draw(g);
         if (bird != null)
             bird.draw(g);
-        if (die)
+        if (dead)
         {
         	g.setColor(Color.black);
             g.fillRect(0, 0, 500, 500);
@@ -234,7 +238,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     	// if the dino crouches, runs, or jumps and hits a cactus or a bird, then it dies
     	if (dino.crouch_animation.getBounds().intersects(cactus) || dino.normal_animation.getBounds().intersects(cactus) || dino.normal_animation.getBounds().intersects(bird.birdFlap.getBounds()) || dino.crouch_animation.getBounds().intersects(bird.birdFlap.getBounds()) || dino.getJumpBounds().intersects(bird.birdFlap.getBounds()) || dino.getJumpBounds().intersects(cactus));
     	{
-    		die = true;
+    		dead = true;
     	}
     }
 

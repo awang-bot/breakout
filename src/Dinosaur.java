@@ -71,7 +71,7 @@ public class Dinosaur extends Rectangle {
         switch (state) {
             case START_STATE:
                 try {
-                    image = ImageIO.read(new File("resources/dino7.png")); // FIXME no dino7.png import it!!
+                    image = ImageIO.read(new File("resources/dino_start.png"));
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -79,7 +79,7 @@ public class Dinosaur extends Rectangle {
                 image = normal_animation.getFrame();
             case JUMP_STATE: {
                 try {
-                    image = ImageIO.read(new File("resources/dino5.png")); // FIXME which dino png???
+                    image = ImageIO.read(new File("resources/dino_jump.png"));
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -88,7 +88,7 @@ public class Dinosaur extends Rectangle {
                 image = crouch_animation.getFrame();
             case DEAD_STATE:
                 try {
-                    image = ImageIO.read(new File("resources/dino4.png")); // FIXME don't know dino pngs
+                    image = ImageIO.read(new File("resources/dino_dead")); // FIXME don't know dino pngs
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -175,24 +175,24 @@ public class Dinosaur extends Rectangle {
     private void initializeAnimation() {
         normal_animation = new Animation(100);
         try {
-            normal_animation.addFrame(ImageIO.read(new File("resources/dino1.png")));
+            normal_animation.addFrame(ImageIO.read(new File("resources/dino_normal_1.png")));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         try {
-            normal_animation.addFrame(ImageIO.read(new File("resources/dino2.png")));
+            normal_animation.addFrame(ImageIO.read(new File("resources/dino_normal_2.png")));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         // add animation for crouch run
         crouch_animation = new Animation(100);
         try {
-            normal_animation.addFrame(ImageIO.read(new File("resources/dino5.png")));
+            normal_animation.addFrame(ImageIO.read(new File("resources/dino_crouch_1.png")));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         try {
-            normal_animation.addFrame(ImageIO.read(new File("resources/dino6.png")));
+            normal_animation.addFrame(ImageIO.read(new File("resources/dino_crouch_2.png")));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

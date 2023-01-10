@@ -28,7 +28,7 @@ public class Cactus extends Rectangle {
     /**
      * Cactus identifiers: 1 - one small, 2 - two small, 3 - three small, 4 - one big, 5 - two big, 6 - group of four
      */
-    private int cactusWidth, cactusHeight; 
+    private int cactusWidth, cactusHeight;
     public final int id;
     public final String imagePath;
     public final BufferedImage buffImage;
@@ -36,13 +36,13 @@ public class Cactus extends Rectangle {
     // ================================================================================
     // CONSTRUCTOR
     // ================================================================================
-    public Cactus(int index, int x, int y) { 
+    public Cactus(int index, int x, int y) {
     	// the cactus will typically start from the right-most side of the screen
         super(x, y, Integer.parseInt(CACTUS_ARR[index][2]), Integer.parseInt(CACTUS_ARR[index][3]));
 
         this.x = x;
         this.y = y;
-        
+
         // FIXME: make this more efficient - this seems very INefficient
         cactusWidth = Integer.parseInt(CACTUS_ARR[index][2]);
         cactusHeight = Integer.parseInt(CACTUS_ARR[index][3]);
@@ -65,7 +65,7 @@ public class Cactus extends Rectangle {
      * move the cactus 5px left
      */
     public void move() {
-        x -= 5; // speeds up later? maximum speed? or maybe the speed boost will be coded in the GamePanel move()?
+        x -= 5;
     }
     
 
