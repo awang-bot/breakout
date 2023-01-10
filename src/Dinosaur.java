@@ -53,7 +53,6 @@ public class Dinosaur extends Rectangle {
 
         yVelocity = -5;
         state = START_STATE;
-//        continueJump = false;
     }
 
     // ================================================================================
