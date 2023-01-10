@@ -41,11 +41,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         // TODO initialize objects either in constructor or with a method
 //		cactus = new Cactus();
 //		bird = new Pterodactyl();
-		running = true; // TODO ????
+		running = true; // ????
 		cactus = null;
 		bird = null;
-		dino = new Dinosaur();
-
+		dino = new Dinosaur(50,50); // FOR NOW: width = 50, height = 50
+    	
         // enable user input
         this.setFocusable(true); // allow the focus to be on the game screen
         requestFocus(); // set the focus on the game screen
@@ -231,7 +231,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
      */
     private void checkCollision(){
     	
-    	if (dino.crouch_animation.getBounds().intersects(cactus) || dino.normal_animation.getBounds().intersects(cactus) || dino.normal_animation.getBounds().intersects(bird.birdFlap.getBounds()))
+    	// if the dino crouches, runs, or jumps and hits a cactus or a bird, then it dies
+    	if (dino.crouch_animation.getBounds().intersects(cactus) || dino.normal_animation.getBounds().intersects(cactus) || dino.normal_animation.getBounds().intersects(bird.birdFlap.getBounds()) || dino.crouch_animation.getBounds().intersects(bird.birdFlap.getBounds()) || dino.getJumpBounds().intersects(bird.birdFlap.getBounds()) || dino.getJumpBounds().intersects(cactus));
     	{
     		die = true;
     	}
