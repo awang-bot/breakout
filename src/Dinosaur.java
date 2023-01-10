@@ -164,14 +164,13 @@ public class Dinosaur extends Rectangle {
                 // start dino
             case NORM_RUN_STATE:
                 image = normal_animation.getFrame();
-            case RUN_STATE:
                 // run
-                case JUMP_STATE -> { // TODO up and down of jump add some if statements or something
+			case JUMP_STATE: { // TODO up and down of jump add some if statements or something
                     continueJump = true;
                     y += yVelocity; // add to go back down, minus to go back up
 //	 			up = false;
                     if (y == UPPER_BOUND) {
-                        jump_state = false;
+                        state = JUMP_STATE;
                         yVelocity *= -1;
                     }
                 }
@@ -181,19 +180,6 @@ public class Dinosaur extends Rectangle {
                 // dead dino
         }
 
-
-// 		if (y<=500 && y>=400)
-// 		{
-
-	 		else if (state != JUMP_STATE) {
-            y += yVelocity;
-            if (y == LOWER_BOUND) {
-                yVelocity *= -1;
-                continueJump = false;
-            }
-
-        }
-// 		}
     } // end of move
 
     public Rectangle getJumpBounds() {
