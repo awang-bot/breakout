@@ -32,7 +32,7 @@ public class Animation {
     // ================================================================================
     public Animation(int deltaTime) {
         this.deltaTime = deltaTime;
-        keyFrames = new ArrayList<BufferedImage>();
+        keyFrames = new ArrayList<>();
         previousTime = 0;
     }
 
@@ -57,10 +57,10 @@ public class Animation {
         return keyFrames.get(currentFrame);
     }
 
-    public Rectangle getBounds(){
+    public Rectangle getBounds() {
         Rectangle rect = new Rectangle();
-        rect.x = (int) getFrame().getTileGridXOffset();
-        rect.y = (int) getFrame().getTileGridYOffset();
+        rect.x = getFrame().getTileGridXOffset();
+        rect.y = getFrame().getTileGridYOffset();
         rect.width = getFrame().getWidth();
         rect.height = getFrame().getHeight();
         return rect;

@@ -24,11 +24,8 @@ public class Pterodactyl extends Rectangle {
      * The second column is the y-coordinate.
      */
 //    public static final String[][] PTERODACTYL_ARR = {{"7", "low"}, {"8", "mid"}, {"9", "high"}};
-    public static final int[][] PTERODACTYL_ARR = {{1, 100}, {2, 150}, {3, 150}}; // FIXME: check when the first index is used... i don't think it's ever
-
-
-    // FIXME replace [][1] with actual y-coordinate later
-     /** 
+    public static final int[][] PTERODACTYL_ARR = {{1, 100}, {2, 150}, {3, 150}}; // FIXME y-coordinates and we might not need image ids?
+     /**
       * Filepath to pterodactyl_up.png.
      */
     public final static String FILEPATH_UP = "resources/pterodactyl_up.png";
@@ -36,7 +33,6 @@ public class Pterodactyl extends Rectangle {
      * Filepath to pterodactyl_down.png.
      */
     public final static String FILEPATH_DOWN = "resources/pterodactyl_down.png";
-    
     /**
      * Pterodactyl PNG is 80px tall.
      */
@@ -48,7 +44,7 @@ public class Pterodactyl extends Rectangle {
     /**
      * Animation object to animate the pterodactyl's wings.
      */
-    private Animation birdFlap;
+    public Animation birdFlap;
     /**
      * Pterodactyl x-coordinate
      */
