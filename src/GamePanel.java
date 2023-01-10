@@ -31,11 +31,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         // TODO initialize objects either in constructor or with a method
 //		cactus = new Cactus();
 //		bird = new Pterodactyl();
-		running = true; // ????
+		running = true; // TODO ????
 		cactus = null;
 		bird = null;
-		dino = new Dinosaur(50,50); // FOR NOW: width = 50, height = 50
-    	
+		dino = new Dinosaur();
+
         // enable user input
         this.setFocusable(true); // allow the focus to be on the game screen
         requestFocus(); // set the focus on the game screen

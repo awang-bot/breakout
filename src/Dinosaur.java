@@ -21,7 +21,7 @@ public class Dinosaur extends Rectangle {
     /**
      * movement speed of dinosaur jumping up/down
      */
-    public int yVelocity = 1;
+    public int yVelocity;
     public static final int x = 100; //FIXME: fix according to the screensize later, should not be manual (#)
     // objects
     public BufferedImage image;
@@ -36,7 +36,7 @@ public class Dinosaur extends Rectangle {
     /**
      * when true, the dino is still in the air jumping.
      */
-    public boolean continueJump;
+//    public boolean continueJump;
     public static final int UPPER_BOUND = 400;
     public static final int LOWER_BOUND = 500;
 
@@ -60,7 +60,7 @@ public class Dinosaur extends Rectangle {
 
         yVelocity = -5;
         state = START_STATE;
-        continueJump = false;
+//        continueJump = false;
     }
 
     // ================================================================================
@@ -78,13 +78,14 @@ public class Dinosaur extends Rectangle {
                 image = normal_animation.getFrame();
                 // run
             case JUMP_STATE: { // TODO up and down of jump add some if statements or something
-                continueJump = true;
-                y += yVelocity; // add to go back down, minus to go back up
-//	 			up = false;
-                if (y == UPPER_BOUND) {
+                if (y == UPPER_BOUND) { //
                     state = JUMP_STATE;
                     yVelocity *= -1;
+                } else if (y == LOWER_BOUND){
+                    state = NORM_RUN_STATE;
+                    yVelocity *= -1;
                 }
+                y -= yVelocity; // change y
             }
             case CROUCH_STATE:
                 // crouch
@@ -126,7 +127,7 @@ public class Dinosaur extends Rectangle {
      */
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == 32) {
-            continueJump = true;
+//            continueJump = true;
             state = JUMP_STATE;
         }
     } // end of keyPressed
@@ -141,12 +142,12 @@ public class Dinosaur extends Rectangle {
 // 		}
 // 	} // end of keyReleased
     public void midJump() {
-        if (continueJump && (y <= LOWER_BOUND && y >= UPPER_BOUND)) {
+        if (state == JUMP_STATE && (y <= LOWER_BOUND && y >= UPPER_BOUND)) {
             move();
         }
     }
 
-    public Rectangle getJumpBounds() {
+    public Rectangle getBounds() {
         Rectangle rect = new Rectangle();
         rect.x = this.x;
         rect.y = this.y;
