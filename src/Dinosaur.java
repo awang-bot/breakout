@@ -51,13 +51,6 @@ public class Dinosaur extends Rectangle {
 
         initializeAnimation();
 
-        // set image to starting dino
-        try {
-            image = ImageIO.read(new File("resources/dino7.png")); // FIXME no dino7.png import it!!
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
         yVelocity = -5;
         state = START_STATE;
 //        continueJump = false;
@@ -68,30 +61,39 @@ public class Dinosaur extends Rectangle {
     // ================================================================================
 
     /**
-     * Update the dinosaur's position.
+     * Update the dinosaur's position and dimensions.
      */
     public void move() {
+
         switch (state) {
             case START_STATE:
-                // start dino
+                try {
+                    image = ImageIO.read(new File("resources/dino7.png")); // FIXME no dino7.png import it!!
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             case NORM_RUN_STATE:
                 image = normal_animation.getFrame();
-                // run
-            case JUMP_STATE: { // TODO up and down of jump add some if statements or something
-                if (y == UPPER_BOUND) { //
-                    state = JUMP_STATE;
-                    yVelocity *= -1;
-                } else if (y == LOWER_BOUND){
-                    state = NORM_RUN_STATE;
-                    yVelocity *= -1;
+            case JUMP_STATE: {
+                try {
+                    image = ImageIO.read(new File("resources/dino5.png")); // FIXME which dino png???
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
                 }
-                y -= yVelocity; // change y
             }
             case CROUCH_STATE:
-                // crouch
+                image = crouch_animation.getFrame();
             case DEAD_STATE:
-                // dead dino
+                try {
+                    image = ImageIO.read(new File("resources/dino4.png")); // FIXME don't know dino pngs
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
         }
+
+        this.y = image.getTileGridYOffset();
+        this.width = image.getWidth();
+        this.height = image.getHeight();
 
     } // end of move
 
@@ -154,7 +156,7 @@ public class Dinosaur extends Rectangle {
     /**
      * @return a Rectangle with the Dinosaur's position and dimensions.
      */
-    public Rectangle getBounds() {
+    public Rectangle getJumpBounds() {
         Rectangle rect = new Rectangle();
         rect.x = this.x;
         rect.y = this.y;
