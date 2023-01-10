@@ -1,5 +1,8 @@
 /*
-
+Anne and Atisa
+January 7, 2023
+GamePanel
+This program will act as the main game loop
 */
 
 import javax.swing.*;
@@ -9,13 +12,6 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-/**
- * <pre>
- * Anne and Atisa
- * January 7, 2023
- * GamePanel
- * This program will act as the main game loop</pre>
- */
 public class GamePanel extends JPanel implements Runnable, KeyListener {
 
     // ================================================================================
