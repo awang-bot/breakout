@@ -1,3 +1,10 @@
+/*
+Anne and Atisa
+January 7, 2023
+GamePanel
+This program will act as the main game loop
+*/
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -20,7 +27,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     public Cactus cactus;
     public Pterodactyl bird;
     public Dinosaur dino;
-   
+    /** 
+     * true if the dino is dead
+     */
+    public boolean die; // TODO: when die is true, switch to a menu state?
 
     Score score;
 
@@ -103,6 +113,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             cactus.draw(g);
         if (bird != null)
             bird.draw(g);
+        if (die)
+        {
+        	g.setColor(Color.black);
+            g.fillRect(0, 0, 500, 500);
+        }
 
         // in the if-statement, create a new cactus/pterodactyl object (not globally!)
 
@@ -211,23 +226,17 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     	return (int)(Math.random()*multiplier);
     }
 
-
+    /**
+     * check if the dinosaur collides with an obstacle
+     */
     private void checkCollision(){
     	
-    	
-    	
+    	if (dino.crouch_animation.getBounds().intersects(cactus) || dino.normal_animation.getBounds().intersects(cactus) || dino.normal_animation.getBounds().intersects(bird.birdFlap.getBounds()))
+    	{
+    		die = true;
+    	}
     }
-    
-//	/**
-// 	 * check the y-boundary of the dinosaur - it cannot be more than the height of the ground
-// 	 * this is not acc in use so double check if necessary
-// 	 */
-// 	public boolean dinoOutOfBound()
-// 	{
-// 		if (dino.y > 500) //FIXME: change it to less than the ground height
-// 			return true;
-// 		return false;
-// 	}
+
 
     /**
      * Invoked when mouse button is clicked.
