@@ -56,8 +56,8 @@ public class Animation {
 
     public Rectangle getBounds(int id){
         Rectangle rect = new Rectangle();
-        rect.x = (int) getFrame().getTileGridXOffset() + (getFrame().getWidth() - width)/2;
-        rect.y = Y_LAND - getFrame().getHeight() + (getFrame().getHeight() - height)/2;
+        rect.x = (int) getFrame().getTileGridXOffset();
+        rect.y = (int) getFrame().getTileGridYOffset();
         rect.width = getFrame().getWidth();
         rect.height = getFrame().getHeight();
         return rect;
