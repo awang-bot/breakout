@@ -22,12 +22,7 @@ public class Dinosaur extends Rectangle {
      * movement speed of dinosaur jumping up/down
      */
     public int yVelocity = 1;
-    // position
-    public static final int X_POS = 100; //FIXME: fix according to the screensize later, should not be manual (#)
-    public int y;
-    // dimensions
-    public int width; // make final later
-    public int height; // make final later
+    public static final int x = 100; //FIXME: fix according to the screensize later, should not be manual (#)
     // objects
     public BufferedImage image;
     public int state;
@@ -51,14 +46,18 @@ public class Dinosaur extends Rectangle {
     // ================================================================================
     // CONSTRUCTOR
     // ================================================================================
-    public Dinosaur(int width, int height) {
-//    	super(x, 500, width, height); // the y-coord should be the ground's height
+    public Dinosaur() {
+    	super(x, 500); // TODO figure out y-coordinate
 
         initializeAnimation();
 
-        this.width = width;
-        this.height = height;
-        y = 500; // initialize y to be 500 to start there
+        // set image to starting dino
+        try {
+            image = ImageIO.read(new File("resources/dino7.png")); // FIXME no dino7.png import it!!
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
         yVelocity = -5;
         state = START_STATE;
         continueJump = false;
@@ -107,11 +106,6 @@ public class Dinosaur extends Rectangle {
 
         switch (state) {
             case START_STATE:
-                try {
-                    image = ImageIO.read(new File("resources/dino7.png")); // FIXME no dino7.png import it!!
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
                 g2d.drawImage(image, x, y, null);
             case NORM_RUN_STATE:
 				image = normal_animation.getFrame();
