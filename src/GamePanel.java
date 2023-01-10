@@ -44,7 +44,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		running = true; // ????
 		cactus = null;
 		bird = null;
-		dino = new Dinosaur(50,50); // FOR NOW: width = 50, height = 50
+		dino = new Dinosaur(); // FOR NOW: width = 50, height = 50
     	
         // enable user input
         this.setFocusable(true); // allow the focus to be on the game screen
@@ -267,8 +267,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         // TODO press space or up_arrow to jump
-    	if (!dino.continueJump)
-    		dino.keyPressed(e);
+   		dino.keyPressed(e);
         // TODO press down_arrow to go down or crouch
         // TODO press space or up_arrow to restart or
     }
