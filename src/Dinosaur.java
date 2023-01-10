@@ -1,10 +1,6 @@
 /*
- * Anne Liu and Atisa Wang
- * January 8, 2023
- * Dinosaur
- * This class will manage the behaviours and characteristics of the dinosaur.
+ *
  */
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -12,6 +8,13 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * <pre>
+ * Anne Liu and Atisa Wang
+ * January 8, 2023
+ * Dinosaur
+ * This class will manage the behaviours and characteristics of the dinosaur.</pre>
+ */
 public class Dinosaur extends Rectangle {
 
     // ================================================================================

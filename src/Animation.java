@@ -1,13 +1,16 @@
-/* Anne Liu and Atisa Wang
-January 7, 2022
-Animation
-This program will handle the animations of the obstacles and dinosaurs. */
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * <pre>
+ * Anne Liu and Atisa Wang
+ * January 7, 2022
+ * Animation
+ * This program will handle the animations of the obstacles and dinosaurs.
+ * </pre>
+ */
 public class Animation {
 
     // TODO figure out how all this works
