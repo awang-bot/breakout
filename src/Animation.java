@@ -54,7 +54,7 @@ public class Animation {
         return keyFrames.get(currentFrame);
     }
 
-    public Rectangle getBounds(int id){
+    public Rectangle getBounds(){
         Rectangle rect = new Rectangle();
         rect.x = (int) getFrame().getTileGridXOffset();
         rect.y = (int) getFrame().getTileGridYOffset();
