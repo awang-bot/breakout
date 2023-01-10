@@ -6,7 +6,6 @@ This program will handle the animations of the obstacles and dinosaurs. */
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Animation {
 
@@ -19,7 +18,7 @@ public class Animation {
     /**
      * Stores the key frames of the animation.
      */
-    private List<BufferedImage> keyFrames;
+    private ArrayList<BufferedImage> keyFrames;
     private long deltaTime;
     private int currentFrame = 0;
     private long previousTime;
@@ -29,7 +28,7 @@ public class Animation {
     // ================================================================================
     public Animation(int deltaTime) {
         this.deltaTime = deltaTime;
-        keyFrames = new ArrayList<>();
+        keyFrames = new ArrayList<>(2);
         previousTime = 0;
     }
 

@@ -24,7 +24,6 @@ public class Score {
 
     }
 
-    // getters
     public int getScore() {
         return score;
     }
@@ -33,7 +32,6 @@ public class Score {
         return highScore;
     }
 
-    // setters
     public void setScore(int score){
         this.score = score;
     }
@@ -42,7 +40,6 @@ public class Score {
         // +1 every 0.1 second or 1e+8 nanosecond
     }
 
-    // update high score if current score is greater than previous high score
     public void updateHighScore() {
         if (score > highScore) {
             highScore = score;
