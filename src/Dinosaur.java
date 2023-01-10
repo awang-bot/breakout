@@ -64,35 +64,36 @@ public class Dinosaur extends Rectangle {
         continueJump = false;
     }
 
-    private void initializeAnimation() {
-        normal_animation = new Animation(100);
-        try {
-            normal_animation.addFrame(ImageIO.read(new File("resources/dino1.png")));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            normal_animation.addFrame(ImageIO.read(new File("resources/dino2.png")));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        // add animation for crouch run
-        crouch_animation = new Animation(100);
-        try {
-            normal_animation.addFrame(ImageIO.read(new File("resources/dino5.png")));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            normal_animation.addFrame(ImageIO.read(new File("resources/dino6.png")));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-
     // ================================================================================
     // METHODS
+    // ================================================================================
+
+    /**
+     * Update the dinosaur's position.
+     */
+    public void move() {
+        switch (state) {
+            case START_STATE:
+                // start dino
+            case NORM_RUN_STATE:
+                image = normal_animation.getFrame();
+                // run
+            case JUMP_STATE: { // TODO up and down of jump add some if statements or something
+                continueJump = true;
+                y += yVelocity; // add to go back down, minus to go back up
+//	 			up = false;
+                if (y == UPPER_BOUND) {
+                    state = JUMP_STATE;
+                    yVelocity *= -1;
+                }
+            }
+            case CROUCH_STATE:
+                // crouch
+            case DEAD_STATE:
+                // dead dino
+        }
+
+    } // end of move
 
     /**
      * draws the current location of the paddle to the screen
@@ -125,7 +126,6 @@ public class Dinosaur extends Rectangle {
         }
     } // end of draw
 
-    // ================================================================================
 
     /**
      * updates the direction of the dinosaur based on user input
@@ -135,9 +135,6 @@ public class Dinosaur extends Rectangle {
             continueJump = true;
             state = JUMP_STATE;
         }
-// 			setYDirection(SPEED * -1);
-// 			yVelocity *=-1;
-
     } // end of keyPressed
 
     /**
@@ -155,33 +152,6 @@ public class Dinosaur extends Rectangle {
         }
     }
 
-    /**
-     * Update the dinosaur's position.
-     */
-    public void move() {
-        switch (state) {
-            case START_STATE:
-                // start dino
-            case NORM_RUN_STATE:
-                image = normal_animation.getFrame();
-                // run
-			case JUMP_STATE: { // TODO up and down of jump add some if statements or something
-                    continueJump = true;
-                    y += yVelocity; // add to go back down, minus to go back up
-//	 			up = false;
-                    if (y == UPPER_BOUND) {
-                        state = JUMP_STATE;
-                        yVelocity *= -1;
-                    }
-                }
-            case CROUCH_STATE:
-                // crouch
-            case DEAD_STATE:
-                // dead dino
-        }
-
-    } // end of move
-
     public Rectangle getJumpBounds() {
         Rectangle rect = new Rectangle();
         rect.x = this.x;
@@ -191,5 +161,34 @@ public class Dinosaur extends Rectangle {
         return rect;
     }
 
+    // ================================================================================
+    // HELPER METHODS
+    // ================================================================================
+
+    private void initializeAnimation() {
+        normal_animation = new Animation(100);
+        try {
+            normal_animation.addFrame(ImageIO.read(new File("resources/dino1.png")));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            normal_animation.addFrame(ImageIO.read(new File("resources/dino2.png")));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        // add animation for crouch run
+        crouch_animation = new Animation(100);
+        try {
+            normal_animation.addFrame(ImageIO.read(new File("resources/dino5.png")));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            normal_animation.addFrame(ImageIO.read(new File("resources/dino6.png")));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }
