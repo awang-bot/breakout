@@ -126,27 +126,34 @@ public class Dinosaur extends Rectangle {
      * updates the direction of the dinosaur based on user input
      */
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == 32) {
-//            continueJump = true;
+        if (((e.getKeyCode() == 32) || (e.getKeyCode() == 38)) && (state == NORM_RUN_STATE)){
             state = JUMP_STATE;
+        } else if (state == JUMP_STATE && e.getKeyCode() == 40){
+            yVelocity = -10;
+        } else if (state == NORM_RUN_STATE && e.getKeyCode() == 40) {
+            state = CROUCH_STATE;
         }
     } // end of keyPressed
 
     /**
      * Makes the dinosaur stop moving in that direction
      */
-// 	public void keyReleased(KeyEvent e) {
-// 		if (e.getKeyCode() == 32) {
-// 			yVelocity *=-1;
-// 			move();
-// 		}
-// 	} // end of keyReleased
+	public void keyReleased(KeyEvent e) {
+        if (e.getKeyCode() == 40) {
+            yVelocity = -5;
+			state = NORM_RUN_STATE;
+		}
+ 	} // end of keyReleased
+
     public void midJump() {
         if (state == JUMP_STATE && (y <= LOWER_BOUND && y >= UPPER_BOUND)) {
             move();
         }
     }
 
+    /**
+     * @return a Rectangle with the Dinosaur's position and dimensions.
+     */
     public Rectangle getBounds() {
         Rectangle rect = new Rectangle();
         rect.x = this.x;
