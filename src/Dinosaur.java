@@ -1,6 +1,10 @@
 /*
- *
+ * Anne Liu and Atisa Wang
+ * January 8, 2023
+ * Dinosaur
+ * This class will manage the behaviours and characteristics of the dinosaur.
  */
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -8,17 +12,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-/**
- * <pre>
- * Anne Liu and Atisa Wang
- * January 8, 2023
- * Dinosaur
- * This class will manage the behaviours and characteristics of the dinosaur.</pre>
- */
 public class Dinosaur extends Rectangle {
-
-    // TODO add dino_start.png, dino_jump.png
-    // TODO change dino pngs to the ones that have the border (atisa)
 
     // ================================================================================
     // VARIABLES
@@ -28,7 +22,7 @@ public class Dinosaur extends Rectangle {
      * movement speed of dinosaur jumping up/down
      */
     public int yVelocity;
-    public static final int x = 100; //FIXME: fix according to the screensize later
+    public static final int x = 100; //FIXME: fix according to the screensize later, should not be manual (#)
     // objects
     public BufferedImage image;
     public int state;
@@ -59,6 +53,7 @@ public class Dinosaur extends Rectangle {
 
         yVelocity = -5;
         state = START_STATE;
+//        continueJump = false;
     }
 
     // ================================================================================
@@ -70,6 +65,9 @@ public class Dinosaur extends Rectangle {
      */
     public void move() {
 
+    	normal_animation.updateFrame();
+    	crouch_animation.updateFrame();
+    	
         switch (state) {
             case START_STATE:
                 try {
@@ -81,7 +79,7 @@ public class Dinosaur extends Rectangle {
                 image = normal_animation.getFrame();
             case JUMP_STATE: {
                 try {
-                    image = ImageIO.read(new File("resources/dino_crouch_1.png")); // FIXME which dino png???
+                    image = ImageIO.read(new File("resources/dino5.png")); // FIXME which dino png???
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -90,7 +88,7 @@ public class Dinosaur extends Rectangle {
                 image = crouch_animation.getFrame();
             case DEAD_STATE:
                 try {
-                    image = ImageIO.read(new File("resources/dino_dead.png")); // FIXME don't know dino pngs
+                    image = ImageIO.read(new File("resources/dino4.png")); // FIXME don't know dino pngs
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -177,24 +175,24 @@ public class Dinosaur extends Rectangle {
     private void initializeAnimation() {
         normal_animation = new Animation(100);
         try {
-            normal_animation.addFrame(ImageIO.read(new File("resources/dino_normal_1.png")));
+            normal_animation.addFrame(ImageIO.read(new File("resources/dino1.png")));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         try {
-            normal_animation.addFrame(ImageIO.read(new File("resources/dino_normal_2.png")));
+            normal_animation.addFrame(ImageIO.read(new File("resources/dino2.png")));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         // add animation for crouch run
         crouch_animation = new Animation(100);
         try {
-            normal_animation.addFrame(ImageIO.read(new File("resources/dino_crouch_1.png")));
+            normal_animation.addFrame(ImageIO.read(new File("resources/dino5.png")));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         try {
-            normal_animation.addFrame(ImageIO.read(new File("resources/dino_crouch_2.png")));
+            normal_animation.addFrame(ImageIO.read(new File("resources/dino6.png")));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
