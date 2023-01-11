@@ -131,7 +131,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     /**
      * This method handles the cactus and pterodactyl movements.
      */
-    public void handleObstacle() {
+   public void handleObstacle() {
         if ((int)(Math.random()*8) <= 6)
         {
             if (cactus == null)
@@ -206,13 +206,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private void checkCollision() {
         // if the dino hits a cactus or a bird, then it dies
         if (bird != null) {
-            if (dino.intersects(bird)) {
+            if (dino.intersects(bird)){
                 dead = true;
                 state = DEAD_STATE;
             }
         }
-        if (cactus != null) {
-            if (dino.intersects(cactus)) {
+        if (cactus != null){
+            if (dino.intersects(cactus)){
                 dead = true;
                 state = DEAD_STATE;
             }
@@ -223,9 +223,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
      * This method will check if the obstacle passes the left border.
      * If so, it sets the obstacle to null.
      */
-    private void checkObstacleLeftBorder() {
-        if (cactus != null && cactus.x < 0) cactus = null; // set cactus to null
-        if (bird != null && bird.x < 0) bird = null; // set bird to null
+    public void checkObstacleLeftBorder() {
+        if (cactus != null && cactus.x < 0)
+            cactus = null; // set cactus to null
+        if (bird != null && bird.x < 0)
+            bird = null; // set bird to null
     }
 
 }
