@@ -71,24 +71,29 @@ public class Dinosaur extends Rectangle {
             case START_STATE: {
                 this.y = 20;
                 image = Resource.getResourceImage("resources/dino_start.png");
+                break;
             }
             case NORM_RUN_STATE: {
                 this.y = 20;
                 normal_animation.updateFrame();
                 image = normal_animation.getFrame();
+                break;
             }
             case JUMP_STATE: {
                 jump();
                 image = Resource.getResourceImage("resources/dino_jump.png");
+                break;
             }
             case CROUCH_STATE: {
                 this.y = 10;
                 crouch_animation.updateFrame();
                 image = crouch_animation.getFrame();
+                break;
             }
             case DEAD_STATE: {
                 this.y = 20;
                 image = Resource.getResourceImage("resources/dino_dead.png");
+                break;
             }
         }
 
@@ -109,24 +114,7 @@ public class Dinosaur extends Rectangle {
 
     public void draw(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-
-        switch (state) {
-            case START_STATE: {
-                g2d.drawImage(image, x, y, null);
-            }
-            case NORM_RUN_STATE: {
-                g2d.drawImage(image, x, y, null);
-            }
-            case JUMP_STATE: {
-                g2d.drawImage(image, x, y, null);
-            }
-            case CROUCH_STATE: {
-                g2d.drawImage(image, x, y, null);
-            }
-            case DEAD_STATE: {
-                g2d.drawImage(image, x, y, null);
-            }
-        }
+        g2d.drawImage(image, x, y, null);
     }
 
 

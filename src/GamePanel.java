@@ -4,6 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Random;
 
 /**
  * <pre>  Anne and Atisa
@@ -19,6 +20,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     public static final int GAME_WIDTH = 1500;
     public static final int GAME_HEIGHT = 660;
     public static final Dimension SCREEN_SIZE = new Dimension(GAME_WIDTH, GAME_HEIGHT);
+    public static final int LAND_HEIGHT = 100; // FIXME change this later
     public Thread gameThread;
     public Image image;
     public Graphics graphics;
@@ -26,8 +28,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     public Pterodactyl bird;
     public Dinosaur dino;
     public Score score;
-    public int xSpeed; // TODO connect speed of ground, cactus, and pterodactyl
-    // TODO game speeds up over time
+    public Random random;
+    public int speedX;
 
     // TODO states...
     public int state;
@@ -42,14 +44,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     // CONSTRUCTOR
     // ================================================================================
     public GamePanel() {
-//		cactus = new Cactus();
-//		bird = new Pterodactyl();
         score = new Score();
-        state = START_STATE;
+        state = START_STATE; // TODO later
         state = GAME_STATE;
         cactus = null;
         bird = null;
         dino = new Dinosaur();
+        random = new Random();
+        speedX = -5; // starting speed //TODO speedup() method
 
         this.setFocusable(true);
         requestFocus();
@@ -107,134 +109,36 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         graphics = image.getGraphics();
         draw(graphics);
         g.drawImage(image, 0, 0, this);
-
     }
 
     public void draw(Graphics g) {
-        dino.move();
         dino.draw(g);
         if (cactus != null) {
-            cactus.move();
             cactus.draw(g);
         }
         if (bird != null) {
-            bird.move();
             bird.draw(g);
         }
-
-        // in the if-statement, create a new cactus/pterodactyl object (not globally!)
-
-//    	// FIXME maybe this can be a different method in gamepanel? for efficiency
-//    	// generate a random integer to choose a random obstacle
-//    	if (randomInt(0, 8)<=6) // if the number is from 0 to 6, create a cactus
-//    	{
-//    		cactus = new Cactus(randomInt(1, 6), GAME_WIDTH, 100); // choose a random number from 1 to 6
-//    		// FIXME: change the last parameter to ground.GROUND_BORDER_HEIGHT+cactus height
-//    		cactus.draw(g);
-////    		cactus.move();
-//    	}
-//    	else // otherwise, create a pterodactyl
-//    	{
-//    		bird = new Pterodactyl(randomInt(1,3), 500); //FIXME: change last param to game_width - the bird's width somehow
-//    		while (bird.x >0) {
-//        		bird.draw(g);
-////    			bird.move();
-//    		}
-//    	}
-
-        /*
-        // display start button
-        if (displayStart) {
-            start.render(g);
-        }
-        // display game
-        if (displayGame) {
-            paddle1.draw(g);
-            paddle2.draw(g);
-            ball.draw(g);
-            score.draw(g);
-        }
-        // display restart button
-        if (displayWin) {
-            win.render(g);
-        }
-        // display pause menu
-        if (pauseMenu) {
-            pause.render(g)
-        }
-        */
     }
 
-    /**
-     * This method will check if the obstacle passes the left border.
-     * If so, it sets the obstacle to null.
-     */
-    public void checkObstacleLeftBorder() {
-        if (cactus != null && cactus.x < 0)
-            cactus = null; // set cactus to null
-        if (bird != null && bird.x < 0)
-            bird = null; // set bird to null
+    public void updateSpeedX(){
+
     }
-
-
-    /**
-     * Update the game while it is running.
-     */
-    private void updateGame() {
-        dino.move();
-        checkCollision();
-        checkObstacleLeftBorder();
-        handleObstacle();
-        score.updateScore();
-        score.updateHighScore();
-    }
-
 
     /**
      * This method handles the cactus and pterodactyl movements.
      */
     public void handleObstacle() {
-        if (randomInt(0, 8) <= 6)
-        {
-            if (cactus == null)
-                cactus = new Cactus(randomInt(1, 6), GAME_WIDTH, 100); // choose a random number from 1 to 6
-            // FIXME: change the last parameter to ground.GROUND_BORDER_HEIGHT+cactus height
-            cactus.move();
+        if ((random.nextInt(7)+1) <= 6) {
+            if (cactus == null) //TODO remove later, make arraylist of cactus to have more than one at a time
+                // Choose a random cactus formation
+                cactus = new Cactus((random.nextInt(6)), GAME_WIDTH);
         } else {
             if (bird == null)
-                bird = new Pterodactyl(randomInt(1, 3), 500); //FIXME: change last param to game_width - the bird's width somehow
-            bird.move();
+                bird = new Pterodactyl((random.nextInt(3)), 500);
+                //FIXME: change last param to game_width - the bird's width somehow
         }
     }
-
-    /**
-     * helper method to determine a random integer for an obstacle
-     */
-    public int randomInt(int add, int multiplier) {
-        // get a random integer from
-        // 0 to 6 are cacti, 7 is for pterodactyl
-        return (int) (Math.random() * multiplier);
-    }
-
-    /**
-     * check if the dinosaur collides with an obstacle
-     */
-    private void checkCollision() {
-        // if the dino hits a cactus or a bird, then it dies
-        if (bird != null) {
-            if (dino.intersects(bird)){
-                dead = true;
-                state = DEAD_STATE;
-            }
-        }
-        if (cactus != null){
-            if (dino.intersects(cactus)){
-                dead = true;
-                state = DEAD_STATE;
-            }
-        }
-    }
-
 
     /**
      * Invoked when mouse button is clicked.
@@ -273,6 +177,56 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
         dino.keyReleased(e);
+    }
+
+    // ================================================================================
+    // HELPER METHODS
+    // ================================================================================
+
+    /**
+     * Update the game while it is running.
+     */
+    private void updateGame() {
+        dino.move();
+        if (cactus != null){
+            cactus.move();
+        }
+        if (bird != null){
+            bird.move();
+        }
+        checkCollision();
+        checkObstacleLeftBorder();
+        handleObstacle();
+        score.updateScore();
+        score.updateHighScore();
+    }
+
+    /**
+     * check if the dinosaur collides with an obstacle
+     */
+    private void checkCollision() {
+        // if the dino hits a cactus or a bird, then it dies
+        if (bird != null) {
+            if (dino.intersects(bird)) {
+                dead = true;
+                state = DEAD_STATE;
+            }
+        }
+        if (cactus != null) {
+            if (dino.intersects(cactus)) {
+                dead = true;
+                state = DEAD_STATE;
+            }
+        }
+    }
+
+    /**
+     * This method will check if the obstacle passes the left border.
+     * If so, it sets the obstacle to null.
+     */
+    private void checkObstacleLeftBorder() {
+        if (cactus != null && cactus.x < 0) cactus = null; // set cactus to null
+        if (bird != null && bird.x < 0) bird = null; // set bird to null
     }
 
 }

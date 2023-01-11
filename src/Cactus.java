@@ -36,12 +36,10 @@ public class Cactus extends Rectangle {
     // ================================================================================
     // CONSTRUCTOR
     // ================================================================================
-    public Cactus(int index, int x, int y) {
+    public Cactus(int index, int x) {
     	// the cactus will typically start from the right-most side of the screen
-        super(x, y, Integer.parseInt(CACTUS_ARR[index][2]), Integer.parseInt(CACTUS_ARR[index][3]));
-
-        this.x = x;
-        this.y = y;
+        super(x, (Integer.parseInt(CACTUS_ARR[index][3])+GamePanel.LAND_HEIGHT), Integer.parseInt(CACTUS_ARR[index][2]), Integer.parseInt(CACTUS_ARR[index][3]));
+        // FIXME this is not very well made but it should work
 
         // FIXME: make this more efficient - this seems very INefficient
         cactusWidth = Integer.parseInt(CACTUS_ARR[index][2]);
@@ -49,12 +47,7 @@ public class Cactus extends Rectangle {
         
         id = Integer.parseInt(CACTUS_ARR[index][0]); // set ID
         imagePath = CACTUS_ARR[index][1]; // set image path
-        // initialize buffImage
-        try {
-            buffImage = ImageIO.read(new File(imagePath));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        buffImage = Resource.getResourceImage(imagePath); // initialize buffImage
     }
 
     // ================================================================================
@@ -72,8 +65,7 @@ public class Cactus extends Rectangle {
     public void draw(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         
-        // FIXME: draw it from the ground and up, not just down from the top y coord
-        g2d.drawImage(buffImage, x, y, null); // draw cactus png
+        g2d.drawImage(buffImage, x, y, null); // draw cactus
     }
 
 
