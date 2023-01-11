@@ -112,11 +112,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     }
 
     public void draw(Graphics g) {
+        dino.move();
         dino.draw(g);
         if (cactus != null) {
+            cactus.move();
             cactus.draw(g);
         }
         if (bird != null) {
+            bird.move();
             bird.draw(g);
         }
     }
@@ -129,14 +132,16 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
      * This method handles the cactus and pterodactyl movements.
      */
     public void handleObstacle() {
-        if ((random.nextInt(7)+1) <= 6) {
-            if (cactus == null) //TODO remove later, make arraylist of cactus to have more than one at a time
-                // Choose a random cactus formation
-                cactus = new Cactus((random.nextInt(6)), GAME_WIDTH);
+        if ((int)(Math.random()*8) <= 6)
+        {
+            if (cactus == null)
+                cactus = new Cactus((int)(Math.random()*6), GAME_WIDTH); // choose a random number from  0 to 6
+            // FIXME: change the last parameter to ground.GROUND_BORDER_HEIGHT+cactus height
+            cactus.move();
         } else {
             if (bird == null)
-                bird = new Pterodactyl((random.nextInt(3)), 500);
-                //FIXME: change last param to game_width - the bird's width somehow
+                bird = new Pterodactyl((int)(Math.random()*3), 500); //FIXME: change last param to game_width - the bird's width somehow
+            bird.move();
         }
     }
 
@@ -188,15 +193,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
      */
     private void updateGame() {
         dino.move();
-        if (cactus != null){
-            cactus.move();
-        }
-        if (bird != null){
-            bird.move();
-        }
         checkCollision();
-        checkObstacleLeftBorder();
         handleObstacle();
+        checkObstacleLeftBorder();
         score.updateScore();
         score.updateHighScore();
     }
