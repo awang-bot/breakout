@@ -69,43 +69,39 @@ public class Dinosaur extends Rectangle {
 
         switch (state) {
             case START_STATE: {
+                this.y = 20;
                 image = Resource.getResourceImage("resources/dino_start.png");
             }
             case NORM_RUN_STATE: {
+                this.y = 20;
                 normal_animation.updateFrame();
                 image = normal_animation.getFrame();
             }
             case JUMP_STATE: {
                 jump();
-                midJump();
                 image = Resource.getResourceImage("resources/dino_jump.png");
             }
             case CROUCH_STATE: {
+                this.y = 10;
                 crouch_animation.updateFrame();
                 image = crouch_animation.getFrame();
             }
             case DEAD_STATE: {
+                this.y = 20;
                 image = Resource.getResourceImage("resources/dino_dead.png");
             }
         }
 
-        this.y = image.getTileGridYOffset();
         this.width = image.getWidth();
         this.height = image.getHeight();
 
     }
 
-    public void midJump() {    // TODO need?
-        if (state == JUMP_STATE && (y <= LOWER_BOUND && y >= UPPER_BOUND)) {
-            move();
-        }
-    }
-
     public void jump() {
         y -= yVelocity;
-        if (y == UPPER_BOUND) { //
+        if (y >= UPPER_BOUND) {
             yVelocity *= -1;
-        } else if (y == LOWER_BOUND) {
+        } else if (y <= LOWER_BOUND) {
             state = NORM_RUN_STATE;
             yVelocity *= -1;
         }
@@ -119,14 +115,12 @@ public class Dinosaur extends Rectangle {
                 g2d.drawImage(image, x, y, null);
             }
             case NORM_RUN_STATE: {
-                image = normal_animation.getFrame();
                 g2d.drawImage(image, x, y, null);
             }
             case JUMP_STATE: {
                 g2d.drawImage(image, x, y, null);
             }
             case CROUCH_STATE: {
-                image = crouch_animation.getFrame();
                 g2d.drawImage(image, x, y, null);
             }
             case DEAD_STATE: {
@@ -174,6 +168,5 @@ public class Dinosaur extends Rectangle {
     // ================================================================================
     // HELPER METHODS
     // ================================================================================
-
 
 }

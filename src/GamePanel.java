@@ -182,7 +182,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
      */
     private void updateGame() {
         dino.move();
-//        checkCollision();
+        checkCollision();
         checkObstacleLeftBorder();
         handleObstacle();
         score.updateScore();
@@ -220,10 +220,15 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
      * check if the dinosaur collides with an obstacle
      */
     private void checkCollision() {
-
-        // if the dino crouches, runs, or jumps and hits a cactus or a bird, then it dies
-        if (!(cactus == null) && !(bird == null)) {
-            if (dino.crouch_animation.getBounds().intersects(cactus) || dino.normal_animation.getBounds().intersects(cactus) || dino.normal_animation.getBounds().intersects(bird.birdFlap.getBounds()) || dino.crouch_animation.getBounds().intersects(bird.birdFlap.getBounds()) || dino.getJumpBounds().intersects(bird.birdFlap.getBounds()) || dino.getJumpBounds().intersects(cactus)) {
+        // if the dino hits a cactus or a bird, then it dies
+        if (bird != null) {
+            if (dino.intersects(bird)){
+                dead = true;
+                state = DEAD_STATE;
+            }
+        }
+        if (cactus != null){
+            if (dino.intersects(cactus)){
                 dead = true;
                 state = DEAD_STATE;
             }

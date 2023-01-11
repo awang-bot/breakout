@@ -71,16 +71,9 @@ public class Cactus extends Rectangle {
 
     public void draw(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-
-        /* use this to test the functionality of draw*/
-        g.setColor(Color.red);
-        g.fillRect(x, y, cactusWidth, cactusHeight);
         
         // FIXME: draw it from the ground and up, not just down from the top y coord
-        g2d.setColor(new Color(0f, 0f, 0f, 0f)); // transparent colour
-        g2d.drawRect(x, y, width, height); // draw rectangle
         g2d.drawImage(buffImage, x, y, null); // draw cactus png
-
     }
 
 
