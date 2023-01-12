@@ -18,7 +18,7 @@ public class Land {
      */
     public static final String FILEPATH = "resources/land.png";
     public BufferedImage land1;
-    public final int landWidth = 2400;
+    public static final int LAND_WIDTH = 2400;
     public int x;
     public static final int y = 400;
 
@@ -26,8 +26,8 @@ public class Land {
     // ================================================================================
     // CONSTRUCTOR
     // ================================================================================
-    public Land(){
-    	x = 0;
+    public Land(int x){
+    	this.x = x;
         try {
             land1 = ImageIO.read(new File(FILEPATH));
         } catch (IOException e) {
