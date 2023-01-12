@@ -16,11 +16,8 @@ public class Land {
     /**
      *
      */
-    private static final String[] FILEPATH = {"resources/land1.png","resources/land2.png","resources/land3.png"};
+    public static final String FILEPATH = "resources/land.png";
     public BufferedImage land1;
-    public BufferedImage land2;
-    public BufferedImage land3;
-    public BufferedImage buffImage;
     public final int landWidth = 2400;
     public int x;
     public static final int y = 400;
@@ -32,17 +29,7 @@ public class Land {
     public Land(){
     	x = 0;
         try {
-            land1 = ImageIO.read(new File(FILEPATH[0]));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            land2 = ImageIO.read(new File(FILEPATH[1]));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            land3 = ImageIO.read(new File(FILEPATH[2]));
+            land1 = ImageIO.read(new File(FILEPATH));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -61,18 +48,9 @@ public class Land {
     	/**
     	 * random integer for land design index num
     	 */
-    	int randomLand = (int)(Math.random()*2);
         Graphics2D g2d = (Graphics2D) g;
     	
-        if (randomLand == 0)
-        	buffImage = land1;
-        else if (randomLand == 1)
-        	buffImage = land2;
-        else
-        	buffImage = land3;
-    	
-        if(x < 0)
-        	g2d.drawImage(buffImage, x, y, null); // draw cactus
+        g2d.drawImage(land1, x, y, null); // draw cactus
     }
 
 }
