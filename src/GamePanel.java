@@ -19,7 +19,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     public static final int GAME_WIDTH = 1500;
     public static final int GAME_HEIGHT = 660;
     public static final Dimension SCREEN_SIZE = new Dimension(GAME_WIDTH, GAME_HEIGHT);
-    public static final int LAND_HEIGHT = 100; // FIXME change this later
+    public static final int LAND_HEIGHT = 500; // FIXME change this later
     public Thread gameThread;
     public Image image;
     public Graphics graphics;
@@ -27,7 +27,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     public Pterodactyl bird;
     public Dinosaur dino;
     public Score score;
-    public Land land; 
+    public Land land1, land2;
     public int speedX;
 
     // TODO states...
@@ -47,7 +47,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         state = GAME_STATE;
         dino = new Dinosaur();
         speedX = -5; // starting speed //TODO speedup() method
-        land = new Land(); 
+        land1 = new Land(0);
         cactus = null; // set to null to choose design randomly after
         bird = null;
 
@@ -111,41 +111,32 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
     public void draw(Graphics g) {
 
-    	// if landWidth - land.x < GAME_WIDTH, draw another land from the start
+        // if landWidth - land.x < GAME_WIDTH, draw another land from the start
 
-    	if (land1 != null)
-    	{
-    		land1.draw(g);
-    		land1.move();
-    	}
-    	if (land2 != null)
-    	{
-    		land2.draw(g);
-    		land2.move();
-    	}
-    	
-    	if (land1 != null)
-    	{
-			if (land1.x <= GAME_WIDTH - Land.LAND_WIDTH) {
-				land2 = new Land(GAME_WIDTH);
-			}
-			if (land1.x<= -Land.LAND_WIDTH) {
-				land1 = null;
-			}
-    	}
-		
-		if (land2 !=null)
-			{
-//			land2.draw(g);
-			if (land2.x <= GAME_WIDTH - Land.LAND_WIDTH) {
-				land1 = new Land(GAME_WIDTH);
-			}
-			if (land2.x<= -Land.LAND_WIDTH) {
-				land2 = null;
-			}  
-		}
-		
-    	dino.move();
+        if (land1 != null)
+        {
+            land1.draw(g);
+            land1.move();
+            if (land1.x <= GAME_WIDTH - Land.LAND_WIDTH) {
+                land2 = new Land(GAME_WIDTH);
+            }
+            if (land1.x<= -Land.LAND_WIDTH) {
+                land1 = null;
+            }
+        }
+        if (land2 != null)
+        {
+            land2.draw(g);
+            land2.move();
+            if (land2.x <= GAME_WIDTH - Land.LAND_WIDTH) {
+                land1 = new Land(GAME_WIDTH);
+            }
+            if (land2.x<= -Land.LAND_WIDTH) {
+                land2 = null;
+            }
+        }
+
+        dino.move();
         dino.draw(g);
         if (cactus != null) {
             cactus.move();
@@ -229,8 +220,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         checkCollision();
         handleObstacle();
         checkObstacleLeftBorder();
-        score.updateScore();
-        score.updateHighScore();
+//        score.updateScore();
+//        score.updateHighScore();
     }
 
     /**

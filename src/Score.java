@@ -57,7 +57,7 @@ public class Score {
         return Integer.parseInt(file_highScore);
     }
 
-    private void updateHighScore() {
+    public void updateHighScore() {
         if (score >= getHighScore()) {
             BufferedWriter bw = null;
             try {

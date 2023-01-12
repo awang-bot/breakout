@@ -82,13 +82,12 @@ public class Dinosaur extends Rectangle {
                 break;
             }
             case CROUCH_STATE: {
-                this.y = 10;
+                this.y = 326;
                 crouch_animation.updateFrame();
                 image = crouch_animation.getFrame();
                 break;
             }
             case DEAD_STATE: {
-                this.y = 20;
                 image = Resource.getResourceImage("resources/dino_dead.png");
                 break;
             }
@@ -135,10 +134,10 @@ public class Dinosaur extends Rectangle {
     // ================================================================================
 
     private void jump() {
-        y += yVelocity;
-        if (y >= UPPER_BOUND) {
+        this.y += yVelocity;
+        if (this.y >= UPPER_BOUND) {
             yVelocity *= -1;
-        } else if (y <= LOWER_BOUND) {
+        } else if (this.y <= LOWER_BOUND) {
             state = NORM_RUN_STATE;
             yVelocity *= -1;
         }

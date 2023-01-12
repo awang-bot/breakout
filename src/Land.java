@@ -27,7 +27,7 @@ public class Land {
     // CONSTRUCTOR
     // ================================================================================
     public Land(int x){
-    	this.x = x;
+        this.x = x;
         try {
             land1 = ImageIO.read(new File(FILEPATH));
         } catch (IOException e) {
@@ -41,15 +41,15 @@ public class Land {
 
     public void move()
     {
-    	x-=5;
+        x-=5;
     }
-    
+
     public void draw(Graphics g) {
-    	/**
-    	 * random integer for land design index num
-    	 */
+        /**
+         * random integer for land design index num
+         */
         Graphics2D g2d = (Graphics2D) g;
-    	
+
         g2d.drawImage(land1, x, y, null); // draw cactus
     }
 
