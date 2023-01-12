@@ -15,25 +15,25 @@ public class Dinosaur extends Rectangle {
     // VARIABLES
     // ================================================================================
 
+    public static final int x = 100;
     /**
      * movement speed of dinosaur jumping up/down
      */
     public int yVelocity;
-    public static final int x = 100; //FIXME: fix according to the screensize later, should not be manual (#)
-    public BufferedImage image;
+    /**
+     * when true, the dino is still in the air jumping.
+     */
+    public static final int UPPER_BOUND = 300;
+    public static final int LOWER_BOUND = 500;
     public int state;
     public static final int START_STATE = 0;
     public static final int NORM_RUN_STATE = 1;
     public static final int JUMP_STATE = 2;
     public static final int CROUCH_STATE = 3;
     public static final int DEAD_STATE = 4;
+    public BufferedImage image;
     public Animation normal_animation;
     public Animation crouch_animation;
-    /**
-     * when true, the dino is still in the air jumping.
-     */
-    public static final int UPPER_BOUND = 300;
-    public static final int LOWER_BOUND = 500;
 
     // ================================================================================
     // CONSTRUCTOR
