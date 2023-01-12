@@ -4,7 +4,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Random;
 
 /**
  * <pre>  Anne and Atisa
@@ -28,8 +27,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     public Pterodactyl bird;
     public Dinosaur dino;
     public Score score;
-    public Random random;
-    public Land land;
+    public Land land; 
     public int speedX;
 
     // TODO states...
@@ -48,9 +46,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 //        state = START_STATE; // TODO later
         state = GAME_STATE;
         dino = new Dinosaur();
-        random = new Random();
         speedX = -5; // starting speed //TODO speedup() method
-        land = new Land();
+        land = new Land(); 
         cactus = null; // set to null to choose design randomly after
         bird = null;
 
@@ -113,8 +110,18 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     }
 
     public void draw(Graphics g) {
-        land.draw(g);
-        dino.move();
+
+    	// if landWidth - land.x < GAME_WIDTH, draw another land from the start
+    	if (land == null)
+    	{
+    		land.draw(g);
+    	}
+    	
+    	if (land.landWidth - land.x < GAME_WIDTH)
+    	{
+    		land.draw(g);
+    	}
+    	dino.move();
         dino.draw(g);
         if (cactus != null) {
             cactus.move();
@@ -133,19 +140,18 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     /**
      * This method handles the cactus and pterodactyl movements.
      */
-    public void handleObstacle() {
-        if ((random.nextInt(7)+1) <= 6) {
-            if (cactus == null) { //TODO remove later, make arraylist of cactus to have more than one at a time
-                // Choose a random cactus formation
-                cactus = new Cactus((random.nextInt(6)), GAME_WIDTH);
-                cactus.move();
-            }
+   public void handleObstacle() {
+        if ((int)(Math.random()*8) <= 6)
+        {
+            if (cactus == null)
+                cactus = new Cactus((int)(Math.random()*6), GAME_WIDTH); // choose a random number from  0 to 6
+            // FIXME: change the last parameter to ground.GROUND_BORDER_HEIGHT+cactus height
+//            cactus.move(); // should this be called again? if it's already called in draw
         } else {
-            if (bird == null) {
-                bird = new Pterodactyl((random.nextInt(3)), GAME_WIDTH);
-                bird.move();
-            }
-        }
+            if (bird == null)
+                bird = new Pterodactyl((int)(Math.random()*3), GAME_WIDTH); //FIXME: change last param to game_width - the bird's width somehow
+//            bird.move();
+        }  
     }
 
     /**
