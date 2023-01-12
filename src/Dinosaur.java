@@ -27,16 +27,13 @@ public class Dinosaur extends Rectangle {
     public static final int JUMP_STATE = 2;
     public static final int CROUCH_STATE = 3;
     public static final int DEAD_STATE = 4;
-    Animation normal_animation;
-    Animation crouch_animation;
+    public Animation normal_animation;
+    public Animation crouch_animation;
     /**
      * when true, the dino is still in the air jumping.
      */
     public static final int UPPER_BOUND = 300;
-    public static final int LOWER_BOUND = 100;
-
-    // TODO: create an array for the dinosaur graphics
-    // TODO: figure out the animations...
+    public static final int LOWER_BOUND = 500;
 
     // ================================================================================
     // CONSTRUCTOR
@@ -97,19 +94,10 @@ public class Dinosaur extends Rectangle {
             }
         }
 
+        this.y = image.getTileGridYOffset(); // FIXME
         this.width = image.getWidth();
         this.height = image.getHeight();
 
-    }
-
-    public void jump() {
-        y += yVelocity;
-        if (y >= UPPER_BOUND) {
-            yVelocity *= -1;
-        } else if (y <= LOWER_BOUND) {
-            state = NORM_RUN_STATE;
-            yVelocity *= -1;
-        }
     }
 
     public void draw(Graphics g) {
@@ -142,20 +130,19 @@ public class Dinosaur extends Rectangle {
         }
     }
 
-    /**
-     * @return a Rectangle with the Dinosaur's position and dimensions.
-     */
-    public Rectangle getJumpBounds() {
-        Rectangle rect = new Rectangle();
-        rect.x = this.x;
-        rect.y = this.y;
-        rect.width = this.image.getWidth();
-        rect.height = this.image.getHeight();
-        return rect;
-    }
-
     // ================================================================================
     // HELPER METHODS
     // ================================================================================
+
+    private void jump() {
+        y += yVelocity;
+        if (y >= UPPER_BOUND) {
+            yVelocity *= -1;
+        } else if (y <= LOWER_BOUND) {
+            state = NORM_RUN_STATE;
+            yVelocity *= -1;
+        }
+    }
+
 
 }

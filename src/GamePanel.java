@@ -215,12 +215,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private void checkCollision() {
         // if the dino hits a cactus or a bird, then it dies
         if (bird != null) {
-            if (dino.normal_animation.getBounds().intersects(bird.birdFlap.getBounds()) || dino.crouch_animation.getBounds().intersects(bird.birdFlap.getBounds()) || dino.getJumpBounds().intersects(bird.birdFlap.getBounds())){
+            if (dino.intersects(bird.birdFlap.getBounds())){
 //                state = DEAD_STATE;
             }
         }
         if (cactus != null){
-            if (dino.normal_animation.getBounds().intersects(cactus) || dino.crouch_animation.getBounds().intersects(cactus) || dino.getJumpBounds().intersects(cactus)){
+            if (dino.intersects(cactus)){
 //                state = DEAD_STATE;
             }
         }
