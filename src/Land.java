@@ -1,4 +1,7 @@
 import javax.imageio.ImageIO;
+
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -17,6 +20,8 @@ public class Land {
     public BufferedImage land1;
     public BufferedImage land2;
     public BufferedImage land3;
+    public BufferedImage buffImage;
+
 
     // ================================================================================
     // CONSTRUCTOR
@@ -43,6 +48,22 @@ public class Land {
     // METHODS
     // ================================================================================
 
+    public void draw(Graphics g) {
+    	/**
+    	 * random integer for land design index num
+    	 */
+    	int randomLand = (int)(Math.random()*3);
+    	
+        if (randomLand == 0)
+        	buffImage = land1;
+        else if (randomLand == 1)
+        	buffImage = land2;
+        else
+        	buffImage = land3;
+    	
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.drawImage(buffImage, 0, 550, null); // draw cactus
+    }
 
 
 
