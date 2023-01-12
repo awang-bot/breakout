@@ -21,12 +21,16 @@ public class Land {
     public BufferedImage land2;
     public BufferedImage land3;
     public BufferedImage buffImage;
+    public final int landWidth = 2400;
+    public int x;
+    public static final int y = 400;
 
 
     // ================================================================================
     // CONSTRUCTOR
     // ================================================================================
     public Land(){
+    	x = 0;
         try {
             land1 = ImageIO.read(new File(FILEPATH[0]));
         } catch (IOException e) {
@@ -48,11 +52,17 @@ public class Land {
     // METHODS
     // ================================================================================
 
+    public void move()
+    {
+    	x-=5;
+    }
+    
     public void draw(Graphics g) {
     	/**
     	 * random integer for land design index num
     	 */
-    	int randomLand = (int)(Math.random()*3);
+    	int randomLand = (int)(Math.random()*2);
+        Graphics2D g2d = (Graphics2D) g;
     	
         if (randomLand == 0)
         	buffImage = land1;
@@ -61,13 +71,8 @@ public class Land {
         else
         	buffImage = land3;
     	
-        Graphics2D g2d = (Graphics2D) g;
-        g2d.drawImage(buffImage, 0, 550, null); // draw cactus
+        if(x < 0)
+        	g2d.drawImage(buffImage, x, y, null); // draw cactus
     }
-
-
-
-
-
 
 }
