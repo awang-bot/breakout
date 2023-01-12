@@ -4,6 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Random;
 
 /**
  * <pre>  Anne and Atisa
@@ -28,7 +29,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     public Dinosaur dino;
     public Score score;
     public Random random;
-    public Land land; 
+    public Land land;
     public int speedX;
 
     // TODO states...
@@ -49,7 +50,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         dino = new Dinosaur();
         random = new Random();
         speedX = -5; // starting speed //TODO speedup() method
-        land = new Land(); 
+        land = new Land();
         cactus = null; // set to null to choose design randomly after
         bird = null;
 
@@ -112,8 +113,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     }
 
     public void draw(Graphics g) {
-    	land.draw(g);
-    	dino.move();
+        land.draw(g);
+        dino.move();
         dino.draw(g);
         if (cactus != null) {
             cactus.move();
@@ -132,7 +133,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     /**
      * This method handles the cactus and pterodactyl movements.
      */
- public void handleObstacle() {
+    public void handleObstacle() {
         if ((random.nextInt(7)+1) <= 6) {
             if (cactus == null) { //TODO remove later, make arraylist of cactus to have more than one at a time
                 // Choose a random cactus formation
@@ -144,7 +145,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 bird = new Pterodactyl((random.nextInt(3)), 500);
                 bird.move();
             }
-                //FIXME: change last param to game_width - the bird's width somehow
+            //FIXME: change last param to game_width - the bird's width somehow
         }
     }
 

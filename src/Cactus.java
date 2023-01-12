@@ -24,7 +24,7 @@ public class Cactus extends Rectangle {
      * The fourth column is the height (px).
      */
     public static final String[][] CACTUS_ARR = {{"1", "resources/cactus1.png", "34", "70"}, {"2", "resources/cactus2.png", "68", "70"}, {"3", "resources/cactus3.png", "102", "70"}, {"4", "resources/cactus4.png", "50", "96"}, {"5", "resources/cactus5.png", "100", "96"}, {"6", "resources/cactus6.png", "150", "96"}};
-
+    // TODO get rid of obstacle "ID"'s
     /**
      * Cactus identifiers: 1 - one small, 2 - two small, 3 - three small, 4 - one big, 5 - two big, 6 - group of four
      */
@@ -38,7 +38,7 @@ public class Cactus extends Rectangle {
     // ================================================================================
     public Cactus(int index, int x) {
     	// the cactus will typically start from the right-most side of the screen
-        super(x, (Integer.parseInt(CACTUS_ARR[index][3])+GamePanel.LAND_HEIGHT), Integer.parseInt(CACTUS_ARR[index][2]), Integer.parseInt(CACTUS_ARR[index][3]));
+        super(x, (GamePanel.LAND_HEIGHT-Integer.parseInt(CACTUS_ARR[index][3])), Integer.parseInt(CACTUS_ARR[index][2]), Integer.parseInt(CACTUS_ARR[index][3]));
         // FIXME this is not very well made but it should work
 
         // FIXME: make this more efficient - this seems very INefficient
