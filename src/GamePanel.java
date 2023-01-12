@@ -38,14 +38,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private static final int DEAD_STATE = 2; // restart, return to menu?? should we have a menu?
     private static final int MENU_STATE = 4; // MAYbe..
     public boolean pause = false; // pause game during game
-    public boolean dead = false;
 
     // ================================================================================
     // CONSTRUCTOR
     // ================================================================================
     public GamePanel() {
         score = new Score();
-        state = START_STATE; // TODO later
+//        state = START_STATE; // TODO later
         state = GAME_STATE;
         cactus = null;
         bird = null;
@@ -137,12 +136,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             if (cactus == null)
                 cactus = new Cactus((int)(Math.random()*6), GAME_WIDTH); // choose a random number from  0 to 6
             // FIXME: change the last parameter to ground.GROUND_BORDER_HEIGHT+cactus height
-            cactus.move();
+//            cactus.move(); // should this be called again? if it's already called in draw
         } else {
             if (bird == null)
-                bird = new Pterodactyl((int)(Math.random()*3), 500); //FIXME: change last param to game_width - the bird's width somehow
-            bird.move();
+                bird = new Pterodactyl((int)(Math.random()*3), GAME_WIDTH); //FIXME: change last param to game_width - the bird's width somehow
+//            bird.move();
         }
+        
     }
 
     /**
@@ -192,7 +192,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
      * Update the game while it is running.
      */
     private void updateGame() {
-        dino.move();
+
         checkCollision();
         handleObstacle();
         checkObstacleLeftBorder();
@@ -206,15 +206,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private void checkCollision() {
         // if the dino hits a cactus or a bird, then it dies
         if (bird != null) {
-            if (dino.intersects(bird)){
-                dead = true;
-                state = DEAD_STATE;
+            if (dino.normal_animation.getBounds().intersects(bird.birdFlap.getBounds()) || dino.crouch_animation.getBounds().intersects(bird.birdFlap.getBounds()) || dino.getJumpBounds().intersects(bird.birdFlap.getBounds())){
+//                state = DEAD_STATE;
             }
         }
         if (cactus != null){
-            if (dino.intersects(cactus)){
-                dead = true;
-                state = DEAD_STATE;
+            if (dino.normal_animation.getBounds().intersects(cactus) || dino.crouch_animation.getBounds().intersects(cactus) || dino.getJumpBounds().intersects(cactus)){
+//                state = DEAD_STATE;
             }
         }
     }
