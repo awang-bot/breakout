@@ -112,15 +112,39 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     public void draw(Graphics g) {
 
     	// if landWidth - land.x < GAME_WIDTH, draw another land from the start
-    	if (land == null)
+
+    	if (land1 != null)
     	{
-    		land.draw(g);
+    		land1.draw(g);
+    		land1.move();
+    	}
+    	if (land2 != null)
+    	{
+    		land2.draw(g);
+    		land2.move();
     	}
     	
-    	if (land.landWidth - land.x < GAME_WIDTH)
+    	if (land1 != null)
     	{
-    		land.draw(g);
+			if (land1.x <= GAME_WIDTH - Land.LAND_WIDTH) {
+				land2 = new Land(GAME_WIDTH);
+			}
+			if (land1.x<= -Land.LAND_WIDTH) {
+				land1 = null;
+			}
     	}
+		
+		if (land2 !=null)
+			{
+//			land2.draw(g);
+			if (land2.x <= GAME_WIDTH - Land.LAND_WIDTH) {
+				land1 = new Land(GAME_WIDTH);
+			}
+			if (land2.x<= -Land.LAND_WIDTH) {
+				land2 = null;
+			}  
+		}
+		
     	dino.move();
         dino.draw(g);
         if (cactus != null) {
