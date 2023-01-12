@@ -4,7 +4,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Random;
 
 /**
  * <pre>  Anne and Atisa
@@ -28,7 +27,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     public Pterodactyl bird;
     public Dinosaur dino;
     public Score score;
-    public Random random;
+    public Land land; 
     public int speedX;
 
     // TODO states...
@@ -46,11 +45,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         score = new Score();
 //        state = START_STATE; // TODO later
         state = GAME_STATE;
-        cactus = null;
-        bird = null;
         dino = new Dinosaur();
-        random = new Random();
         speedX = -5; // starting speed //TODO speedup() method
+        land = new Land(); 
+        cactus = null; // set to null to choose design randomly after
+        bird = null;
 
         this.setFocusable(true);
         requestFocus();
@@ -111,7 +110,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     }
 
     public void draw(Graphics g) {
-        dino.move();
+    	land.draw(g);
+    	dino.move();
         dino.draw(g);
         if (cactus != null) {
             cactus.move();
