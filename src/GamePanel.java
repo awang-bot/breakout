@@ -142,10 +142,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             }
         } else {
             if (bird == null) {
-                bird = new Pterodactyl((random.nextInt(3)), 500);
+                bird = new Pterodactyl((random.nextInt(3)), GAME_WIDTH);
                 bird.move();
             }
-            //FIXME: change last param to game_width - the bird's width somehow
         }
     }
 
