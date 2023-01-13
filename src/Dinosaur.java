@@ -99,6 +99,7 @@ public class Dinosaur extends Rectangle {
             case DEAD_STATE -> {
                 this.y = 300;
                 image = Resource.getResourceImage("dino/dino_dead.png");
+		dead = true;
                 break;
             }
         }
