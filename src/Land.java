@@ -7,7 +7,7 @@ public class Land {
     // VARIABLES
     // ================================================================================
 
-    public static final int LAND_POS_Y = 400;
+    public static final int LAND_POS_Y = 380;
     public static final String FILEPATH = "background/land.png";
     public BufferedImage land;
 
