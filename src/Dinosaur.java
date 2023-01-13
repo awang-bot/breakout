@@ -27,8 +27,8 @@ public class Dinosaur extends Rectangle {
     public static final int JUMP_STATE = 2;
     public static final int CROUCH_STATE = 3;
     public static final int DEAD_STATE = 4;
-    Animation normal_animation;
-    Animation crouch_animation;
+    public Animation normal_animation;
+    public Animation crouch_animation;
     /**
      * when true, the dino is still in the air jumping.
      */
@@ -85,7 +85,7 @@ public class Dinosaur extends Rectangle {
                 break;
             }
             case CROUCH_STATE: {
-                this.y = 10;
+                this.y = 326;
                 crouch_animation.updateFrame();
                 image = crouch_animation.getFrame();
                 break;
