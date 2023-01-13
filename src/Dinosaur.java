@@ -29,7 +29,7 @@ public class Dinosaur extends Rectangle {
     public static final int DEAD_STATE = 4;
     public Animation normal_animation;
     public Animation crouch_animation;
-    public boolean midJump;
+    public boolean midJump, up;
     /**
      * when true, the dino is still in the air jumping.
      */
@@ -109,12 +109,17 @@ public class Dinosaur extends Rectangle {
 //    	midJump = true;
         y += yVelocity;
 
-	    if (y <= UPPER_BOUND) {
+        // TRY to make it slow down a bit at the top
+        if ((y < UPPER_BOUND+20) && y > UPPER_BOUND)
+        	yVelocity -=10;
+        else if (y <= UPPER_BOUND) {
+        	up = true;
 	        yVelocity *= -1;
 //	        midJump = true;
 	    } else if (y >= LOWER_BOUND) {
 	        state = NORM_RUN_STATE;
 	        yVelocity *= -1;
+	        up = false;
 //	        midJump = false;
 	    }
         
