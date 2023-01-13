@@ -22,8 +22,8 @@ public class Dinosaur extends Rectangle {
     public double yVelocity;
     public boolean up;
     public boolean dead;
-    public static final int UPPER_BOUND = 200;
-    public static final int LOWER_BOUND = 400;
+    public static final int UPPER_BOUND = 150;
+    public static final int LOWER_BOUND = 300;
     public int state;
     public static final int START_STATE = 0;
     public static final int NORM_RUN_STATE = 1;
