@@ -227,7 +227,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         if (birdArr != null) {
             for (Pterodactyl bird : birdArr) {
                 if (dino.intersects(bird)) {
-                    dino.setDead();
+                    dino.setDinoDead();
                    state = DEAD_STATE;
                 }
             }
