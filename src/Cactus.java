@@ -29,12 +29,12 @@ public class Cactus extends Rectangle {
     public Cactus(int index, int x) {
     	// initialize the cactus position and dimensions
         this.x = x;
-        y = GamePanel.LAND_HEIGHT-2*Integer.parseInt(CACTUS_ARR[index][2]);
-        width = Integer.parseInt(CACTUS_ARR[index][1]);
-        height = Integer.parseInt(CACTUS_ARR[index][2]);
+        y = GamePanel.LAND_HEIGHT-2*Integer.parseInt(CACTUS_ARR[index][2]); // change the heights later because this is not right, this should be width. can be done manually. need to change actual array above.
+        width = Integer.parseInt(CACTUS_ARR[index][2]);
+        height = Integer.parseInt(CACTUS_ARR[index][3]);
 
         // initialize the cactus image
-        fileName = CACTUS_ARR[index][0];
+        fileName = CACTUS_ARR[index][1];
         buffImage = Resource.getResourceImage(fileName);
     }
 
