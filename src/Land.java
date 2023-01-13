@@ -41,12 +41,9 @@ public class Land {
     }
 
     public void draw(Graphics g) {
-        /**
-         * random integer for land design index num
-         */
         Graphics2D g2d = (Graphics2D) g;
 
-        g2d.drawImage(land, x, y, null); // draw cactus
+        g2d.drawImage(land, x, y, null);
     }
 
 }

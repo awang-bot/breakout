@@ -117,7 +117,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         {
             land1.draw(g);
             land1.move();
-            if (land1.x <= GAME_WIDTH - Land.LAND_WIDTH) {
+                if (land1.x <= GAME_WIDTH - Land.LAND_WIDTH) {
                 land2 = new Land(GAME_WIDTH);
             }
             if (land1.x<= -Land.LAND_WIDTH) {
@@ -244,9 +244,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
      * If so, it sets the obstacle to null.
      */
     public void checkObstacleLeftBorder() {
-        if (cactus != null && cactus.x < 0)
+        if (cactus != null && cactus.x < -cactus.width)
             cactus = null; // set cactus to null
-        if (bird != null && bird.x < 0)
+        if (bird != null && bird.x < -bird.width)
             bird = null; // set bird to null
     }
 

@@ -23,8 +23,8 @@ public class Dinosaur extends Rectangle {
     /**
      * when true, the dino is still in the air jumping.
      */
-    public static final int UPPER_BOUND = 300;
-    public static final int LOWER_BOUND = 500;
+    public static final int UPPER_BOUND = 150;
+    public static final int LOWER_BOUND = 300;
     public int state;
     public static final int START_STATE = 0;
     public static final int NORM_RUN_STATE = 1;
@@ -39,7 +39,7 @@ public class Dinosaur extends Rectangle {
     // CONSTRUCTOR
     // ================================================================================
     public Dinosaur() {
-        super(x, 100, 1, 1); // TODO figure out y-coordinate
+        this.y = 300;
 
         normal_animation = new Animation(150);
         crouch_animation = new Animation(150);
@@ -50,9 +50,8 @@ public class Dinosaur extends Rectangle {
         crouch_animation.addFrame(Resource.getResourceImage("resources/dino_crouch_2.png"));
 
         image = Resource.getResourceImage("resources/dino_start.png");
-        yVelocity = -5;
-        state = NORM_RUN_STATE;
-//        continueJump = false;
+        yVelocity = -7;
+        state = NORM_RUN_STATE; // TODO change this to start state later
     }
 
     // ================================================================================
@@ -65,37 +64,31 @@ public class Dinosaur extends Rectangle {
     public void move() {
 
         switch (state) {
-            case START_STATE: {
-                this.y = 20;
+            case START_STATE -> {
+                y = 20;
                 image = Resource.getResourceImage("resources/dino_start.png");
-                break;
             }
-            case NORM_RUN_STATE: {
-                this.y = 300;
+            case NORM_RUN_STATE -> {
+                y = 300;
                 normal_animation.updateFrame();
                 image = normal_animation.getFrame();
-                break;
             }
-            case JUMP_STATE: {
+            case JUMP_STATE -> {
                 jump();
                 image = Resource.getResourceImage("resources/dino_jump.png");
-                break;
             }
-            case CROUCH_STATE: {
-                this.y = 326;
+            case CROUCH_STATE -> {
+                y = 333;
                 crouch_animation.updateFrame();
                 image = crouch_animation.getFrame();
-                break;
             }
-            case DEAD_STATE: {
+            case DEAD_STATE -> {
                 image = Resource.getResourceImage("resources/dino_dead.png");
-                break;
             }
         }
 
-        this.y = image.getTileGridYOffset(); // FIXME
-        this.width = image.getWidth();
-        this.height = image.getHeight();
+        width = image.getWidth();
+        height = image.getHeight();
 
     }
 
@@ -134,13 +127,16 @@ public class Dinosaur extends Rectangle {
     // ================================================================================
 
     private void jump() {
-        this.y += yVelocity;
-        if (this.y >= UPPER_BOUND) {
+        // TODO add fancy jump
+
+        if (y <= UPPER_BOUND) {
             yVelocity *= -1;
-        } else if (this.y <= LOWER_BOUND) {
+
+        } else if (y >= LOWER_BOUND) {
             state = NORM_RUN_STATE;
             yVelocity *= -1;
         }
+
     }
 
 
