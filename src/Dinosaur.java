@@ -26,7 +26,6 @@ public class Dinosaur extends Rectangle {
     public static final int DEAD_STATE = 4;
     public Animation normal_animation;
     public Animation crouch_animation;
-    public BufferedImage image;
     public boolean midJump, up;
     /**
      * if the dino is dead, true.
@@ -97,7 +96,7 @@ public class Dinosaur extends Rectangle {
                 image = crouch_animation.getFrame();
                 break;
             }
-            case DEAD_STATE: {
+            case DEAD_STATE -> {
                 this.y = 300;
                 image = Resource.getResourceImage("dino/dino_dead.png");
                 break;
