@@ -18,7 +18,7 @@ public class Dinosaur extends Rectangle {
     /**
      * movement speed of dinosaur jumping up/down
      */
-    public int yVelocity;
+    public double yVelocity;
     public static final int x = 100; //FIXME: fix according to the screensize later, should not be manual (#)
     public BufferedImage image;
     public int state;
@@ -30,6 +30,7 @@ public class Dinosaur extends Rectangle {
     public Animation normal_animation;
     public Animation crouch_animation;
     public boolean midJump, up;
+	private int numAdd; // counts the number of times velocity was added TEST!!
     /**
      * when true, the dino is still in the air jumping.
      */
@@ -58,6 +59,7 @@ public class Dinosaur extends Rectangle {
         state = NORM_RUN_STATE;
 //        continueJump = false;
         midJump = false;
+        up = true;
     }
 
     // ================================================================================
@@ -107,19 +109,45 @@ public class Dinosaur extends Rectangle {
 
     public void jump() {
 //    	midJump = true;
+    	
         y += yVelocity;
 
-        // TRY to make it slow down a bit at the top
+//        // TRY to make it slow down a bit at the top
         if ((y < UPPER_BOUND+20) && y > UPPER_BOUND)
-        	yVelocity -=10;
+        	if (yVelocity <0)
+        	{
+        		yVelocity+=0.5;
+        		numAdd++;
+        	}
+        	else
+        	{
+        		yVelocity -=0.5;
+        		numAdd++;
+        	}
+//        	yVelocity +=3;
+        else if ((y > UPPER_BOUND+20) && (y < LOWER_BOUND))
+        {
+        	if (yVelocity <0)
+        	{
+        		yVelocity=-5;
+        		numAdd++;
+        	}
+        	else
+        	{
+        		yVelocity =5;
+        		numAdd++;
+        	}
+        }
         else if (y <= UPPER_BOUND) {
-        	up = true;
-	        yVelocity *= -1;
+        	up = false;
+	        yVelocity = 5;
+	        numAdd=0;
 //	        midJump = true;
 	    } else if (y >= LOWER_BOUND) {
 	        state = NORM_RUN_STATE;
-	        yVelocity *= -1;
-	        up = false;
+	        yVelocity = -5;
+	        up = true;
+	        numAdd = 0;
 //	        midJump = false;
 	    }
         
