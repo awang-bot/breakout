@@ -29,9 +29,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     public Dinosaur dino;
     public Score score;
     public Land land1, land2;
-    public int speedX;
-    private long previousTime;
-    private int deltaTime;
+    public int xVelocity;
+    private long previousTime1;
+    private int deltaTime1;
+    private long previousTime2;
+    private int deltaTime2;
 
     // TODO states...
     public int state;
@@ -45,15 +47,16 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     // CONSTRUCTOR
     // ================================================================================
     public GamePanel() {
+        xVelocity = 5; // starting speed
         score = new Score();
 //        state = START_STATE; // TODO later
         state = GAME_STATE;
         dino = new Dinosaur();
-        speedX = -5; // starting speed //TODO speedup() method
         land1 = new Land(0);
         cactusArr = new ArrayList<>(); // set to null to choose design randomly after
         birdArr = new ArrayList<>();
-        previousTime = 0;
+        previousTime1 = 0;
+        previousTime2 = 0;
 
         this.setFocusable(true);
         requestFocus();
@@ -99,6 +102,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             if (delta >= 1) {
                 if (state == GAME_STATE) { // TODO make switch and cases later
                     updateGame();
+                    speedUp();
                 }
                 repaint();
                 delta--;
@@ -143,7 +147,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         dino.draw(g);
         if (!dino.dead)
            dino.move();
-        
+
         if (cactusArr != null) {
             for (Cactus cactus : cactusArr) {
                 cactus.draw(g);
@@ -161,9 +165,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         }
     }
 
-    public void updateSpeedX() {
-
-    }
 
     /**
      * Invoked when mouse button is clicked.
@@ -242,19 +243,42 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         }
     }
 
+    private void speedUp() {
+        deltaTime2 = 100000000;
+        if (System.currentTimeMillis() - previousTime2 >= deltaTime2) {
+            if (xVelocity < 15) {
+                xVelocity++;
+                for (Cactus cactus : cactusArr) {
+                    cactus.setXVelocity(xVelocity);
+                }
+                for (Pterodactyl bird : birdArr) {
+                    bird.setXVelocity(xVelocity);
+                }
+                if (land1 != null) {
+                    land1.setXVelocity(xVelocity);
+                }
+                if (land2 != null) {
+                    land2.setXVelocity(xVelocity);
+                    dino.setDinoDead();
+                    state = DEAD_STATE;
+                }
+            }
+        }
+    }
+
     /**
      * This method handles the cactus and pterodactyl movements.
      */
     private void handleObstacle() {
-        // TODO time range random choose obstacle
-        deltaTime = (int) (Math.random() * 5000 + 1000);
-        if (System.currentTimeMillis() - previousTime >= deltaTime) {
-            if ((int) (Math.random() * 8) <= 6) {
+        deltaTime1 = (int) (Math.random() * 15000 + 2000);
+
+        if (System.currentTimeMillis() - previousTime1 >= deltaTime1) {
+            if ((int) (Math.random() * 8) < 6) {
                 cactusArr.add(new Cactus((int) (Math.random() * 6), GAME_WIDTH));
             } else {
                 birdArr.add(new Pterodactyl((int) (Math.random() * 3), GAME_WIDTH));
             }
-            previousTime = System.currentTimeMillis();
+            previousTime1 = System.currentTimeMillis();
         }
     }
 
