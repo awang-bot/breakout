@@ -4,6 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 /**
  * <pre>  Anne and Atisa
@@ -23,12 +24,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     public Thread gameThread;
     public Image image;
     public Graphics graphics;
-    public Cactus cactus;
-    public Pterodactyl bird;
+    public ArrayList<Cactus> cactusArr;
+    public ArrayList<Pterodactyl> birdArr;
     public Dinosaur dino;
     public Score score;
     public Land land1, land2;
     public int speedX;
+    private long previousTime;
+    private int deltaTime;
 
     // TODO states...
     public int state;
@@ -48,8 +51,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         dino = new Dinosaur();
         speedX = -5; // starting speed //TODO speedup() method
         land1 = new Land(0);
-        cactus = null; // set to null to choose design randomly after
-        bird = null;
+        cactusArr = new ArrayList<>(); // set to null to choose design randomly after
+        birdArr = new ArrayList<>();
+        previousTime = 0;
 
         this.setFocusable(true);
         requestFocus();
@@ -113,58 +117,45 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
         // if landWidth - land.x < GAME_WIDTH, draw another land from the start
 
-        if (land1 != null)
-        {
+        if (land1 != null) {
             land1.draw(g);
             land1.move();
-                if (land1.x <= GAME_WIDTH - Land.LAND_WIDTH) {
+            if (land1.x <= GAME_WIDTH - Land.LAND_WIDTH) {
                 land2 = new Land(GAME_WIDTH);
             }
-            if (land1.x<= -Land.LAND_WIDTH) {
+            if (land1.x <= -Land.LAND_WIDTH) {
                 land1 = null;
             }
         }
-        if (land2 != null)
-        {
+        if (land2 != null) {
             land2.draw(g);
             land2.move();
             if (land2.x <= GAME_WIDTH - Land.LAND_WIDTH) {
                 land1 = new Land(GAME_WIDTH);
             }
-            if (land2.x<= -Land.LAND_WIDTH) {
+            if (land2.x <= -Land.LAND_WIDTH) {
                 land2 = null;
             }
         }
 
         dino.move();
         dino.draw(g);
-        if (cactus != null) {
-            cactus.move();
-            cactus.draw(g);
+        if (cactusArr != null) {
+            for (Cactus cactus : cactusArr) {
+                cactus.move();
+                cactus.draw(g);
+            }
         }
-        if (bird != null) {
-            bird.move();
-            bird.draw(g);
+        if (birdArr != null) {
+            for (Pterodactyl bird : birdArr) {
+                bird.move();
+                bird.draw(g);
+            }
         }
     }
 
-    public void updateSpeedX(){
+    public void updateSpeedX() {
 
-    }
-
-    /**
-     * This method handles the cactus and pterodactyl movements.
-     */
-   public void handleObstacle() {
-        if ((int)(Math.random()*8) <= 6)
-        {
-            if (cactus == null)
-                cactus = new Cactus((int)(Math.random()*6), GAME_WIDTH); // choose a random number from  0 to 6
-            // FIXME: change the last parameter to ground.GROUND_BORDER_HEIGHT+cactus height
-        } else {
-            if (bird == null)
-                bird = new Pterodactyl((int)(Math.random()*3), GAME_WIDTH); //FIXME: change last param to game_width - the bird's width somehow
-        }  
     }
 
     /**
@@ -186,7 +177,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
      */
     @Override
     public void keyTyped(KeyEvent e) {
-
     }
 
     /**
@@ -195,7 +185,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         dino.keyPressed(e);
-        // TODO press space or up_arrow to restart or resume game
+        // TODO press space or up_arrow or enter to restart or resume game
     }
 
     /**
@@ -206,6 +196,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         dino.keyReleased(e);
     }
 
+
     // ================================================================================
     // HELPER METHODS
     // ================================================================================
@@ -214,7 +205,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
      * Update the game while it is running.
      */
     private void updateGame() {
-
         checkCollision();
         handleObstacle();
         checkObstacleLeftBorder();
@@ -227,15 +217,35 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
      */
     private void checkCollision() {
         // if the dino hits a cactus or a bird, then it dies
-        if (bird != null) {
-            if (dino.intersects(bird.birdFlap.getBounds())){
-//                state = DEAD_STATE;
+        if (birdArr != null) {
+            for (Pterodactyl bird : birdArr) {
+                if (dino.intersects(bird)) {
+//                    state = DEAD_STATE;
+                }
             }
         }
-        if (cactus != null){
-            if (dino.intersects(cactus)){
-//                state = DEAD_STATE;
+        if (cactusArr != null) {
+            for (Cactus cactus : cactusArr) {
+                if (dino.intersects(cactus)) {
+//                    state = DEAD_STATE;
+                }
             }
+        }
+    }
+
+    /**
+     * This method handles the cactus and pterodactyl movements.
+     */
+    private void handleObstacle() {
+        // TODO time range random choose obstacle
+        deltaTime = (int) (Math.random() * 5000 + 1000);
+        if (System.currentTimeMillis() - previousTime >= deltaTime) {
+            if ((int) (Math.random() * 8) <= 6) {
+                cactusArr.add(new Cactus((int) (Math.random() * 6), GAME_WIDTH));
+            } else {
+                birdArr.add(new Pterodactyl((int) (Math.random() * 3), GAME_WIDTH));
+            }
+            previousTime = System.currentTimeMillis();
         }
     }
 
@@ -243,11 +253,19 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
      * This method will check if the obstacle passes the left border.
      * If so, it sets the obstacle to null.
      */
-    public void checkObstacleLeftBorder() {
-        if (cactus != null && cactus.x < -cactus.width)
-            cactus = null; // set cactus to null
-        if (bird != null && bird.x < -bird.width)
-            bird = null; // set bird to null
+    private void checkObstacleLeftBorder() {
+        if (birdArr != null) {
+            for (Cactus cactus : cactusArr) {
+                if (cactus.x < -cactus.width) ;
+                cactus = null;
+            }
+        }
+        if (birdArr != null) {
+            for (Pterodactyl bird : birdArr) {
+                if (bird.x < -bird.width) ;
+                bird = null;
+            }
+        }
     }
 
 }

@@ -108,8 +108,8 @@ public class Dinosaur extends Rectangle {
         if ((state == NORM_RUN_STATE)) {
             if (e.getKeyCode() == 32 || e.getKeyCode() == 49) {
                 state = JUMP_STATE;
-                sound.setFile(0);
-                sound.play();
+//                sound.setFile(0);
+//                sound.play();
             } else if (e.getKeyCode() == 40) {
                 state = CROUCH_STATE;
             }
