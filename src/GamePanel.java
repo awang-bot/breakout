@@ -161,11 +161,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             if (cactus == null)
                 cactus = new Cactus((int)(Math.random()*6), GAME_WIDTH); // choose a random number from  0 to 6
             // FIXME: change the last parameter to ground.GROUND_BORDER_HEIGHT+cactus height
-//            cactus.move(); // should this be called again? if it's already called in draw
         } else {
             if (bird == null)
                 bird = new Pterodactyl((int)(Math.random()*3), GAME_WIDTH); //FIXME: change last param to game_width - the bird's width somehow
-//            bird.move();
         }  
     }
 
@@ -220,8 +218,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         checkCollision();
         handleObstacle();
         checkObstacleLeftBorder();
-//        score.updateScore();
-//        score.updateHighScore();
+        score.updateScore();
+        score.updateHighScore();
     }
 
     /**
