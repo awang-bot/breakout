@@ -31,12 +31,12 @@ public class Cactus extends Rectangle {
     	// initialize the cactus position and dimensions
         this.x = x;
         xVelocity = 5;
-        y = GamePanel.LAND_HEIGHT-2*Integer.parseInt(CACTUS_ARR[index][3]); 
-        width = Integer.parseInt(CACTUS_ARR[index][2]);
-        height = Integer.parseInt(CACTUS_ARR[index][3]);
+        y = GamePanel.LAND_HEIGHT-2*Integer.parseInt(CACTUS_ARR[index][2]); 
+        width = Integer.parseInt(CACTUS_ARR[index][1]);
+        height = Integer.parseInt(CACTUS_ARR[index][2]);
 
         // initialize the cactus image
-        fileName = CACTUS_ARR[index][1];
+        fileName = CACTUS_ARR[index][0];
         buffImage = Resource.getResourceImage(fileName);
     	
     }
