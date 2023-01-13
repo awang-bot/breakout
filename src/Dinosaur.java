@@ -29,11 +29,12 @@ public class Dinosaur extends Rectangle {
     public static final int DEAD_STATE = 4;
     public Animation normal_animation;
     public Animation crouch_animation;
+    public boolean midJump;
     /**
      * when true, the dino is still in the air jumping.
      */
-    public static final int UPPER_BOUND = 300;
-    public static final int LOWER_BOUND = 100;
+    public static final int UPPER_BOUND = 200;
+    public static final int LOWER_BOUND = 320;
 
     // TODO: create an array for the dinosaur graphics
     // TODO: figure out the animations...
@@ -56,6 +57,7 @@ public class Dinosaur extends Rectangle {
         yVelocity = -5;
         state = NORM_RUN_STATE;
 //        continueJump = false;
+        midJump = false;
     }
 
     // ================================================================================
@@ -80,12 +82,13 @@ public class Dinosaur extends Rectangle {
                 break;
             }
             case JUMP_STATE: {
-                jump();
+//                if (!midJump)
+                	jump();
                 image = Resource.getResourceImage("resources/dino_jump.png");
                 break;
             }
             case CROUCH_STATE: {
-                this.y = 326;
+                this.y = 333;
                 crouch_animation.updateFrame();
                 image = crouch_animation.getFrame();
                 break;
@@ -103,13 +106,18 @@ public class Dinosaur extends Rectangle {
     }
 
     public void jump() {
+//    	midJump = true;
         y += yVelocity;
-        if (y >= UPPER_BOUND) {
-            yVelocity *= -1;
-        } else if (y <= LOWER_BOUND) {
-            state = NORM_RUN_STATE;
-            yVelocity *= -1;
-        }
+
+	    if (y <= UPPER_BOUND) {
+	        yVelocity *= -1;
+//	        midJump = true;
+	    } else if (y >= LOWER_BOUND) {
+	        state = NORM_RUN_STATE;
+	        yVelocity *= -1;
+//	        midJump = false;
+	    }
+        
     }
 
     public void draw(Graphics g) {
