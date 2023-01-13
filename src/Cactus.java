@@ -19,7 +19,7 @@ public class Cactus extends Rectangle {
      * The second column is the width (px).
      * The third column is the height (px).
      */
-    public static final String[][] CACTUS_ARR = {{"cactus/cactus1.png", "34", "70"}, {"cactus/cactus2.png", "68", "70"}, {"cactus/cactus3.png", "102", "70"}, {"cactus/cactus4.png", "50", "96"}, {"cactus/cactus5.png", "100", "96"}, {"cactus/cactus6.png", "150", "96"}};
+    public static final String[][] CACTUS_ARR = {{"1", "cactus/cactus1.png", "34", "89"}, {"2", "cactus/cactus2.png", "68", "89"}, {"3", "cactus/cactus3.png", "102", "89"}, {"4", "cactus/cactus4.png", "50", "103"}, {"5", "cactus/cactus5.png", "100", "103"}, {"6", "cactus/cactus6.png", "150", "103"}};
     public final String fileName;
     public final BufferedImage buffImage;
 
@@ -29,7 +29,7 @@ public class Cactus extends Rectangle {
     public Cactus(int index, int x) {
     	// initialize the cactus position and dimensions
         this.x = x;
-        y = GamePanel.LAND_HEIGHT-Integer.parseInt(CACTUS_ARR[index][2]);
+        y = GamePanel.LAND_HEIGHT-2*Integer.parseInt(CACTUS_ARR[index][2]);
         width = Integer.parseInt(CACTUS_ARR[index][1]);
         height = Integer.parseInt(CACTUS_ARR[index][2]);
 
