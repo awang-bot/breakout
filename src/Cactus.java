@@ -19,7 +19,7 @@ public class Cactus extends Rectangle {
      * The second column is the width (px).
      * The third column is the height (px).
      */
-    public static final String[][] CACTUS_ARR = {{"cactus/cactus1.png", "34", "70"}, {"cactus/cactus2.png", "68", "70"}, {"cactus/cactus3.png", "102", "70"}, {"cactus/cactus4.png", "50", "96"}, {"cactus/cactus5.png", "100", "96"}, {"cactus/cactus6.png", "150", "96"}};
+    public static final String[][] CACTUS_ARR = {{"cactus/cactus1.png", "34", "89"}, {"cactus/cactus2.png", "68", "89"}, {"cactus/cactus3.png", "102", "89"}, {"cactus/cactus4.png", "50", "103"}, {"cactus/cactus5.png", "100", "103"}, {"cactus/cactus6.png", "150", "103"}};
     public final String fileName;
     public final BufferedImage buffImage;
     private int xVelocity;
