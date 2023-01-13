@@ -119,7 +119,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
         if (land1 != null) {
             land1.draw(g);
-            land1.move();
+            if (!dino.dead)
+                land1.move();
             if (land1.x <= GAME_WIDTH - Land.LAND_WIDTH) {
                 land2 = new Land(GAME_WIDTH);
             }
@@ -129,7 +130,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         }
         if (land2 != null) {
             land2.draw(g);
-            land2.move();
+            if (!dino.dead)
+                land2.move();
             if (land2.x <= GAME_WIDTH - Land.LAND_WIDTH) {
                 land1 = new Land(GAME_WIDTH);
             }
@@ -138,18 +140,23 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             }
         }
 
-        dino.move();
         dino.draw(g);
+        if (!dino.dead)
+           dino.move();
+        
         if (cactusArr != null) {
             for (Cactus cactus : cactusArr) {
-                cactus.move();
                 cactus.draw(g);
+                if (!dino.dead)
+                    cactus.move();
+
             }
         }
         if (birdArr != null) {
             for (Pterodactyl bird : birdArr) {
-                bird.move();
                 bird.draw(g);
+                if (!dino.dead)
+                    bird.move();
             }
         }
     }
@@ -220,14 +227,16 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         if (birdArr != null) {
             for (Pterodactyl bird : birdArr) {
                 if (dino.intersects(bird)) {
-//                    state = DEAD_STATE;
+                    dino.setDead();
+                   state = DEAD_STATE;
                 }
             }
         }
         if (cactusArr != null) {
             for (Cactus cactus : cactusArr) {
                 if (dino.intersects(cactus)) {
-//                    state = DEAD_STATE;
+                    dino.setDinoDead();
+                    state = DEAD_STATE;
                 }
             }
         }
