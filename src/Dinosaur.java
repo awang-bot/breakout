@@ -34,6 +34,7 @@ public class Dinosaur extends Rectangle {
     public BufferedImage image;
     public Animation normal_animation;
     public Animation crouch_animation;
+    public SoundEffect sound;
 
     // ================================================================================
     // CONSTRUCTOR
@@ -43,13 +44,14 @@ public class Dinosaur extends Rectangle {
 
         normal_animation = new Animation(150);
         crouch_animation = new Animation(150);
+        sound = new SoundEffect();
 
-        normal_animation.addFrame(Resource.getResourceImage("resources/dino_normal_1.png"));
-        normal_animation.addFrame(Resource.getResourceImage("resources/dino_normal_2.png"));
-        crouch_animation.addFrame(Resource.getResourceImage("resources/dino_crouch_1.png"));
-        crouch_animation.addFrame(Resource.getResourceImage("resources/dino_crouch_2.png"));
+        normal_animation.addFrame(Resource.getResourceImage("dino/dino_normal_1.png"));
+        normal_animation.addFrame(Resource.getResourceImage("dino/dino_normal_2.png"));
+        crouch_animation.addFrame(Resource.getResourceImage("dino/dino_crouch_1.png"));
+        crouch_animation.addFrame(Resource.getResourceImage("dino/dino_crouch_2.png"));
 
-        image = Resource.getResourceImage("resources/dino_start.png");
+        image = Resource.getResourceImage("dino/dino_start.png");
         yVelocity = -7;
         state = NORM_RUN_STATE; // TODO change this to start state later
     }
@@ -66,7 +68,7 @@ public class Dinosaur extends Rectangle {
         switch (state) {
             case START_STATE -> {
                 y = 20;
-                image = Resource.getResourceImage("resources/dino_start.png");
+                image = Resource.getResourceImage("dino/dino_start.png");
             }
             case NORM_RUN_STATE -> {
                 y = 300;
@@ -75,7 +77,7 @@ public class Dinosaur extends Rectangle {
             }
             case JUMP_STATE -> {
                 jump();
-                image = Resource.getResourceImage("resources/dino_jump.png");
+                image = Resource.getResourceImage("dino/dino_jump.png");
             }
             case CROUCH_STATE -> {
                 y = 333;
@@ -83,7 +85,7 @@ public class Dinosaur extends Rectangle {
                 image = crouch_animation.getFrame();
             }
             case DEAD_STATE -> {
-                image = Resource.getResourceImage("resources/dino_dead.png");
+                image = Resource.getResourceImage("dino/dino_dead.png");
             }
         }
 
@@ -106,6 +108,8 @@ public class Dinosaur extends Rectangle {
         if ((state == NORM_RUN_STATE)) {
             if (e.getKeyCode() == 32 || e.getKeyCode() == 49) {
                 state = JUMP_STATE;
+                sound.setFile(0);
+                sound.play();
             } else if (e.getKeyCode() == 40) {
                 state = CROUCH_STATE;
             }

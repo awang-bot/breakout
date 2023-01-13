@@ -1,8 +1,5 @@
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
 /**
  * <pre>
@@ -18,36 +15,27 @@ public class Cactus extends Rectangle {
     // ================================================================================
     /**
      * Each row represents a different cactus obstacle.
-     * The first column is the ID.
-     * The second column is the file path.
-     * The third column is the width (px).
-     * The fourth column is the height (px).
+     * The first column is the file name.
+     * The second column is the width (px).
+     * The third column is the height (px).
      */
-    public static final String[][] CACTUS_ARR = {{"1", "resources/cactus1.png", "34", "70"}, {"2", "resources/cactus2.png", "68", "70"}, {"3", "resources/cactus3.png", "102", "70"}, {"4", "resources/cactus4.png", "50", "96"}, {"5", "resources/cactus5.png", "100", "96"}, {"6", "resources/cactus6.png", "150", "96"}};
-    // TODO get rid of obstacle "ID"'s
-    /**
-     * Cactus identifiers: 1 - one small, 2 - two small, 3 - three small, 4 - one big, 5 - two big, 6 - group of four
-     */
-    private int cactusWidth, cactusHeight;
-    public final int id;
-    public final String imagePath;
+    public static final String[][] CACTUS_ARR = {{"cactus/cactus1.png", "34", "70"}, {"cactus/cactus2.png", "68", "70"}, {"cactus/cactus3.png", "102", "70"}, {"cactus/cactus4.png", "50", "96"}, {"cactus/cactus5.png", "100", "96"}, {"cactus/cactus6.png", "150", "96"}};
+    public final String fileName;
     public final BufferedImage buffImage;
 
     // ================================================================================
     // CONSTRUCTOR
     // ================================================================================
     public Cactus(int index, int x) {
-    	// the cactus will typically start from the right-most side of the screen
-        super(x, (GamePanel.LAND_HEIGHT-Integer.parseInt(CACTUS_ARR[index][3])), Integer.parseInt(CACTUS_ARR[index][2]), Integer.parseInt(CACTUS_ARR[index][3]));
-        // FIXME this is not very well made but it should work
+    	// initialize the cactus position and dimensions
+        this.x = x;
+        y = GamePanel.LAND_HEIGHT-Integer.parseInt(CACTUS_ARR[index][2]);
+        width = Integer.parseInt(CACTUS_ARR[index][1]);
+        height = Integer.parseInt(CACTUS_ARR[index][2]);
 
-        // FIXME: make this more efficient - this seems very INefficient
-        cactusWidth = Integer.parseInt(CACTUS_ARR[index][2]);
-        cactusHeight = Integer.parseInt(CACTUS_ARR[index][3]);
-        
-        id = Integer.parseInt(CACTUS_ARR[index][0]); // set ID
-        imagePath = CACTUS_ARR[index][1]; // set image path
-        buffImage = Resource.getResourceImage(imagePath); // initialize buffImage
+        // initialize the cactus image
+        fileName = CACTUS_ARR[index][0];
+        buffImage = Resource.getResourceImage(fileName);
     }
 
     // ================================================================================

@@ -57,7 +57,7 @@ public class Score {
         BufferedReader br = null;
         String file_highScore = "";
         try {
-            br = new BufferedReader(new FileReader("resources/highscore.txt"));
+            br = new BufferedReader(new FileReader(System.getProperty("user.dir")+"/resources/game/highscore.txt"));
             file_highScore = br.readLine();
             br.close();
         } catch (IOException e) {

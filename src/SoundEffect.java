@@ -16,9 +16,9 @@ public class SoundEffect {
     // ================================================================================
     public SoundEffect() {
 
-        soundURL[0] = getClass().getResource("resources/jump.wav");
-        soundURL[1] = getClass().getResource("resources/death.wav");
-        soundURL[2] =getClass().getResource("resources/scoreup.wav");
+        soundURL[0] = getClass().getResource(System.getProperty("user.dir")+"/resources/sound/jump.wav");
+        soundURL[1] = getClass().getResource(System.getProperty("user.dir")+"/resources/sound/dead.wav");
+        soundURL[2] = getClass().getResource(System.getProperty("user.dir")+"/resources/sound/scoreup.wav");
 
     }
 

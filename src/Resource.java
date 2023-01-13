@@ -5,7 +5,8 @@ import java.io.IOException;
 
 public class Resource {
 
-    public static BufferedImage getResourceImage(String path) {
+    public static BufferedImage getResourceImage(String name) {
+        String path = System.getProperty("user.dir")+"/resources/"+name;
         BufferedImage img = null;
         try {
             img = ImageIO.read(new File(path));
