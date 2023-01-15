@@ -49,6 +49,16 @@ public class Score {
             }
         }
     }
+    
+    /**
+     * accessor method for the current score
+     * @return
+     */
+    public int currentScore()
+    {
+    	return score;
+    }
+    
 
     // ================================================================================
     // HELPER METHODS
