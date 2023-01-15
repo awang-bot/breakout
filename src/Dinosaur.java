@@ -15,44 +15,55 @@ public class Dinosaur extends Rectangle {
     // VARIABLES
     // ================================================================================
 
-    public static final int x = 100;
-    /**
-     * movement speed of dinosaur jumping up/down
-     */
     public double yVelocity;
-    public boolean up;
-    public boolean dead;
-    public static final int UPPER_BOUND = 150;
-    public static final int LOWER_BOUND = 300;
+    public static final int x = 100; //FIXME: fix according to the screensize later, should not be manual (#)
+    public BufferedImage image;
     public int state;
     public static final int START_STATE = 0;
     public static final int NORM_RUN_STATE = 1;
     public static final int JUMP_STATE = 2;
     public static final int CROUCH_STATE = 3;
     public static final int DEAD_STATE = 4;
-    public BufferedImage image;
     public Animation normal_animation;
     public Animation crouch_animation;
+    public boolean midJump, up;
+    /**
+     * if the dino is dead, true.
+     */
+    public boolean dead;
+	private int numAdd; // counts the number of times velocity was added TEST!!
+    /**
+     * when true, the dino is still in the air jumping.
+     */
+    public static final int UPPER_BOUND = 140;
+    public static final int LOWER_BOUND = 300;
     public SoundEffect sound;
 
     // ================================================================================
     // CONSTRUCTOR
     // ================================================================================
     public Dinosaur() {
-        y = GamePanel.LAND_HEIGHT - 67;
-        yVelocity = -10;
-        sound = new SoundEffect();
-        image = Resource.getResourceImage("dino/dino_start.png");
-        state = NORM_RUN_STATE; // TODO change this to start state later
+        super(x, GamePanel.LAND_HEIGHT+79, 1, 1); // TODO figure out y-coordinate
 
-        normal_animation = new Animation(100);
-        crouch_animation = new Animation(100);
+        normal_animation = new Animation(150);
+        crouch_animation = new Animation(150);
+//        continueJump = false;
+        midJump = false;
+        up = true;
+        dead = false;
+        
+        y = GamePanel.LAND_HEIGHT - 67; // or 300, TODO
+        yVelocity = -15;// TODO: MAYBE WE CAN HAVE A HELPER METHOD THAT RESETS THE VELOCITY! THIS IS IMPROTANT FOR JUMP LATER unless we delete the part i put in jump because it seems to be a bit faulty
+       
+        sound = new SoundEffect();
 
         normal_animation.addFrame(Resource.getResourceImage("dino/dino_normal_1.png"));
         normal_animation.addFrame(Resource.getResourceImage("dino/dino_normal_2.png"));
         crouch_animation.addFrame(Resource.getResourceImage("dino/dino_crouch_1.png"));
         crouch_animation.addFrame(Resource.getResourceImage("dino/dino_crouch_2.png"));
 
+        image = Resource.getResourceImage("dino/dino_start.png");
+        state = NORM_RUN_STATE; // TODO change this to start state later
     }
 
     // ================================================================================
@@ -63,7 +74,6 @@ public class Dinosaur extends Rectangle {
      * Update the dinosaur's position and dimensions.
      */
     public void move() {
-
         switch (state) {
             case START_STATE -> {
                 y = 20;
@@ -90,7 +100,6 @@ public class Dinosaur extends Rectangle {
             case DEAD_STATE -> {
                 this.y = 300;
                 image = Resource.getResourceImage("dino/dino_dead.png");
-		dead = true;
                 break;
             }
         }
@@ -121,7 +130,10 @@ public class Dinosaur extends Rectangle {
             }
         } else if (state == JUMP_STATE)
             if (e.getKeyCode() == 40) {
-                yVelocity = -10;
+            	if (up)
+            		yVelocity = -10;
+            	else
+            		yVelocity = 10;
             }
     }
 
@@ -131,11 +143,11 @@ public class Dinosaur extends Rectangle {
             state = NORM_RUN_STATE;
         }
     }
-
+    
     public void setDinoDead()
     {
     	state = DEAD_STATE;
-    	dead = true;
+//    	dead = true;
     }
 
     // ================================================================================
@@ -143,7 +155,7 @@ public class Dinosaur extends Rectangle {
     // ================================================================================
 
    private void jump() {
-    //TODO: fix fancy jump
+    //TODO: fix fancy jump    	
         y += yVelocity;
 
 //        // TRY to make it slow down a bit at the top
@@ -151,32 +163,53 @@ public class Dinosaur extends Rectangle {
         	if (yVelocity <0)
         	{
         		yVelocity+=0.5;
+        		numAdd++;
         	}
         	else
         	{
         		yVelocity -=0.5;
+        		numAdd++;
         	}
+//        	yVelocity +=3;
         else if ((y > UPPER_BOUND+20) && (y < LOWER_BOUND))
         {
         	if (yVelocity <0)
         	{
         		yVelocity=-5;
+        		numAdd++;
         	}
         	else
         	{
         		yVelocity =5;
+        		numAdd++;
         	}
         }
         else if (y <= UPPER_BOUND) {
         	up = false;
-	        yVelocity = 5;
+	        yVelocity = 15;
+	        numAdd=0;
+//	        midJump = true;
 	    } else if (y >= LOWER_BOUND) {
 	        state = NORM_RUN_STATE;
-	        yVelocity = -5;
+	        yVelocity = -15;
 	        up = true;
+	        numAdd = 0;
+//	        midJump = false;
 	    }
-
+        
+//        // TEST: OTHERWISE IT'S GOING TOO SLOW. DELETE LATER
+//        if (y <= UPPER_BOUND) {
+//	        yVelocity = 10;
+////	        midJump = true;
+//	    } else if (y >= LOWER_BOUND) {
+//	        state = NORM_RUN_STATE;
+//	        yVelocity = -10;
+////	        midJump = false;
+//	    }
+        
     }
+    
+    
 
 
 }
