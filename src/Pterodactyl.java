@@ -52,7 +52,7 @@ public class Pterodactyl extends Rectangle {
     // CONSTRUCTOR
     // ================================================================================
     public Pterodactyl(int index, int x) {
-        super(x, Y_POS[index]);
+        super(x, Y_POS[index], BIRD_WIDTH, BIRD_HEIGHT);
         xVelocity = 5;
 
         birdFlap = new Animation(80);
