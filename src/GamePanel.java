@@ -47,7 +47,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     // CONSTRUCTOR
     // ================================================================================
     public GamePanel() {
-        xVelocity = 5; // starting speed
+        xVelocity = 7; // starting speed
         score = new Score();
 //        state = START_STATE; // TODO later
         state = GAME_STATE;
@@ -218,8 +218,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         checkObstacleLeftBorder();
         score.updateScore();
         score.updateHighScore();
-        if (score.currentScore()%10 == 0) // speed up when the points are divisible by 10
-        	speedUp();
+        speedUp();
     }
 
     /**
@@ -227,10 +226,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
      */
     private void checkCollision() {
         // if the dino hits a cactus or a bird, then it dies
+    	// intersects really just determines if dino.x + dino.width <= bird.x or cactus.x
         if (birdArr != null) {
             for (Pterodactyl bird : birdArr) {
                 if (dino.intersects(bird)) {
-                    dino.setDinoDead();
+                   dino.setDinoDead();
                    state = DEAD_STATE;
                 }
             }
@@ -248,8 +248,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private void speedUp() {
         deltaTime2 = 100000000;
         if (System.currentTimeMillis() - previousTime2 >= deltaTime2) {
-            if (xVelocity < 15) {
-                xVelocity++;
+            if (xVelocity < 20) {
+                xVelocity+=3;
                 for (Cactus cactus : cactusArr) {
                     cactus.setXVelocity(xVelocity);
                 }
@@ -265,6 +265,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 //                    state = DEAD_STATE;
                 }
             }
+            previousTime2 = System.currentTimeMillis();  //adding this makes it malfunction idk why. only one/two obstacles show up if this is here.
         }
     }
 
