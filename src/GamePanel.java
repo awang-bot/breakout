@@ -20,7 +20,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     public static final int GAME_WIDTH = 1500;
     public static final int GAME_HEIGHT = 660;
     public static final Dimension SCREEN_SIZE = new Dimension(GAME_WIDTH, GAME_HEIGHT);
-    public static final int LAND_HEIGHT = 500; // FIXME change this later
+    public static final int LAND_HEIGHT = 380; // FIXME change this later
     public Thread gameThread;
     public Image image;
     public Graphics graphics;
@@ -85,7 +85,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         gameThread = new Thread(this);
         gameThread.start();
 
-    }
+    } // end of constructor
 
     // ================================================================================
     // METHODS
@@ -102,7 +102,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             if (delta >= 1) {
                 if (state == GAME_STATE) { // TODO make switch and cases later
                     updateGame();
-                    speedUp();
+//                    speedUp(); (get rid of this)
                 }
                 repaint();
                 delta--;
@@ -218,6 +218,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         checkObstacleLeftBorder();
         score.updateScore();
         score.updateHighScore();
+        if (score.currentScore()%10 == 0) // speed up when the points are divisible by 10
+        	speedUp();
     }
 
     /**
@@ -259,8 +261,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 }
                 if (land2 != null) {
                     land2.setXVelocity(xVelocity);
-                    dino.setDinoDead();
-                    state = DEAD_STATE;
+//                    dino.setDinoDead();
+//                    state = DEAD_STATE;
                 }
             }
         }
@@ -273,7 +275,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         deltaTime1 = (int) (Math.random() * 15000 + 2000);
 
         if (System.currentTimeMillis() - previousTime1 >= deltaTime1) {
-            if ((int) (Math.random() * 8) < 6) {
+            if ((int) (Math.random() * 8) <= 6) {
                 cactusArr.add(new Cactus((int) (Math.random() * 6), GAME_WIDTH));
             } else {
                 birdArr.add(new Pterodactyl((int) (Math.random() * 3), GAME_WIDTH));
