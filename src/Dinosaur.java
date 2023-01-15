@@ -159,41 +159,34 @@ public class Dinosaur extends Rectangle {
         y += yVelocity;
 
 //        // TRY to make it slow down a bit at the top
-        if ((y < UPPER_BOUND+20) && y > UPPER_BOUND)
-        	if (yVelocity <0)
+        if ((y < UPPER_BOUND+15) && y > UPPER_BOUND)
+        	if (up)
         	{
-        		yVelocity+=0.5;
-        		numAdd++;
+        		yVelocity=-2.5;
         	}
         	else
         	{
-        		yVelocity -=0.5;
-        		numAdd++;
+        		yVelocity=2.5;
         	}
-//        	yVelocity +=3;
-        else if ((y > UPPER_BOUND+20) && (y < LOWER_BOUND))
+        else if ((y > UPPER_BOUND+10) && (y < LOWER_BOUND))
         {
         	if (yVelocity <0)
         	{
-        		yVelocity=-5;
-        		numAdd++;
+        		yVelocity=-10;
         	}
         	else
         	{
-        		yVelocity =5;
-        		numAdd++;
+        		yVelocity =7; // i don't know if this is necessary given the below condition
         	}
         }
         else if (y <= UPPER_BOUND) {
         	up = false;
-	        yVelocity = 15;
-	        numAdd=0;
+	        yVelocity = 2.5;
 //	        midJump = true;
 	    } else if (y >= LOWER_BOUND) {
 	        state = NORM_RUN_STATE;
-	        yVelocity = -15;
+	        yVelocity = -10;
 	        up = true;
-	        numAdd = 0;
 //	        midJump = false;
 	    }
         
