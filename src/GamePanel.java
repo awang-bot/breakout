@@ -53,6 +53,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         state = GAME_STATE;
         dino = new Dinosaur();
         land1 = new Land(0);
+        land2 = new Land(Land.LAND_WIDTH);
         cactusArr = new ArrayList<>(); // set to null to choose design randomly after
         birdArr = new ArrayList<>();
         previousTime1 = 0;
@@ -119,35 +120,41 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
     public void draw(Graphics g) {
     	
+    	if (land1.x > -2400) {
+	    	land1.draw(g);
+	    	if (!dino.dead)
+	    		land1.move();
+    	}
+    	else 
+    		land1.setX(2350);
+    	if (land2.x > -2400) {
+			land2.draw(g);
+			if (!dino.dead)
+				land2.move();
+    	}
+    	else
+    		land2.setX(2350);
+//    	if (!dino.dead)
+//    		land1.move();
+//    	if (land1.x <= GAME_WIDTH - Land.LAND_WIDTH)
+//    		if (!dino.dead)
+//    		{
+//    			land2.draw(g);
+//    			land1.setX(2400);
+//    		}
+//    	if (land2.x <= GAME_WIDTH - Land.LAND_WIDTH)
+//    		if (!dino.dead)
+    			
+    	
+    	
         // if landWidth - land.x < GAME_WIDTH, draw another land from the start
-        if (land1 != null) {
-            land1.draw(g);
-            if (!dino.dead)
-                land1.move();
-            if (land1.x <= GAME_WIDTH - Land.LAND_WIDTH) {
-                land2 = new Land(GAME_WIDTH/10);
-            }
-            if (land1.x <= -Land.LAND_WIDTH) {
-                land1 = null;
-            }
-        }
-        if (land2 != null) {
-            land2.draw(g);
-            if (!dino.dead)
-                land2.move();
-            if (land2.x <= GAME_WIDTH - Land.LAND_WIDTH) {
-                land1 = new Land(GAME_WIDTH/10);
-            }
-            if (land2.x <= -Land.LAND_WIDTH) {
-                land2 = null;
-            }
-        }
 //        if (land1 != null) {
 //            land1.draw(g);
 //            if (!dino.dead)
 //                land1.move();
 //            if (land1.x <= GAME_WIDTH - Land.LAND_WIDTH) {
-//                land2 = new Land(GAME_WIDTH);
+//                land2 = new Land(GAME_WIDTH-100);
+//                land2.move();
 //            }
 //            if (land1.x <= -Land.LAND_WIDTH) {
 //                land1 = null;
@@ -158,7 +165,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 //            if (!dino.dead)
 //                land2.move();
 //            if (land2.x <= GAME_WIDTH - Land.LAND_WIDTH) {
-//                land1 = new Land(GAME_WIDTH);
+//                land1 = new Land(GAME_WIDTH); // test with 0 in param
+////                land1.move();
 //            }
 //            if (land2.x <= -Land.LAND_WIDTH) {
 //                land2 = null;
@@ -166,12 +174,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 //        }
 
         dino.draw(g);
-//        if (dino.state != dino.DEAD_STATE)
-//        if (!dino.dead)
-           dino.move();
+        dino.move();
 
         if (cactusArr != null) {
-        	try {
+        	try { //FIXME: THERE'S AN ERROR THAT POPS UP
 	            for (Cactus currCactus : cactusArr) {
 	                currCactus.draw(g);
 	                if (!dino.dead)
