@@ -33,6 +33,7 @@ public class Score {
         if (System.currentTimeMillis() - previousTime >= deltaTime) {
             score++;
             previousTime = System.currentTimeMillis();
+            deltaTime--;
         }
     }
 
