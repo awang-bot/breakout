@@ -30,6 +30,11 @@ public class Land {
     public void move() {
         x -= xVelocity;
     } // FIXME xSpeed
+    
+    public void setX(int x)
+    {
+    	this.x=x;
+    }
 
     public void draw(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
