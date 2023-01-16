@@ -147,7 +147,7 @@ public class Dinosaur extends Rectangle {
     public void setDinoDead()
     {
     	state = DEAD_STATE;
-//    	dead = true;
+    	dead = true;
     }
 
     // ================================================================================
