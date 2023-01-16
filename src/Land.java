@@ -19,7 +19,7 @@ public class Land {
     // ================================================================================
     public Land(int x) {
         this.x = x;
-        xVelocity = 5;
+        xVelocity = 10;
         image = Resource.getResourceImage(FILEPATH);
     }
 
