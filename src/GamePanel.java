@@ -118,14 +118,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     }
 
     public void draw(Graphics g) {
-    	
+
         // if landWidth - land.x < GAME_WIDTH, draw another land from the start
         if (land1 != null) {
             land1.draw(g);
             if (!dino.dead)
                 land1.move();
             if (land1.x <= GAME_WIDTH - Land.LAND_WIDTH) {
-                land2 = new Land(GAME_WIDTH/10);
+                land2 = new Land(GAME_WIDTH / 10);
             }
             if (land1.x <= -Land.LAND_WIDTH) {
                 land1 = null;
@@ -136,7 +136,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             if (!dino.dead)
                 land2.move();
             if (land2.x <= GAME_WIDTH - Land.LAND_WIDTH) {
-                land1 = new Land(GAME_WIDTH/10);
+                land1 = new Land(GAME_WIDTH / 10);
             }
             if (land2.x <= -Land.LAND_WIDTH) {
                 land2 = null;
@@ -165,23 +165,17 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 //            }
 //        }
 
-        dino.draw(g);
-//        if (dino.state != dino.DEAD_STATE)
-//        if (!dino.dead)
-           dino.move();
-
         if (cactusArr != null) {
-        	try {
-	            for (Cactus currCactus : cactusArr) {
-	                currCactus.draw(g);
-	                if (!dino.dead)
-	                    currCactus.move();
-	
-	            }
-        	}
-        	catch (Exception e) { 
-        		System.out.println("Wrong" + e.getMessage());
-        	}
+            try {
+                for (Cactus currCactus : cactusArr) {
+                    currCactus.draw(g);
+                    if (!dino.dead)
+                        currCactus.move();
+
+                }
+            } catch (Exception e) {
+                System.out.println("Wrong" + e.getMessage());
+            }
         }
         if (birdArr != null) {
             for (Pterodactyl bird : birdArr) {
@@ -190,6 +184,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                     bird.move();
             }
         }
+
+        dino.draw(g);
+//        if (dino.state != dino.DEAD_STATE)
+//        if (!dino.dead)
+        dino.move();
+
+        score.draw(g);
     }
 
 
@@ -253,12 +254,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
      */
     private void checkCollision() {
         // if the dino hits a cactus or a bird, then it dies
-    	// intersects really just determines if dino.x + dino.width <= bird.x or cactus.x
+        // intersects really just determines if dino.x + dino.width <= bird.x or cactus.x
         if (birdArr != null) {
             for (Pterodactyl bird : birdArr) {
                 if (dino.intersects(bird)) {
-                   dino.setDinoDead();
-                   state = DEAD_STATE;
+                    dino.setDinoDead();
+                    state = DEAD_STATE;
                 }
             }
         }
@@ -273,10 +274,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     }
 
     private void speedUp() {
-        deltaTime2 = 100000000;
+        deltaTime2 = 10000;
         if (System.currentTimeMillis() - previousTime2 >= deltaTime2) {
             if (xVelocity < 20) {
-                xVelocity+=3;
+                xVelocity += 3;
                 for (Cactus cactus : cactusArr) {
                     cactus.setXVelocity(xVelocity);
                 }
@@ -288,8 +289,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 }
                 if (land2 != null) {
                     land2.setXVelocity(xVelocity);
-//                    dino.setDinoDead();
-//                    state = DEAD_STATE;
                 }
             }
             previousTime2 = System.currentTimeMillis();  //adding this makes it malfunction idk why. only one/two obstacles show up if this is here.

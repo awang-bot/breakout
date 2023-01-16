@@ -56,7 +56,9 @@ public class Pterodactyl extends Rectangle {
     	
     	this.x = x;
         xVelocity = 10;
-        y = Y_POS[index]; 
+        y = Y_POS[index];
+        width = BIRD_WIDTH;
+        height = BIRD_HEIGHT;
 
         birdFlap = new Animation(80);
 
@@ -91,6 +93,8 @@ public class Pterodactyl extends Rectangle {
         birdFlap.updateFrame();
         image = birdFlap.getFrame();
         x -= xVelocity;
+        width = birdFlap.getFrame().getWidth();
+        height = birdFlap.getFrame().getHeight();
     }
 
     public void draw(Graphics g) {

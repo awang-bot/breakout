@@ -31,7 +31,7 @@ public class Dinosaur extends Rectangle {
      * if the dino is dead, true.
      */
     public boolean dead;
-	private int numAdd; // counts the number of times velocity was added TEST!!
+    private int numAdd; // counts the number of times velocity was added TEST!!
     /**
      * when true, the dino is still in the air jumping.
      */
@@ -43,7 +43,7 @@ public class Dinosaur extends Rectangle {
     // CONSTRUCTOR
     // ================================================================================
     public Dinosaur() {
-        super(x, GamePanel.LAND_HEIGHT+79, 1, 1); // TODO figure out y-coordinate
+        super(x, GamePanel.LAND_HEIGHT + 79, 1, 1); // TODO figure out y-coordinate
 
         normal_animation = new Animation(150);
         crouch_animation = new Animation(150);
@@ -51,10 +51,10 @@ public class Dinosaur extends Rectangle {
         midJump = false;
         up = true;
         dead = false;
-        
+
         y = GamePanel.LAND_HEIGHT - 67; // or 300, TODO
         yVelocity = -15;// TODO: MAYBE WE CAN HAVE A HELPER METHOD THAT RESETS THE VELOCITY! THIS IS IMPROTANT FOR JUMP LATER unless we delete the part i put in jump because it seems to be a bit faulty
-       
+
         sound = new SoundEffect();
 
         normal_animation.addFrame(Resource.getResourceImage("dino/dino_normal_1.png"));
@@ -78,34 +78,28 @@ public class Dinosaur extends Rectangle {
             case START_STATE -> {
                 y = 20;
                 image = Resource.getResourceImage("dino/dino_start.png");
-                break;
             }
             case NORM_RUN_STATE -> {
                 y = 300;
                 normal_animation.updateFrame();
                 image = normal_animation.getFrame();
-                break;
             }
             case JUMP_STATE -> {
                 jump();
                 image = Resource.getResourceImage("dino/dino_jump.png");
-                break;
             }
             case CROUCH_STATE -> {
                 y = 333;
                 crouch_animation.updateFrame();
                 image = crouch_animation.getFrame();
-                break;
             }
             case DEAD_STATE -> {
-                this.y = 300;
                 image = Resource.getResourceImage("dino/dino_dead.png");
-                break;
             }
         }
 
-        width = image.getWidth();
-        height = image.getHeight();
+        width = image.getWidth()-20;
+        height = image.getHeight()-20;
 
     }
 
@@ -130,10 +124,10 @@ public class Dinosaur extends Rectangle {
             }
         } else if (state == JUMP_STATE)
             if (e.getKeyCode() == 40) {
-            	if (up)
-            		yVelocity = -10;
-            	else
-            		yVelocity = 10;
+                if (up)
+                    yVelocity = -10;
+                else
+                    yVelocity = 10;
             }
     }
 
@@ -143,53 +137,44 @@ public class Dinosaur extends Rectangle {
             state = NORM_RUN_STATE;
         }
     }
-    
-    public void setDinoDead()
-    {
-    	state = DEAD_STATE;
-    	dead = true;
+
+    public void setDinoDead() {
+        state = DEAD_STATE;
+        dead = true;
     }
 
     // ================================================================================
     // HELPER METHODS
     // ================================================================================
 
-   private void jump() {
-    //TODO: fix fancy jump    	
+    private void jump() {
+        //TODO: fix fancy jump
         y += yVelocity;
 
 //        // TRY to make it slow down a bit at the top
-        if ((y < UPPER_BOUND+15) && y > UPPER_BOUND)
-        	if (up)
-        	{
-        		yVelocity=-2.5;
-        	}
-        	else
-        	{
-        		yVelocity=2.5;
-        	}
-        else if ((y > UPPER_BOUND+10) && (y < LOWER_BOUND))
-        {
-        	if (yVelocity <0)
-        	{
-        		yVelocity=-10;
-        	}
-        	else
-        	{
-        		yVelocity =7; // i don't know if this is necessary given the below condition
-        	}
-        }
-        else if (y <= UPPER_BOUND) {
-        	up = false;
-	        yVelocity = 2.5;
+        if ((y < UPPER_BOUND + 15) && y > UPPER_BOUND)
+            if (up) {
+                yVelocity = -2.5;
+            } else {
+                yVelocity = 2.5;
+            }
+        else if ((y > UPPER_BOUND + 10) && (y < LOWER_BOUND)) {
+            if (yVelocity < 0) {
+                yVelocity = -10;
+            } else {
+                yVelocity = 7; // i don't know if this is necessary given the below condition
+            }
+        } else if (y <= UPPER_BOUND) {
+            up = false;
+            yVelocity = 2.5;
 //	        midJump = true;
-	    } else if (y >= LOWER_BOUND) {
-	        state = NORM_RUN_STATE;
-	        yVelocity = -10;
-	        up = true;
+        } else if (y >= LOWER_BOUND) {
+            state = NORM_RUN_STATE;
+            yVelocity = -10;
+            up = true;
 //	        midJump = false;
-	    }
-        
+        }
+
 //        // TEST: OTHERWISE IT'S GOING TOO SLOW. DELETE LATER
 //        if (y <= UPPER_BOUND) {
 //	        yVelocity = 10;
@@ -199,10 +184,8 @@ public class Dinosaur extends Rectangle {
 //	        yVelocity = -10;
 ////	        midJump = false;
 //	    }
-        
+
     }
-    
-    
 
 
 }
