@@ -118,15 +118,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     }
 
     public void draw(Graphics g) {
-
+    	
         // if landWidth - land.x < GAME_WIDTH, draw another land from the start
-
         if (land1 != null) {
             land1.draw(g);
             if (!dino.dead)
                 land1.move();
             if (land1.x <= GAME_WIDTH - Land.LAND_WIDTH) {
-                land2 = new Land(GAME_WIDTH);
+                land2 = new Land(GAME_WIDTH/10);
             }
             if (land1.x <= -Land.LAND_WIDTH) {
                 land1 = null;
@@ -137,24 +136,52 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             if (!dino.dead)
                 land2.move();
             if (land2.x <= GAME_WIDTH - Land.LAND_WIDTH) {
-                land1 = new Land(GAME_WIDTH);
+                land1 = new Land(GAME_WIDTH/10);
             }
             if (land2.x <= -Land.LAND_WIDTH) {
                 land2 = null;
             }
         }
+//        if (land1 != null) {
+//            land1.draw(g);
+//            if (!dino.dead)
+//                land1.move();
+//            if (land1.x <= GAME_WIDTH - Land.LAND_WIDTH) {
+//                land2 = new Land(GAME_WIDTH);
+//            }
+//            if (land1.x <= -Land.LAND_WIDTH) {
+//                land1 = null;
+//            }
+//        }
+//        if (land2 != null) {
+//            land2.draw(g);
+//            if (!dino.dead)
+//                land2.move();
+//            if (land2.x <= GAME_WIDTH - Land.LAND_WIDTH) {
+//                land1 = new Land(GAME_WIDTH);
+//            }
+//            if (land2.x <= -Land.LAND_WIDTH) {
+//                land2 = null;
+//            }
+//        }
 
         dino.draw(g);
-        if (!dino.dead)
+//        if (dino.state != dino.DEAD_STATE)
+//        if (!dino.dead)
            dino.move();
 
         if (cactusArr != null) {
-            for (Cactus cactus : cactusArr) {
-                cactus.draw(g);
-                if (!dino.dead)
-                    cactus.move();
-
-            }
+        	try {
+	            for (Cactus currCactus : cactusArr) {
+	                currCactus.draw(g);
+	                if (!dino.dead)
+	                    currCactus.move();
+	
+	            }
+        	}
+        	catch (Exception e) { 
+        		System.out.println("Wrong" + e.getMessage());
+        	}
         }
         if (birdArr != null) {
             for (Pterodactyl bird : birdArr) {
