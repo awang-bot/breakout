@@ -102,7 +102,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             lastTime = now;
             if (delta >= 1) {
                 if (state == GAME_STATE) { // TODO make switch and cases later
-                    updateGame();
+                    
+			
+			Game();
 //                    speedUp(); (get rid of this)
                 }
                 repaint();
@@ -134,47 +136,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     	}
     	else
     		land2.setX(2350);
-//    	if (!dino.dead)
-//    		land1.move();
-//    	if (land1.x <= GAME_WIDTH - Land.LAND_WIDTH)
-//    		if (!dino.dead)
-//    		{
-//    			land2.draw(g);
-//    			land1.setX(2400);
-//    		}
-//    	if (land2.x <= GAME_WIDTH - Land.LAND_WIDTH)
-//    		if (!dino.dead)
-    			
-    	
-    	
-        // if landWidth - land.x < GAME_WIDTH, draw another land from the start
-//        if (land1 != null) {
-//            land1.draw(g);
-//            if (!dino.dead)
-//                land1.move();
-//            if (land1.x <= GAME_WIDTH - Land.LAND_WIDTH) {
-//                land2 = new Land(GAME_WIDTH-100);
-//                land2.move();
-//            }
-//            if (land1.x <= -Land.LAND_WIDTH) {
-//                land1 = null;
-//            }
-//        }
-//        if (land2 != null) {
-//            land2.draw(g);
-//            if (!dino.dead)
-//                land2.move();
-//            if (land2.x <= GAME_WIDTH - Land.LAND_WIDTH) {
-//                land1 = new Land(GAME_WIDTH); // test with 0 in param
-////                land1.move();
-//            }
-//            if (land2.x <= -Land.LAND_WIDTH) {
-//                land2 = null;
-//            }
-//        }
 
-        dino.draw(g);
-        dino.move();
+        
+	            score.draw(g);
+
 
         if (cactusArr != null) {
         	try { //FIXME: THERE'S AN ERROR THAT POPS UP
@@ -196,6 +161,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                     bird.move();
             }
         }
+	    
+	    dino.draw(g);
+        dino.move();
     }
 
 
