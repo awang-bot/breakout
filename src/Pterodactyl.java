@@ -20,7 +20,7 @@ public class Pterodactyl extends Rectangle {
      * The first column is the ID.
      * The second column is the y-coordinate.
      */
-    public static final int[] Y_POS = {150, 200, 250}; // FIXME y-coordinate
+    public static final int[] Y_POS = {165, 215, 265}; // FIXME y-coordinate
     private int xVelocity;
     /**
      * Pterodactyl PNG is 80px tall.
@@ -51,14 +51,14 @@ public class Pterodactyl extends Rectangle {
     // ================================================================================
     // CONSTRUCTOR
     // ================================================================================
-    public Pterodactyl(int index, int x) {
+    public Pterodactyl(int index, int x, int xSpeed) {
 
     	
     	this.x = x;
-        xVelocity = 10;
-        y = Y_POS[index];
-        width = BIRD_WIDTH;
-        height = BIRD_HEIGHT;
+        xVelocity = xSpeed;
+        y = Y_POS[index]; 
+        this.width = BIRD_WIDTH;
+        this.height = BIRD_HEIGHT;
 
         birdFlap = new Animation(80);
 
@@ -93,8 +93,6 @@ public class Pterodactyl extends Rectangle {
         birdFlap.updateFrame();
         image = birdFlap.getFrame();
         x -= xVelocity;
-        width = birdFlap.getFrame().getWidth();
-        height = birdFlap.getFrame().getHeight();
     }
 
     public void draw(Graphics g) {

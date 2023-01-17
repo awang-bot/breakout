@@ -47,7 +47,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     // CONSTRUCTOR
     // ================================================================================
     public GamePanel() {
-        xVelocity = 7; // starting speed
+        xVelocity = 10; // starting speed
         score = new Score();
 //        state = START_STATE; // TODO later
         state = GAME_STATE;
@@ -103,6 +103,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             if (delta >= 1) {
                 if (state == GAME_STATE) { // TODO make switch and cases later
                     updateGame();
+//                    speedUp(); (get rid of this)
                 }
                 repaint();
                 delta--;
@@ -133,10 +134,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     	}
     	else
     		land2.setX(2350);
-
-        
-	            score.draw(g);
-
+    	
+    	score.draw(g);
 
         if (cactusArr != null) {
         	try { //FIXME: THERE'S AN ERROR THAT POPS UP
@@ -158,8 +157,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                     bird.move();
             }
         }
-	    
-	    dino.draw(g);
+
+        dino.draw(g);
         dino.move();
     }
 
@@ -211,11 +210,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
      * Update the game while it is running.
      */
     private void updateGame() {
-        checkCollision();
         handleObstacle();
+        checkCollision();
         checkObstacleLeftBorder();
         score.updateScore();
-        score.updateHighScore();
+//        score.updateHighScore();
         speedUp();
     }
 
@@ -225,15 +224,15 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private void checkCollision() {
         // if the dino hits a cactus or a bird, then it dies
     	// intersects really just determines if dino.x + dino.width <= bird.x or cactus.x
-        if (birdArr != null) {
+//        if (birdArr != null) {
             for (Pterodactyl bird : birdArr) {
-                if (dino.intersects(bird)) {
+                if (dino.birdIntersects(bird)) {
                    dino.setDinoDead();
                    state = DEAD_STATE;
                 }
             }
-        }
-        if (cactusArr != null) {
+//        }
+//        if (cactusArr != null) {
             for (Cactus cactus : cactusArr) {
                 if (dino.intersects(cactus)) {
                     dino.setDinoDead();
@@ -241,13 +240,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 }
             }
         }
-    }
+//    }
 
     private void speedUp() {
-        deltaTime2 = 100000000;
+        deltaTime2 = 10000;
         if (System.currentTimeMillis() - previousTime2 >= deltaTime2) {
             if (xVelocity < 20) {
-                xVelocity+=3;
+                xVelocity+=1;
                 for (Cactus cactus : cactusArr) {
                     cactus.setXVelocity(xVelocity);
                 }
@@ -274,10 +273,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         deltaTime1 = (int) (Math.random() * 15000 + 2000);
 
         if (System.currentTimeMillis() - previousTime1 >= deltaTime1) {
-            if ((int) (Math.random() * 8) <= 6) {
-                cactusArr.add(new Cactus((int) (Math.random() * 6), GAME_WIDTH));
+            if ((int) (Math.random() * 6) <= 4) {
+                cactusArr.add(new Cactus((int) (Math.random() * 6), GAME_WIDTH, xVelocity));
             } else {
-                birdArr.add(new Pterodactyl((int) (Math.random() * 3), GAME_WIDTH));
+                birdArr.add(new Pterodactyl((int) (Math.random() * 3), GAME_WIDTH, xVelocity));
             }
             previousTime1 = System.currentTimeMillis();
         }
