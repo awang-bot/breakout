@@ -36,7 +36,7 @@ public class Dinosaur extends Rectangle {
      * when true, the dino is still in the air jumping.
      */
     public static final int UPPER_BOUND = 140;
-    public static final int LOWER_BOUND = 300;
+    public static final int LOWER_BOUND = 315;
     public SoundEffect sound;
 
     // ================================================================================
@@ -81,7 +81,7 @@ public class Dinosaur extends Rectangle {
                 break;
             }
             case NORM_RUN_STATE -> {
-                y = 300;
+                y = 315;
                 normal_animation.updateFrame();
                 image = normal_animation.getFrame();
                 break;
@@ -92,7 +92,7 @@ public class Dinosaur extends Rectangle {
                 break;
             }
             case CROUCH_STATE -> {
-                y = 333;
+                y = 348;
                 crouch_animation.updateFrame();
                 image = crouch_animation.getFrame();
                 break;
