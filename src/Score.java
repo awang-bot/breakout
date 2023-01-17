@@ -34,39 +34,40 @@ public class Score {
 
     public void draw(Graphics g) {
         int tempScore = score;
+        int tempTempScore = score;
         String tempFilePath = "";
         ArrayList<Integer> digits = new ArrayList<>();
 
         while (tempScore > 0) {
             digits.add(tempScore % 10);
-            tempScore = tempScore / 10;
+            tempScore /= 10;
         }
 
-        if (score < 10000) {
+        if (tempTempScore < 10000) {
             scoreImgArr[0] = Resource.getResourceImage("score/score0.png");
         } else {
             tempFilePath = returnFilePath(digits.get(digits.size()-5));
             scoreImgArr[0] = Resource.getResourceImage(tempFilePath);
         }
-        if (score < 1000) {
+        if (tempTempScore < 1000) {
             scoreImgArr[1] = Resource.getResourceImage("score/score0.png");
         } else {
             tempFilePath = returnFilePath(digits.get(digits.size()-4));
             scoreImgArr[1] = Resource.getResourceImage(tempFilePath);
         }
-        if (score < 100) {
+        if (tempTempScore < 100) {
             scoreImgArr[2] = Resource.getResourceImage("score/score0.png");
         } else {
             tempFilePath = returnFilePath(digits.get(digits.size()-3));
             scoreImgArr[2] = Resource.getResourceImage(tempFilePath);
         }
-        if (score < 10) {
+        if (tempTempScore < 10) {
             scoreImgArr[3] = Resource.getResourceImage("score/score0.png");
         } else {
             tempFilePath = returnFilePath(digits.get(digits.size()-2));
             scoreImgArr[4] = Resource.getResourceImage(tempFilePath);
         }
-        if (score>0){
+        if (tempTempScore>0){
             tempFilePath = returnFilePath(digits.get(digits.size()-1));
             scoreImgArr[4] = Resource.getResourceImage(tempFilePath);
         }
@@ -90,7 +91,7 @@ public class Score {
         if (score >= getHighScore()) {
             BufferedWriter bw = null;
             try {
-                bw = new BufferedWriter(new FileWriter(System.getProperty("user.dir")+"/score/highscore.txt", false));
+                bw = new BufferedWriter(new FileWriter(System.getProperty("user.dir")+"/resources/score/highscore.txt", false));
                 bw.write("" + score);
                 bw.flush();
                 bw.close();
