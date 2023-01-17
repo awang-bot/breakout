@@ -33,7 +33,7 @@ public class Cactus extends Rectangle {
         this.x = x;
         xVelocity = xSpeed;
 //        xVelocity = 10;
-        y = GamePanel.LAND_HEIGHT+14-Integer.parseInt(CACTUS_ARR[index][2]); 
+        y = GamePanel.LAND_HEIGHT+29-Integer.parseInt(CACTUS_ARR[index][2]); 
         width = Integer.parseInt(CACTUS_ARR[index][1]);
         height = Integer.parseInt(CACTUS_ARR[index][2]);
 
