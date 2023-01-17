@@ -102,10 +102,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             lastTime = now;
             if (delta >= 1) {
                 if (state == GAME_STATE) { // TODO make switch and cases later
-                    
-			
-			Game();
-//                    speedUp(); (get rid of this)
+                    updateGame();
                 }
                 repaint();
                 delta--;
