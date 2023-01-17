@@ -28,10 +28,11 @@ public class Cactus extends Rectangle {
     // ================================================================================
     // CONSTRUCTOR
     // ================================================================================
-    public Cactus(int index, int x) {
+    public Cactus(int index, int x, int xSpeed) {
     	// initialize the cactus position and dimensions
         this.x = x;
-        xVelocity = 10;
+        xVelocity = xSpeed;
+//        xVelocity = 10;
         y = GamePanel.LAND_HEIGHT+14-Integer.parseInt(CACTUS_ARR[index][2]); 
         width = Integer.parseInt(CACTUS_ARR[index][1]);
         height = Integer.parseInt(CACTUS_ARR[index][2]);
