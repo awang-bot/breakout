@@ -20,7 +20,7 @@ public class Pterodactyl extends Rectangle {
      * The first column is the ID.
      * The second column is the y-coordinate.
      */
-    public static final int[] Y_POS = {150, 200, 250}; // FIXME y-coordinate
+    public static final int[] Y_POS = {165, 215, 265}; // FIXME y-coordinate
     private int xVelocity;
     /**
      * Pterodactyl PNG is 80px tall.
