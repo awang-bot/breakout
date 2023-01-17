@@ -17,9 +17,9 @@ public class Land {
     // ================================================================================
     // CONSTRUCTOR
     // ================================================================================
-    public Land(int x) {
+    public Land(int x, int xSpeed) {
         this.x = x;
-        xVelocity = 10;
+        xVelocity = xSpeed;
         image = Resource.getResourceImage(FILEPATH);
     }
 
