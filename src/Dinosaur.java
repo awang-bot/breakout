@@ -104,8 +104,8 @@ public class Dinosaur extends Rectangle {
             }
         }
 
-        width = image.getWidth();
-        height = image.getHeight();
+        width = image.getWidth()-20; // -20 so that it is closer to the obstacle
+        height = image.getHeight()-20;
 
     }
 
@@ -201,6 +201,33 @@ public class Dinosaur extends Rectangle {
 //	    }
         
     }
+   
+   public boolean birdIntersects(Pterodactyl r) {
+       int tw = this.width;
+       int th = this.height;
+       int rw = r.width;
+       int rh = r.height;
+       if (rw <= 0 || rh <= 0 || tw <= 0 || th <= 0) {
+           return false;
+       }
+       int tx = this.x;
+       int ty = this.y;
+       int rx = r.x;
+       int ry = r.y;
+       rw += rx;
+       rh += ry;
+       tw += tx;
+       th += ty;
+
+//   	System.out.print("\nrx=" + rx + ";ry=" + ry + ";rw=" + rw + ";rh=" + rh );
+//   	System.out.print("\ntx=" + tx + ";ty=" + ty + ";tw=" + tw + ";th=" + th );
+       //      overflow || intersect
+       return ((rw < rx || rw > tx) &&
+               (rh < ry || rh > ty) &&
+               (tw < tx || tw > rx) &&
+               (th < ty || th > ry));
+   }
+
     
     
 
