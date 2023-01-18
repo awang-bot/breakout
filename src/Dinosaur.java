@@ -76,7 +76,7 @@ public class Dinosaur extends Rectangle {
     public void move() {
         switch (state) {
             case START_STATE -> {
-                y = 20;
+                y = 315;
                 image = Resource.getResourceImage("dino/dino_start.png");
                 break;
             }
@@ -98,7 +98,9 @@ public class Dinosaur extends Rectangle {
                 break;
             }
             case DEAD_STATE -> {
-//                this.y = 300;
+//            	y = 300;
+            	if(y==348)
+            		y = 315;
                 image = Resource.getResourceImage("dino/dino_dead.png");
                 break;
             }
