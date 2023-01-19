@@ -34,6 +34,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private int deltaTime1;
     private long previousTime2;
     private int deltaTime2;
+//	boolean displayMenu = true;
+	public StartMenu startMenu;
+	public boolean displayGame = false, displayWin = false;
+	public Win win;
 
     // TODO states...
     public int state;
@@ -47,17 +51,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     // CONSTRUCTOR
     // ================================================================================
     public GamePanel() {
-        xVelocity = 7; // starting speed
-        score = new Score();
-//        state = START_STATE; // TODO later
-        state = GAME_STATE;
-        dino = new Dinosaur();
-        land1 = new Land(0, xVelocity);
-        land2 = new Land(Land.LAND_WIDTH, xVelocity);
-        cactusArr = new ArrayList<>(); // set to null to choose design randomly after
-        birdArr = new ArrayList<>();
-        previousTime1 = 0;
-        previousTime2 = 0;
+        state = START_STATE; // TODO later
+//        state = GAME_STATE;
+        newObjects();
 
         this.setFocusable(true);
         requestFocus();
@@ -103,6 +99,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             if (delta >= 1) {
                 if (state == GAME_STATE) { // TODO make switch and cases later
                     updateGame();
+//                    speedUp(); (get rid of this)
                 }
                 repaint();
                 delta--;
@@ -119,48 +116,59 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
     public void draw(Graphics g) {
     	
-    	if (land1.x > -2400) {
-	    	land1.draw(g);
-	    	if (!dino.dead)
-	    		land1.move();
+    	// display main menu
+    	if (state == START_STATE) {
+    		startMenu.render(g);
     	}
-    	else 
-    		land1.setX(2350);
-    	if (land2.x > -2400) {
-			land2.draw(g);
-			if (!dino.dead)
-				land2.move();
-    	}
-    	else
-    		land2.setX(2350);
-
-        
-	            score.draw(g);
-
-
-        if (cactusArr != null) {
-        	try { //FIXME: THERE'S AN ERROR THAT POPS UP
-	            for (Cactus currCactus : cactusArr) {
-	                currCactus.draw(g);
-	                if (!dino.dead)
-	                    currCactus.move();
+    	
+    	if (state == GAME_STATE || state == DEAD_STATE) { // only draw these objects if in the GAME_STATE
+	    	if (land1.x > -2400) {
+		    	land1.draw(g);
+		    	if (!dino.dead)
+		    		land1.move();
+	    	}
+	    	else 
+	    		land1.setX(2350);
+	    	if (land2.x > -2400) {
+				land2.draw(g);
+				if (!dino.dead)
+					land2.move();
+	    	}
+	    	else
+	    		land2.setX(2350);
+	    	
+	    	score.draw(g);
 	
+	        if (cactusArr != null) {
+	        	try { //FIXME: THERE'S AN ERROR THAT POPS UP
+		            for (Cactus currCactus : cactusArr) {
+		                currCactus.draw(g);
+		                if (!dino.dead)
+		                    currCactus.move();
+		
+		            }
+	        	}
+	        	catch (Exception e) { 
+	        		System.out.println("Wrong" + e.getMessage());
+	        	}
+	        }
+	        if (birdArr != null) {
+	            for (Pterodactyl bird : birdArr) {
+	                bird.draw(g);
+	                if (!dino.dead)
+	                    bird.move();
 	            }
-        	}
-        	catch (Exception e) { 
-        		System.out.println("Wrong" + e.getMessage());
-        	}
         }
-        if (birdArr != null) {
-            for (Pterodactyl bird : birdArr) {
-                bird.draw(g);
-                if (!dino.dead)
-                    bird.move();
-            }
-        }
-	    
-	    dino.draw(g);
+
+        dino.draw(g);
         dino.move();
+        
+        // condition: if it is dead_state, then draw win state
+        if (state == DEAD_STATE) { 
+        	win.render(g);
+        	
+        }
+    	}
     }
 
 
@@ -169,13 +177,56 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
      */
     public void mousePressedAction(MouseEvent e) {
         // TODO pause menu
-    }
+    	
+    	int x = e.getX();
+		int y = e.getY();
+		// menu
+		if (state == START_STATE) {
+			if (startMenu.mainMenu) { // main menu
+				// start game
+				if (startMenu.start.contains(x, y)) {
+					state = GAME_STATE;
+				}
+				// game instructions
+				if (startMenu.instructions.contains(x, y)) {
+					startMenu.mainMenu = false;
+				}
+				// quit program
+				if (startMenu.quit.contains(x, y)) {
+					System.exit(0);
+				}
+			}
+			else { // instructions
+				// back to menu from instructions
+				if (!(startMenu.mainMenu) && startMenu.back.contains(x, y)) {
+					startMenu.mainMenu = true;
+				}
+			}
+		}
+		// win message
+		// TODO: FIX THIS! THIS ISN'T WORKING!
+		if (state == DEAD_STATE) {
+			if (win.returnMenu.contains(x, y)) { 
+				// return to main menu
+				state = START_STATE;
+				startMenu.mainMenu = true;
+				newObjects(); // idk if this needs to be called
+			}
+			if (win.startAgain.contains(x,y)) {
+				newObjects();
+				state = GAME_STATE;
+			}
+		}
 
+    }
+    
     /**
      * Invoked when mouse cursor hovers.
      */
     public void mouseHoverAction(MouseEvent e) {
         // TODO button changes when hover
+		startMenu.updateHoverState(new Point(e.getX(), e.getY()));
+		win.updateHoverState(new Point(e.getX(), e.getY()));
     }
 
     /**
@@ -190,7 +241,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
      */
     @Override
     public void keyPressed(KeyEvent e) {
-        dino.keyPressed(e);
+    	if (state == GAME_STATE)
+    		dino.keyPressed(e);
         // TODO press space or up_arrow or enter to restart or resume game
     }
 
@@ -199,20 +251,42 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
      */
     @Override
     public void keyReleased(KeyEvent e) {
-        dino.keyReleased(e);
+    	if (state == GAME_STATE)
+    		dino.keyReleased(e);
     }
 
 
     // ================================================================================
     // HELPER METHODS
     // ================================================================================
-
+ 
+    /**
+     * create new objects to reset the game
+     * only objects that move should be reset
+     */
+ 	public void newObjects() {
+ 		score = new Score();
+        xVelocity = 10; // starting speed
+        dino = new Dinosaur();
+        land1 = new Land(0);
+        land2 = new Land(Land.LAND_WIDTH);
+        startMenu = new StartMenu();
+        win = new Win();
+        
+        cactusArr = new ArrayList<>(); // set to null to choose design randomly after
+        birdArr = new ArrayList<>();
+        previousTime1 = 0;
+        previousTime2 = 0;
+ 		
+ 	}
+    
+    
     /**
      * Update the game while it is running.
      */
     private void updateGame() {
-        checkCollision();
         handleObstacle();
+        checkCollision();
         checkObstacleLeftBorder();
         score.updateScore();
         score.updateHighScore();
@@ -225,15 +299,15 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private void checkCollision() {
         // if the dino hits a cactus or a bird, then it dies
     	// intersects really just determines if dino.x + dino.width <= bird.x or cactus.x
-        if (birdArr != null) {
+//        if (birdArr != null) {
             for (Pterodactyl bird : birdArr) {
-                if (dino.intersects(bird)) {
+                if (dino.birdIntersects(bird)) {
                    dino.setDinoDead();
                    state = DEAD_STATE;
                 }
             }
-        }
-        if (cactusArr != null) {
+//        }
+//        if (cactusArr != null) {
             for (Cactus cactus : cactusArr) {
                 if (dino.intersects(cactus)) {
                     dino.setDinoDead();
@@ -241,13 +315,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 }
             }
         }
-    }
+//    }
 
     private void speedUp() {
-        deltaTime2 = 100000000;
+        deltaTime2 = 10000;
         if (System.currentTimeMillis() - previousTime2 >= deltaTime2) {
             if (xVelocity < 20) {
-                xVelocity+=3;
+                xVelocity+=1;
                 for (Cactus cactus : cactusArr) {
                     cactus.setXVelocity(xVelocity);
                 }
@@ -274,7 +348,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         deltaTime1 = (int) (Math.random() * 15000 + 2000);
 
         if (System.currentTimeMillis() - previousTime1 >= deltaTime1) {
-            if ((int) (Math.random() * 8) <= 6) {
+            if ((int) (Math.random() * 6) <= 4) {
                 cactusArr.add(new Cactus((int) (Math.random() * 6), GAME_WIDTH, xVelocity));
             } else {
                 birdArr.add(new Pterodactyl((int) (Math.random() * 3), GAME_WIDTH, xVelocity));
