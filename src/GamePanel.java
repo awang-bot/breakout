@@ -35,9 +35,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private long previousTime2;
     private int deltaTime2;
 //	boolean displayMenu = true;
-	public StartMenu startMenu;
+	public MainMenu mainMenu;
 	public boolean displayGame = false, displayWin = false;
-	public Win win;
+	public WinMenu winMenu;
 
     // TODO states...
     public int state;
@@ -118,7 +118,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     	
     	// display main menu
     	if (state == START_STATE) {
-    		startMenu.render(g);
+    		mainMenu.render(g);
     	}
     	
     	if (state == GAME_STATE || state == DEAD_STATE) { // only draw these objects if in the GAME_STATE
@@ -165,7 +165,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         
         // condition: if it is dead_state, then draw win state
         if (state == DEAD_STATE) { 
-        	win.render(g);
+        	winMenu.render(g);
         	
         }
     	}
@@ -182,37 +182,37 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		int y = e.getY();
 		// menu
 		if (state == START_STATE) {
-			if (startMenu.mainMenu) { // main menu
+			if (mainMenu.mainMenu) { // main menu
 				// start game
-				if (startMenu.start.contains(x, y)) {
+				if (mainMenu.start.contains(x, y)) {
 					state = GAME_STATE;
 				}
 				// game instructions
-				if (startMenu.instructions.contains(x, y)) {
-					startMenu.mainMenu = false;
+				if (mainMenu.instructions.contains(x, y)) {
+					mainMenu.mainMenu = false;
 				}
 				// quit program
-				if (startMenu.quit.contains(x, y)) {
+				if (mainMenu.quit.contains(x, y)) {
 					System.exit(0);
 				}
 			}
 			else { // instructions
 				// back to menu from instructions
-				if (!(startMenu.mainMenu) && startMenu.back.contains(x, y)) {
-					startMenu.mainMenu = true;
+				if (!(mainMenu.mainMenu) && mainMenu.back.contains(x, y)) {
+					mainMenu.mainMenu = true;
 				}
 			}
 		}
 		// win message
 		// TODO: FIX THIS! THIS ISN'T WORKING!
 		if (state == DEAD_STATE) {
-			if (win.returnMenu.contains(x, y)) { 
+			if (winMenu.returnMenu.contains(x, y)) {
 				// return to main menu
 				state = START_STATE;
-				startMenu.mainMenu = true;
+				mainMenu.mainMenu = true;
 				newObjects(); // idk if this needs to be called
 			}
-			if (win.startAgain.contains(x,y)) {
+			if (winMenu.startAgain.contains(x,y)) {
 				newObjects();
 				state = GAME_STATE;
 			}
@@ -225,8 +225,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
      */
     public void mouseHoverAction(MouseEvent e) {
         // TODO button changes when hover
-		startMenu.updateHoverState(new Point(e.getX(), e.getY()));
-		win.updateHoverState(new Point(e.getX(), e.getY()));
+		mainMenu.updateHoverState(new Point(e.getX(), e.getY()));
+		winMenu.updateHoverState(new Point(e.getX(), e.getY()));
     }
 
     /**
@@ -268,10 +268,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
  		score = new Score();
         xVelocity = 10; // starting speed
         dino = new Dinosaur();
-        land1 = new Land(0);
-        land2 = new Land(Land.LAND_WIDTH);
-        startMenu = new StartMenu();
-        win = new Win();
+        land1 = new Land(0, xVelocity);
+        land2 = new Land(Land.LAND_WIDTH, xVelocity);
+        mainMenu = new MainMenu();
+        winMenu = new WinMenu();
         
         cactusArr = new ArrayList<>(); // set to null to choose design randomly after
         birdArr = new ArrayList<>();

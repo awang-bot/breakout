@@ -1,6 +1,7 @@
 public class PauseMenu {
 
-    // resume, mute, instructions, restart, quit
-
+    // pause: resume, mute, instructions, restart, quit
+    // dead menu
+    // win menu
 
 }

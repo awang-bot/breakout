@@ -1,6 +1,6 @@
 import java.awt.*;
 
-public class StartMenu {
+public class MainMenu {
 
     // only appears once at the beginning of the game
     // start, instructions, mute, exit
@@ -8,6 +8,10 @@ public class StartMenu {
 	// ================================================================================
 	// VARIABLES
 	// ================================================================================
+
+	// dimensions
+	public static final int GAME_WIDTH = GamePanel.GAME_WIDTH;
+	public static final int GAME_HEIGHT = GamePanel.GAME_HEIGHT;
 
 	// buttons
 	Rectangle start = new Rectangle(492, 203, 500, 55);
@@ -25,7 +29,7 @@ public class StartMenu {
 	// ================================================================================
 	// CONSTRUCTOR
 	// ================================================================================
-	public StartMenu() {
+	public MainMenu() {
 	}
 
 	// ================================================================================

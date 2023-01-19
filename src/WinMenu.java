@@ -7,7 +7,7 @@
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class Win {
+public class WinMenu {
 
 	// ================================================================================
 	// VARIABLES
@@ -27,7 +27,7 @@ public class Win {
 	// ================================================================================
 	// CONSTRUCTOR
 	// ================================================================================
-	public Win() {
+	public WinMenu() {
 		image = Resource.getResourceImage("game/gameover.png");
 	}
 
