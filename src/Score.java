@@ -43,7 +43,7 @@ public class Score {
 
         g.setFont(ps2pFont);
         g.setColor(Color.black);
-        g.drawString(score + "", 700, 50);
+        g.drawString(score + "balls", 700, 50);
 
 
 //    	int tempScore = score;

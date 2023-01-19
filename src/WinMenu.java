@@ -28,7 +28,7 @@ public class WinMenu {
 	// CONSTRUCTOR
 	// ================================================================================
 	public WinMenu() {
-		image = Resource.getResourceImage("game/gameover.png");
+//		image = Resource.getResourceImage("game/gameover.png");
 	}
 
 	// ================================================================================
