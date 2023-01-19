@@ -27,6 +27,7 @@ public class Dinosaur extends Rectangle {
     public Animation normal_animation;
     public Animation crouch_animation;
     public boolean midJump, up;
+//    public boolean GPDeadState;
     /**
      * if the dino is dead, true.
      */
@@ -51,6 +52,7 @@ public class Dinosaur extends Rectangle {
         midJump = false;
         up = true;
         dead = false;
+//        GPDeadState = false;
         
         y = GamePanel.LAND_HEIGHT - 67; // or 300, TODO
         yVelocity = -15;// TODO: MAYBE WE CAN HAVE A HELPER METHOD THAT RESETS THE VELOCITY! THIS IS IMPROTANT FOR JUMP LATER unless we delete the part i put in jump because it seems to be a bit faulty
@@ -146,10 +148,14 @@ public class Dinosaur extends Rectangle {
         }
     }
     
-    public void setDinoDead()
+    public void setDinoDead(boolean dead, boolean gamePanelDeadState)
     {
-    	state = DEAD_STATE;
-    	dead = true;
+    	this.dead = dead;
+    	if (gamePanelDeadState)
+    		state = DEAD_STATE;
+    	else
+    		state = NORM_RUN_STATE;
+//    	GPDeadState = gamePanelDeadState;
     }
 
     // ================================================================================
@@ -203,34 +209,34 @@ public class Dinosaur extends Rectangle {
 //	    }
         
     }
-   
-   public boolean birdIntersects(Pterodactyl r) {
-       int tw = this.width;
-       int th = this.height;
-       int rw = r.width;
-       int rh = r.height;
-       if (rw <= 0 || rh <= 0 || tw <= 0 || th <= 0) {
-           return false;
-       }
-       int tx = this.x;
-       int ty = this.y;
-       int rx = r.x;
-       int ry = r.y;
-       rw += rx;
-       rh += ry;
-       tw += tx;
-       th += ty;
-
-//   	System.out.print("\nrx=" + rx + ";ry=" + ry + ";rw=" + rw + ";rh=" + rh );
-//   	System.out.print("\ntx=" + tx + ";ty=" + ty + ";tw=" + tw + ";th=" + th );
-       //      overflow || intersect
-       return ((rw < rx || rw > tx) &&
-               (rh < ry || rh > ty) &&
-               (tw < tx || tw > rx) &&
-               (th < ty || th > ry));
-   }
-
-    
+//   
+//   public boolean birdIntersects(Pterodactyl r) {
+//       int tw = this.width;
+//       int th = this.height;
+//       int rw = r.width;
+//       int rh = r.height;
+//       if (rw <= 0 || rh <= 0 || tw <= 0 || th <= 0) {
+//           return false;
+//       }
+//       int tx = this.x;
+//       int ty = this.y;
+//       int rx = r.x;
+//       int ry = r.y;
+//       rw += rx;
+//       rh += ry;
+//       tw += tx;
+//       th += ty;
+//
+////   	System.out.print("\nrx=" + rx + ";ry=" + ry + ";rw=" + rw + ";rh=" + rh );
+////   	System.out.print("\ntx=" + tx + ";ty=" + ty + ";tw=" + tw + ";th=" + th );
+//       //      overflow || intersect
+//       return ((rw < rx || rw > tx) &&
+//               (rh < ry || rh > ty) &&
+//               (tw < tx || tw > rx) &&
+//               (th < ty || th > ry));
+//   }
+//
+//    
     
 
 
