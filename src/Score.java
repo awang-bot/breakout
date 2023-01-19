@@ -1,15 +1,13 @@
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.lang.reflect.Array;
-import java.nio.Buffer;
-import java.util.ArrayList;
 
 public class Score {
 
     // ================================================================================
     // VARIABLES
     // ================================================================================
+    public Font ps2pFont;
     public BufferedImage[] scoreImgArr;
     private int score;
     private static long deltaTime;
@@ -21,6 +19,15 @@ public class Score {
     // CONSTRUCTOR
     // ================================================================================
     public Score() {
+        try {
+            ps2pFont = Font.createFont(Font.TRUETYPE_FONT, new File(System.getProperty("user.dir") + "/resources/game/PressStart2P.ttf")).deriveFont(30);
+        } catch (FontFormatException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         scoreImgArr = new BufferedImage[5];
         score = 0;
         deltaTime = 200;
@@ -33,50 +40,57 @@ public class Score {
     // ================================================================================
 
     public void draw(Graphics g) {
-        int tempScore = score;
-        int tempTempScore = score;
-        String tempFilePath = "";
-        ArrayList<Integer> digits = new ArrayList<>();
 
-        while (tempScore > 0) {
-            digits.add(tempScore % 10);
-            tempScore /= 10;
-        }
+        g.setFont(ps2pFont);
+        g.setColor(Color.black);
+        g.drawString(score + "", 700, 50);
 
-        if (tempTempScore < 10000) {
-            scoreImgArr[0] = Resource.getResourceImage("score/score0.png");
-        } else {
-            tempFilePath = returnFilePath(digits.get(digits.size()-5));
-            scoreImgArr[0] = Resource.getResourceImage(tempFilePath);
-        }
-        if (tempTempScore < 1000) {
-            scoreImgArr[1] = Resource.getResourceImage("score/score0.png");
-        } else {
-            tempFilePath = returnFilePath(digits.get(digits.size()-4));
-            scoreImgArr[1] = Resource.getResourceImage(tempFilePath);
-        }
-        if (tempTempScore < 100) {
-            scoreImgArr[2] = Resource.getResourceImage("score/score0.png");
-        } else {
-            tempFilePath = returnFilePath(digits.get(digits.size()-3));
-            scoreImgArr[2] = Resource.getResourceImage(tempFilePath);
-        }
-        if (tempTempScore < 10) {
-            scoreImgArr[3] = Resource.getResourceImage("score/score0.png");
-        } else {
-            tempFilePath = returnFilePath(digits.get(digits.size()-2));
-            scoreImgArr[4] = Resource.getResourceImage(tempFilePath);
-        }
-        if (tempTempScore>0){
-            tempFilePath = returnFilePath(digits.get(digits.size()-1));
-            scoreImgArr[4] = Resource.getResourceImage(tempFilePath);
-        }
 
-        for (BufferedImage image : scoreImgArr){
-            g.drawImage(image, x, 50, null);
-            x += 20;
-        }
-        x = 700;
+//    	int tempScore = score;
+//        String tempFilePath = "";
+//        ArrayList<Integer> digits = new ArrayList<>();
+//
+//        while (tempScore > 0) {
+//            digits.add(tempScore % 10);
+//            tempScore = tempScore / 10;
+//        }
+//
+//        Collections.reverse(digits);
+//
+//        if (score < 10000) {
+//            scoreImgArr[0] = Resource.getResourceImage("score/score0.png");
+//        } else {
+//            tempFilePath = returnFilePath(digits.get(digits.size()-5));
+//            scoreImgArr[0] = Resource.getResourceImage(tempFilePath);
+//        }
+//        if (score < 1000) {
+//            scoreImgArr[1] = Resource.getResourceImage("score/score0.png");
+//        } else {
+//            tempFilePath = returnFilePath(digits.get(digits.size()-4));
+//            scoreImgArr[1] = Resource.getResourceImage(tempFilePath);
+//        }
+//        if (score < 100) {
+//            scoreImgArr[2] = Resource.getResourceImage("score/score0.png");
+//        } else {
+//            tempFilePath = returnFilePath(digits.get(digits.size()-3));
+//            scoreImgArr[2] = Resource.getResourceImage(tempFilePath);
+//        }
+//        if (score < 10) {
+//            scoreImgArr[3] = Resource.getResourceImage("score/score0.png");
+//        } else {
+//            tempFilePath = returnFilePath(digits.get(digits.size()-2));
+//            scoreImgArr[3] = Resource.getResourceImage(tempFilePath);
+//        }
+//        if (score>0){
+//            tempFilePath = returnFilePath(digits.get(digits.size()-1));
+//            scoreImgArr[4] = Resource.getResourceImage(tempFilePath);
+//        }
+//
+//        for (BufferedImage image : scoreImgArr){
+//            g.drawImage(image, x, 50, null);
+//            x += 20;
+//        }
+//        x = 700;
     }
 
     public void updateScore() {
@@ -91,7 +105,7 @@ public class Score {
         if (score >= getHighScore()) {
             BufferedWriter bw = null;
             try {
-                bw = new BufferedWriter(new FileWriter(System.getProperty("user.dir")+"/resources/score/highscore.txt", false));
+                bw = new BufferedWriter(new FileWriter(System.getProperty("user.dir") + "/resources/score/highscore.txt", false));
                 bw.write("" + score);
                 bw.flush();
                 bw.close();
@@ -150,7 +164,7 @@ public class Score {
         } else if (digit == 9) {
             filepath = "score/score9.png";
         }
-            return filepath;
-        }
-
+        return filepath;
     }
+
+}
