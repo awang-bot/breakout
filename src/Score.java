@@ -1,38 +1,31 @@
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.text.DecimalFormat;
 
 public class Score {
 
     // ================================================================================
     // VARIABLES
     // ================================================================================
-    public Font ps2pFont;
+    private  Font ps2pFont;
+    private DecimalFormat decimalFormat;
     public BufferedImage[] scoreImgArr;
     private int score;
     private static long deltaTime;
     private long previousTime;
     private int x;
-    // TODO save highScore in file
 
     // ================================================================================
     // CONSTRUCTOR
     // ================================================================================
     public Score() {
-        try {
-            ps2pFont = Font.createFont(Font.TRUETYPE_FONT, new File(System.getProperty("user.dir") + "/resources/game/PressStart2P.ttf")).deriveFont(30);
-        } catch (FontFormatException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        ps2pFont = Resource.getResourceFont("game/PressStart2P.ttf", 20F);
+        decimalFormat = new DecimalFormat("00000");
         scoreImgArr = new BufferedImage[5];
         score = 0;
-        deltaTime = 200;
+        deltaTime = 100;
         previousTime = 0;
-        x = 700;
     }
 
     // ================================================================================
@@ -40,64 +33,24 @@ public class Score {
     // ================================================================================
 
     public void draw(Graphics g) {
-
         g.setFont(ps2pFont);
-        g.setColor(Color.black);
-        g.drawString(score + "balls", 700, 50);
 
+        // draw high score
+        String temp = "HI "+decimalFormat.format((double)getHighScore());
+        g.setColor(Color.gray);
+        g.drawString(temp, 1100, 50);
 
-//    	int tempScore = score;
-//        String tempFilePath = "";
-//        ArrayList<Integer> digits = new ArrayList<>();
-//
-//        while (tempScore > 0) {
-//            digits.add(tempScore % 10);
-//            tempScore = tempScore / 10;
-//        }
-//
-//        Collections.reverse(digits);
-//
-//        if (score < 10000) {
-//            scoreImgArr[0] = Resource.getResourceImage("score/score0.png");
-//        } else {
-//            tempFilePath = returnFilePath(digits.get(digits.size()-5));
-//            scoreImgArr[0] = Resource.getResourceImage(tempFilePath);
-//        }
-//        if (score < 1000) {
-//            scoreImgArr[1] = Resource.getResourceImage("score/score0.png");
-//        } else {
-//            tempFilePath = returnFilePath(digits.get(digits.size()-4));
-//            scoreImgArr[1] = Resource.getResourceImage(tempFilePath);
-//        }
-//        if (score < 100) {
-//            scoreImgArr[2] = Resource.getResourceImage("score/score0.png");
-//        } else {
-//            tempFilePath = returnFilePath(digits.get(digits.size()-3));
-//            scoreImgArr[2] = Resource.getResourceImage(tempFilePath);
-//        }
-//        if (score < 10) {
-//            scoreImgArr[3] = Resource.getResourceImage("score/score0.png");
-//        } else {
-//            tempFilePath = returnFilePath(digits.get(digits.size()-2));
-//            scoreImgArr[3] = Resource.getResourceImage(tempFilePath);
-//        }
-//        if (score>0){
-//            tempFilePath = returnFilePath(digits.get(digits.size()-1));
-//            scoreImgArr[4] = Resource.getResourceImage(tempFilePath);
-//        }
-//
-//        for (BufferedImage image : scoreImgArr){
-//            g.drawImage(image, x, 50, null);
-//            x += 20;
-//        }
-//        x = 700;
+        // draw score
+        temp = decimalFormat.format((double)score);
+        g.setColor(Color.darkGray);
+        g.drawString(temp, 1300, 50);
+
     }
 
     public void updateScore() {
         if (System.currentTimeMillis() - previousTime >= deltaTime) {
             score++;
             previousTime = System.currentTimeMillis();
-            deltaTime--;
         }
     }
 
@@ -105,8 +58,8 @@ public class Score {
         if (score >= getHighScore()) {
             BufferedWriter bw = null;
             try {
-                bw = new BufferedWriter(new FileWriter(System.getProperty("user.dir") + "/resources/score/highscore.txt", false));
-                bw.write("" + score);
+                bw = new BufferedWriter(new FileWriter("resources/game/highscore.txt", false));
+                bw.write(score+"");
                 bw.flush();
                 bw.close();
             } catch (IOException e) {
@@ -118,7 +71,7 @@ public class Score {
     /**
      * accessor method for the current score
      *
-     * @return
+     * @return the score
      */
     public int currentScore() {
         return score;
@@ -132,39 +85,13 @@ public class Score {
         BufferedReader br = null;
         String file_highScore = "";
         try {
-            br = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/resources/game/highscore.txt"));
+            br = new BufferedReader(new FileReader("resources/game/highscore.txt"));
             file_highScore = br.readLine();
             br.close();
         } catch (IOException e) {
             file_highScore = "0";
         }
         return Integer.parseInt(file_highScore);
-    }
-
-    private String returnFilePath(int digit) {
-        String filepath = "";
-        if (digit == 0) {
-            filepath = "score/score0.png";
-        } else if (digit == 1) {
-            filepath = "score/score1.png";
-        } else if (digit == 2) {
-            filepath = "score/score2.png";
-        } else if (digit == 3) {
-            filepath = "score/score3.png";
-        } else if (digit == 4) {
-            filepath = "score/score4.png";
-        } else if (digit == 5) {
-            filepath = "score/score5.png";
-        } else if (digit == 6) {
-            filepath = "score/score6.png";
-        } else if (digit == 7) {
-            filepath = "score/score7.png";
-        } else if (digit == 8) {
-            filepath = "score/score8.png";
-        } else if (digit == 9) {
-            filepath = "score/score9.png";
-        }
-        return filepath;
     }
 
 }

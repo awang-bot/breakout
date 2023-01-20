@@ -31,7 +31,6 @@ public class Dinosaur extends Rectangle {
      * if the dino is dead, true.
      */
     public boolean dead;
-	private int numAdd; // counts the number of times velocity was added TEST!!
     /**
      * when true, the dino is still in the air jumping.
      */
@@ -47,7 +46,6 @@ public class Dinosaur extends Rectangle {
 
         normal_animation = new Animation(150);
         crouch_animation = new Animation(150);
-//        continueJump = false;
         midJump = false;
         up = true;
         dead = false;
@@ -184,51 +182,13 @@ public class Dinosaur extends Rectangle {
         else if (y <= UPPER_BOUND) {
         	up = false;
 	        yVelocity = 2.5;
-//	        midJump = true;
 	    } else if (y >= LOWER_BOUND) {
 	        state = NORM_RUN_STATE;
 	        yVelocity = -10;
 	        up = true;
-//	        midJump = false;
 	    }
         
-//        // TEST: OTHERWISE IT'S GOING TOO SLOW. DELETE LATER
-//        if (y <= UPPER_BOUND) {
-//	        yVelocity = 10;
-////	        midJump = true;
-//	    } else if (y >= LOWER_BOUND) {
-//	        state = NORM_RUN_STATE;
-//	        yVelocity = -10;
-////	        midJump = false;
-//	    }
-        
     }
-   
-   public boolean birdIntersects(Pterodactyl r) {
-       int tw = this.width;
-       int th = this.height;
-       int rw = r.width;
-       int rh = r.height;
-       if (rw <= 0 || rh <= 0 || tw <= 0 || th <= 0) {
-           return false;
-       }
-       int tx = this.x;
-       int ty = this.y;
-       int rx = r.x;
-       int ry = r.y;
-       rw += rx;
-       rh += ry;
-       tw += tx;
-       th += ty;
-
-//   	System.out.print("\nrx=" + rx + ";ry=" + ry + ";rw=" + rw + ";rh=" + rh );
-//   	System.out.print("\ntx=" + tx + ";ty=" + ty + ";tw=" + tw + ";th=" + th );
-       //      overflow || intersect
-       return ((rw < rx || rw > tx) &&
-               (rh < ry || rh > ty) &&
-               (tw < tx || tw > rx) &&
-               (th < ty || th > ry));
-   }
 
     
     
