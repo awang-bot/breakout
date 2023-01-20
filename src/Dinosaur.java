@@ -71,28 +71,38 @@ public class Dinosaur extends Rectangle {
     /**
      * Update the dinosaur's position and dimensions.
      */
-    public void move() {
+    public void move(boolean animationOn) {
         switch (state) {
             case START_STATE -> {
                 y = 315;
                 image = Resource.getResourceImage("dino/dino_start.png");
+                break;
             }
             case NORM_RUN_STATE -> {
                 y = 315;
+
+                if (animationOn) {
+//                    y = 315;
                 normal_animation.updateFrame();
                 image = normal_animation.getFrame();
+                }
+                break;
             }
             case JUMP_STATE -> {
                 jump();
                 image = Resource.getResourceImage("dino/dino_jump.png");
+                break;
             }
             case CROUCH_STATE -> {
                 y = 348;
                 crouch_animation.updateFrame();
                 image = crouch_animation.getFrame();
+                break;
             }
             case DEAD_STATE -> {
+            	y = 315;
                 image = Resource.getResourceImage("dino/dino_dead.png");
+                break;
             }
         }
 
@@ -116,8 +126,8 @@ public class Dinosaur extends Rectangle {
             if (e.getKeyCode() == 38 || e.getKeyCode() == 32) {
                 state = JUMP_STATE;
                 if (!mute) {
-                    sound.setFile(0);
-                    sound.play();
+//                    sound.setFile(0);
+////                    sound.play();
                 }
             } else if (e.getKeyCode() == 40) {
                 state = CROUCH_STATE;
@@ -139,11 +149,12 @@ public class Dinosaur extends Rectangle {
     }
 
     public void setDinoDead(boolean mute) {
+//    	dead = true;
         state = DEAD_STATE;
-        if (!mute){
-            sound.setFile(1);
-            sound.play();
-        }
+//        if (!mute){
+//            sound.setFile(1);
+//            sound.play();
+//        }
     }
 
     // ================================================================================
@@ -151,7 +162,6 @@ public class Dinosaur extends Rectangle {
     // ================================================================================
 
     private void jump() {
-        //TODO: fix fancy jump
         y += yVelocity;
 
         if ((y < UPPER_BOUND + 15) && y > UPPER_BOUND)
