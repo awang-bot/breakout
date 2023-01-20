@@ -34,14 +34,6 @@ public class Pterodactyl extends Rectangle {
      * Animation object to animate the pterodactyl's wings.
      */
     public Animation birdFlap;
-//    /**
-//     * Pterodactyl x-coordinate
-//     */
-//    public int x;
-//    /**
-//     * Pterodactyl y-coordinate
-//     */
-//    public int y;
     /**
      * Pterodactyl image
      */
@@ -66,19 +58,6 @@ public class Pterodactyl extends Rectangle {
         birdFlap.addFrame(Resource.getResourceImage("pterodactyl/pterodactyl_down.png"));
 
         image = birdFlap.getFrame();
-        
-        // PREVIOUSLY, THE CONSTRUCTOR WAS AS FLWS:
-        /**
-         * super(x, Y_POS[index], BIRD_WIDTH, BIRD_HEIGHT);
-        xVelocity = 5;
-
-        birdFlap = new Animation(80);
-
-        birdFlap.addFrame(Resource.getResourceImage("pterodactyl/pterodactyl_up.png"));
-        birdFlap.addFrame(Resource.getResourceImage("pterodactyl/pterodactyl_down.png"));
-
-        image = birdFlap.getFrame();
-         */
     }
 
 
@@ -93,6 +72,8 @@ public class Pterodactyl extends Rectangle {
         birdFlap.updateFrame();
         image = birdFlap.getFrame();
         x -= xVelocity;
+        width = image.getWidth();
+        height = image.getHeight();
     }
 
     public void draw(Graphics g) {

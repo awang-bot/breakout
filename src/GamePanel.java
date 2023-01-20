@@ -38,14 +38,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	public MainMenu mainMenu;
 	public boolean displayGame = false, displayWin = false;
 	public WinMenu winMenu;
-	public PauseMenu pauseMenu;
 
     // TODO states...
     public int state;
     private static final int START_STATE = 0; // start button
     private static final int GAME_STATE = 1; // game is running
     private static final int DEAD_STATE = 2; // restart, return to menu?? should we have a menu?
-    private static final int PAUSE_STATE = 4; // MAYbe..
+    private static final int MENU_STATE = 4; // MAYbe..
     public boolean pause = false; // pause game during game
 
     // ================================================================================
@@ -55,7 +54,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         state = START_STATE; // TODO later
 //        state = GAME_STATE;
         newObjects();
-        pauseMenu = new PauseMenu();
 
         this.setFocusable(true);
         requestFocus();
@@ -99,7 +97,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             delta += (now - lastTime) / nanoseconds;
             lastTime = now;
             if (delta >= 1) {
-                if (state == GAME_STATE || state == PAUSE_STATE) { // TODO make switch and cases later
+                if (state == GAME_STATE) { // TODO make switch and cases later
                     updateGame();
 //                    speedUp(); (get rid of this)
                 }
@@ -122,13 +120,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     	if (state == START_STATE) {
     		mainMenu.render(g);
     	}
-//    	if (state == PAUSE_STATE) {
-//    		pauseMenu.render(g);
-//    	}
-    	else {
-//    		(state == GAME_STATE || state == DEAD_STATE) { // only draw these objects if in the GAME_STATE
-    		pauseMenu.render(g);
-    		if (land1.x > -2400) {
+    	
+    	if (state == GAME_STATE || state == DEAD_STATE) { // only draw these objects if in the GAME_STATE
+	    	if (land1.x > -2400) {
 		    	land1.draw(g);
 		    	if (!dino.dead)
 		    		land1.move();
@@ -172,6 +166,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         // condition: if it is dead_state, then draw win state
         if (state == DEAD_STATE) { 
         	winMenu.render(g);
+        	
         }
     	}
     }
@@ -181,62 +176,45 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
      * Invoked when mouse button is clicked.
      */
     public void mousePressedAction(MouseEvent e) {
-        // TODO pause menu
-    	
-    	int x = e.getX();
-		int y = e.getY();
-		// menu
-		if (state == START_STATE) {
-			if (mainMenu.mainMenu) { // main menu
-				// start game
-				if (mainMenu.start.contains(x, y)) {
-					state = GAME_STATE;
-				}
-				// game instructions
-				if (mainMenu.instructions.contains(x, y)) {
-					mainMenu.mainMenu = false;
-				}
-				// quit program
-				if (mainMenu.quit.contains(x, y)) {
-					System.exit(0);
-				}
-			}
-			else { // instructions
-				// back to menu from instructions
-				if (!(mainMenu.mainMenu) && mainMenu.back.contains(x, y)) {
-					mainMenu.mainMenu = true;
-				}
-			}
-		}
-		// win message
-		// TODO: FIX THIS! THIS ISN'T WORKING!
-		if (state == DEAD_STATE) {
-			if (winMenu.returnMenu.contains(x, y)) {
-				// return to main menu
-				state = START_STATE;
-				mainMenu.mainMenu = true;
-				newObjects(); // idk if this needs to be called
-			}
-			if (winMenu.startAgain.contains(x,y)) {
-				newObjects();
-				state = GAME_STATE;
-			}
-		}
-		//pause
-		if (state == GAME_STATE) {
-			if (pauseMenu.pauseButton.contains(x,y)) {
-				state = PAUSE_STATE;
-				dino.setDinoDead(true, false);
-				pauseMenu.showPause = false;
-			}
-		}
-//		if (state == PAUSE_STATE) {
-//			if (pauseMenu.pauseButton.contains(x,y)) {
-//				state = GAME_STATE;
-//				dino.setDinoDead(false, false);
-//				pauseMenu.showPause = true;
-//			}
-//		}
+
+        int x = e.getX();
+        int y = e.getY();
+        // menu
+        if (state == MENU_STATE) {
+            if (mainMenu.mainMenu) { // main menu
+                // start game
+                if (mainMenu.start.contains(x, y)) {
+                    state = GAME_STATE;
+                }
+                // game instructions
+                if (mainMenu.instructions.contains(x, y)) {
+                    mainMenu.mainMenu = false;
+                }
+                // quit program
+                if (mainMenu.quit.contains(x, y)) {
+                    System.exit(0);
+                }
+            } else { // instructions
+                // back to menu from instructions
+                if (mainMenu.back.contains(x, y)) {
+                    mainMenu.mainMenu = true;
+                }
+            }
+        }
+        // win message
+        // TODO: FIX THIS! THIS ISN'T WORKING!
+        if (state == DEAD_STATE) {
+            if (winMenu.returnMenu.contains(x, y)) {
+                // return to main menu
+                state = MENU_STATE;
+                mainMenu.mainMenu = true;
+                newObjects(); // idk if this needs to be called
+            }
+            if (winMenu.startAgain.contains(x, y)) {
+                newObjects();
+                state = GAME_STATE;
+            }
+        }
 
     }
     
@@ -297,10 +275,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         birdArr = new ArrayList<>();
         previousTime1 = 0;
         previousTime2 = 0;
- 		
- 	}
-    
-    
+
+    }
+
+
     /**
      * Update the game while it is running.
      */
@@ -318,30 +296,26 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
      */
     private void checkCollision() {
         // if the dino hits a cactus or a bird, then it dies
-    	// intersects really just determines if dino.x + dino.width <= bird.x or cactus.x
-//        if (birdArr != null) {
-            for (Pterodactyl bird : birdArr) {
-                if (dino.intersects(bird)) {
-                   dino.setDinoDead(true, true);
-                   state = DEAD_STATE;
-                }
-            }
-//        }
-//        if (cactusArr != null) {
-            for (Cactus cactus : cactusArr) {
-                if (dino.intersects(cactus)) {
-                    dino.setDinoDead(true, true);
-                    state = DEAD_STATE;
-                }
+        // intersects really just determines if dino.x + dino.width <= bird.x or cactus.x
+        for (Pterodactyl bird : birdArr) {
+            if (dino.intersects(bird)) {
+                dino.setDinoDead();
+                state = DEAD_STATE;
             }
         }
-//    }
+        for (Cactus cactus : cactusArr) {
+            if (dino.intersects(cactus)) {
+                dino.setDinoDead();
+                state = DEAD_STATE;
+            }
+        }
+    }
 
     private void speedUp() {
         deltaTime2 = 10000;
         if (System.currentTimeMillis() - previousTime2 >= deltaTime2) {
             if (xVelocity < 20) {
-                xVelocity+=1;
+                xVelocity += 1;
                 for (Cactus cactus : cactusArr) {
                     cactus.setXVelocity(xVelocity);
                 }
@@ -355,7 +329,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                     land2.setXVelocity(xVelocity);
                 }
             }
-            previousTime2 = System.currentTimeMillis();  //adding this makes it malfunction idk why. only one/two obstacles show up if this is here.
+            previousTime2 = System.currentTimeMillis();
         }
     }
 

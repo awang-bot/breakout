@@ -19,16 +19,11 @@ public class WinMenu {
 	// check for mouse input
 	boolean menuHover = false;
 	boolean restartHover = false;
-	// true when player 1 wins, false when player 2 wins
-	boolean player1Win = false;
 	
-    public BufferedImage image;
-
 	// ================================================================================
 	// CONSTRUCTOR
 	// ================================================================================
 	public WinMenu() {
-//		image = Resource.getResourceImage("game/gameover.png");
 	}
 
 	// ================================================================================
@@ -47,7 +42,6 @@ public class WinMenu {
 		g.setColor(Color.white);
 
 		// win message
-        g2.drawImage(image, 700, 300, null); // draw cactus
 
 
 		// return to menu button

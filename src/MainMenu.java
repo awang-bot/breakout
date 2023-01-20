@@ -9,15 +9,19 @@ public class MainMenu {
 	// VARIABLES
 	// ================================================================================
 
+	// font
+	Font ps2pFont;
 	// dimensions
 	public static final int GAME_WIDTH = GamePanel.GAME_WIDTH;
 	public static final int GAME_HEIGHT = GamePanel.GAME_HEIGHT;
-
+	public static final int BUTTON_WIDTH = 500;
+	public static final int BUTTON_HEIGHT = 55;
+	public static final int BUTTON_X = 33;
 	// buttons
-	Rectangle start = new Rectangle(492, 203, 500, 55);
-	Rectangle instructions = new Rectangle(492, 275, 500, 55);
-	Rectangle quit = new Rectangle(492, 347, 500, 55);
-	Rectangle back = new Rectangle(30, 40, 150, 55);
+	Rectangle start = new Rectangle(492, 203, BUTTON_WIDTH, BUTTON_HEIGHT);
+	Rectangle instructions = new Rectangle(492, 275, BUTTON_WIDTH, BUTTON_HEIGHT);
+	Rectangle quit = new Rectangle(492, 347, BUTTON_WIDTH, BUTTON_HEIGHT);
+	Rectangle back = new Rectangle(30, 40, BUTTON_WIDTH, BUTTON_HEIGHT);
 	// true for displaying main menu, false for displaying instructions
 	boolean mainMenu = true;
 	// mouse hover
@@ -39,13 +43,12 @@ public class MainMenu {
 	// render menu
 	public void render(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
-
 		// main menu
 		if (mainMenu) {
 			
 			// pong title
-			g.setColor(Color.white);
-			g.setFont(new Font("Verdana", Font.BOLD, 60));
+			g.setColor(Color.black);
+			g.setFont(ps2pFont.deriveFont(60F).deriveFont(Font.BOLD));
 			g.drawString("PONG", 400, 150);
 			
 			// menu buttons
