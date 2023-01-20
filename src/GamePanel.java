@@ -47,6 +47,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private static final int DEAD_STATE = 2; // restart, return to menu?? should we have a menu?
     private static final int PAUSE_STATE = 4; // MAYbe..
 
+   
     // ================================================================================
     // CONSTRUCTOR
     // ================================================================================
@@ -92,9 +93,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             delta += (now - lastTime) / nanoseconds;
             lastTime = now;
             if (delta >= 1) {
-                if (state == GAME_STATE) {
+                if (state != MENU_STATE) 
                     updateGame();
-                }
+//                }
                 repaint();
                 delta--;
             }
@@ -114,7 +115,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             mainMenu.render(g);
         }
         // draw game
-        if (state == GAME_STATE || state == DEAD_STATE || state == PAUSE_STATE) {
+        else {
             // draw land
             if (land1.x > -Land.LAND_WIDTH) {
                 land1.draw(g);
@@ -127,6 +128,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
             // draw score
             score.draw(g);
+      
             // draw cactus
             for (Cactus cactus : cactusArr) {
                 cactus.draw(g);
@@ -140,10 +142,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             // draw pause button
             if (state == GAME_STATE) {
                 Graphics2D g2d = (Graphics2D) g;
-                g2d.drawImage(pauseButton, 30, 30, this);
+                g2d.drawImage(pauseButton, 50, 50, this); //30 30
             }
             // draw game over menu
-            if (state == DEAD_STATE) {
+            if (state == DEAD_STATE) { // added dino.dead_state instead of dead_state
                 gameOverMenu.render(g, win);
             }
             if (state == PAUSE_STATE) {
@@ -156,6 +158,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
      * Invoked when mouse button is clicked.
      */
     public void mousePressedAction(MouseEvent e) {
+    	
+    	// local variable declaration
+//      Rectangle rect = new Rectangle(50, 50, 40, 40);
+
+    	
         // mouse location
         int x = e.getX();
         int y = e.getY();
@@ -164,6 +171,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             if (mainMenu.mainMenu) { // main menu
                 // start game
                 if (mainMenu.start.contains(x, y)) {
+                    newObjects();
                     state = GAME_STATE;
                 }
                 // game instructions
@@ -194,7 +202,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             }
             if (pauseMenu.returnMenu.contains(x, y)) {
                 state = MENU_STATE;
-                newObjects();
+//                newObjects();
             }
             if (pauseMenu.mute.contains(x, y)) {
                 if (mute) {
@@ -208,8 +216,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         if (state == DEAD_STATE) {
             // return to main menu
             if (gameOverMenu.returnMenu.contains(x, y)) {
+//                newObjects();
                 state = MENU_STATE;
-                newObjects();
             }
             // replay
             if (gameOverMenu.restart.contains(x, y)) {
@@ -241,7 +249,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
      */
     @Override
     public void keyPressed(KeyEvent e) {
-        if (state == GAME_STATE)
+        if (state == GAME_STATE);
             dino.keyPressed(e, mute);
     }
 
@@ -286,43 +294,49 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
      * Update the game while it is running.
      */
     private void updateGame() {
-        if (!dino.dead) {
-            move();
-        }
         handleObstacle();
         checkCollision();
         checkObstacleLeftBorder();
-        score.updateScore();
-        score.updateHighScore();
+//        score.updateScore(); moved below in move 
+//        score.updateHighScore();
         speedUp();
         if (score.currentScore() >= 99999) {
             win = true;
             state = DEAD_STATE;
         }
+        move();
     }
 
     private void move() {
         // move dino
-        dino.move();
-        // move cacti
-        for (Cactus cactus : cactusArr) {
-            cactus.move();
-        }
-        // move birds
-        for (Pterodactyl bird : birdArr) {
-            bird.move();
-        }
-        // move land
-        if (land1.x > -Land.LAND_WIDTH) {
-            land1.move();
-        } else {
-            land1.setX(Land.LAND_WIDTH - 1);
-        }
-        if (land2.x > -Land.LAND_WIDTH) {
-            land2.move();
-        } else {
-            land2.setX(Land.LAND_WIDTH - 1);
-        }
+    	if (state == PAUSE_STATE)
+    		dino.move(false);
+    	else 
+    		dino.move(true);
+
+    	if (dino.state != Dinosaur.DEAD_STATE && state != PAUSE_STATE) { 
+	        // move cacti
+	        for (Cactus cactus : cactusArr) {
+	            cactus.move();
+	        }
+	        // move birds
+	        for (Pterodactyl bird : birdArr) {
+	            bird.move();
+	        }
+	        // move land
+	        if (land1.x > -Land.LAND_WIDTH) {
+	            land1.move();
+	        } else {
+	            land1.setX(Land.LAND_WIDTH - 1);
+	        }
+	        if (land2.x > -Land.LAND_WIDTH) {
+	            land2.move();
+	        } else {
+	            land2.setX(Land.LAND_WIDTH - 1);
+	        }
+	        score.updateScore();
+	        score.updateHighScore();
+    	}
     }
 
     /**
@@ -334,12 +348,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         for (Pterodactyl bird : birdArr) {
             if (dino.intersects(bird)) {
                 dino.setDinoDead(mute);
+                dino.state = Dinosaur.DEAD_STATE;
                 state = DEAD_STATE;
             }
         }
         for (Cactus cactus : cactusArr) {
             if (dino.intersects(cactus)) {
                 dino.setDinoDead(mute);
+                dino.state = Dinosaur.DEAD_STATE;
                 state = DEAD_STATE;
             }
         }
