@@ -92,7 +92,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             delta += (now - lastTime) / nanoseconds;
             lastTime = now;
             if (delta >= 1) {
-                if (state == GAME_STATE) { // TODO make switch and cases later
+                if (state == GAME_STATE) {
                     updateGame();
                 }
                 repaint();
@@ -138,7 +138,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             // draw dino
             dino.draw(g);
             // draw pause button
-            if (state == GAME_STATE){
+            if (state == GAME_STATE) {
                 Graphics2D g2d = (Graphics2D) g;
                 g2d.drawImage(pauseButton, 30, 30, this);
             }
@@ -146,7 +146,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             if (state == DEAD_STATE) {
                 gameOverMenu.render(g, win);
             }
-            if (state == PAUSE_STATE){
+            if (state == PAUSE_STATE) {
                 pauseMenu.render(g, mute);
             }
         }
@@ -181,14 +181,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 }
             }
         }
-        if (state == GAME_STATE){
+        if (state == GAME_STATE) {
             Rectangle rect = new Rectangle(50, 50, 40, 40);
-            if (rect.contains(x, y)){
+            if (rect.contains(x, y)) {
                 state = PAUSE_STATE;
             }
         }
         // pause menu
-        if (state == PAUSE_STATE){
+        if (state == PAUSE_STATE) {
             if (pauseMenu.resume.contains(x, y)) {
                 state = GAME_STATE;
             }
@@ -197,7 +197,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 newObjects();
             }
             if (pauseMenu.mute.contains(x, y)) {
-                if (mute){
+                if (mute) {
                     mute = false;
                 } else {
                     mute = true;
@@ -295,7 +295,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         score.updateScore();
         score.updateHighScore();
         speedUp();
-        if (score.currentScore()>=99999){
+        if (score.currentScore() >= 99999) {
             win = true;
             state = DEAD_STATE;
         }
@@ -390,14 +390,16 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private void checkObstacleLeftBorder() {
         if (birdArr != null) {
             for (Cactus cactus : cactusArr) {
-                if (cactus.x < -cactus.width) ;
-                cactus = null;
+                if (cactus.x < -cactus.width) {
+                    cactus = null;
+                }
             }
         }
         if (birdArr != null) {
             for (Pterodactyl bird : birdArr) {
-                if (bird.x < -bird.width) ;
-                bird = null;
+                if (bird.x < -bird.width) {
+                    bird = null;
+                }
             }
         }
     }

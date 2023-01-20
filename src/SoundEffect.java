@@ -15,11 +15,8 @@ public class SoundEffect {
     // CONSTRUCTOR
     // ================================================================================
     public SoundEffect() {
-
         soundURL[0] = getClass().getResource("sound/jump.wav");
         soundURL[1] = getClass().getResource("sound/dead.wav");
-        soundURL[2] = getClass().getResource("sound/scoreup.wav");
-
     }
 
     // ================================================================================
