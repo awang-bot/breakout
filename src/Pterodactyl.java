@@ -34,14 +34,14 @@ public class Pterodactyl extends Rectangle {
      * Animation object to animate the pterodactyl's wings.
      */
     public Animation birdFlap;
-    /**
-     * Pterodactyl x-coordinate
-     */
-    public int x;
-    /**
-     * Pterodactyl y-coordinate
-     */
-    public int y;
+//    /**
+//     * Pterodactyl x-coordinate
+//     */
+//    public int x;
+//    /**
+//     * Pterodactyl y-coordinate
+//     */
+//    public int y;
     /**
      * Pterodactyl image
      */
