@@ -29,7 +29,7 @@ public class Land {
 
     public void move() {
         x -= xVelocity;
-    } // FIXME xSpeed
+    }
     
     public void setX(int x)
     {

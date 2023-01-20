@@ -42,17 +42,17 @@ public class Dinosaur extends Rectangle {
     // CONSTRUCTOR
     // ================================================================================
     public Dinosaur() {
-        super(x, GamePanel.LAND_HEIGHT+79, 1, 1); // TODO figure out y-coordinate
+        super(x, GamePanel.LAND_HEIGHT + 79, 1, 1); // TODO figure out y-coordinate
 
         normal_animation = new Animation(150);
         crouch_animation = new Animation(150);
         midJump = false;
         up = true;
         dead = false;
-        
+
         y = GamePanel.LAND_HEIGHT - 67; // or 300, TODO
         yVelocity = -15;// TODO: MAYBE WE CAN HAVE A HELPER METHOD THAT RESETS THE VELOCITY! THIS IS IMPROTANT FOR JUMP LATER unless we delete the part i put in jump because it seems to be a bit faulty
-       
+
         sound = new SoundEffect();
 
         normal_animation.addFrame(Resource.getResourceImage("dino/dino_normal_1.png"));
@@ -76,36 +76,28 @@ public class Dinosaur extends Rectangle {
             case START_STATE -> {
                 y = 315;
                 image = Resource.getResourceImage("dino/dino_start.png");
-                break;
             }
             case NORM_RUN_STATE -> {
                 y = 315;
                 normal_animation.updateFrame();
                 image = normal_animation.getFrame();
-                break;
             }
             case JUMP_STATE -> {
                 jump();
                 image = Resource.getResourceImage("dino/dino_jump.png");
-                break;
             }
             case CROUCH_STATE -> {
                 y = 348;
                 crouch_animation.updateFrame();
                 image = crouch_animation.getFrame();
-                break;
             }
             case DEAD_STATE -> {
-//            	y = 300;
-            	if(y==348)
-            		y = 315;
                 image = Resource.getResourceImage("dino/dino_dead.png");
-                break;
             }
         }
 
-        width = image.getWidth()-20; // -20 so that it is closer to the obstacle
-        height = image.getHeight()-20;
+        width = image.getWidth() - 20; // -20 so that it is closer to the obstacle
+        height = image.getHeight() - 20;
 
     }
 
@@ -119,21 +111,23 @@ public class Dinosaur extends Rectangle {
     /**
      * updates the direction of the dinosaur based on user input
      */
-    public void keyPressed(KeyEvent e) {
+    public void keyPressed(KeyEvent e, boolean mute) {
         if ((state == NORM_RUN_STATE)) {
-            if (e.getKeyCode() == 32 || e.getKeyCode() == 49) {
+            if (e.getKeyCode() == 38 || e.getKeyCode() == 32) {
                 state = JUMP_STATE;
-//                sound.setFile(0);
-//                sound.play();
+                if (!mute) {
+                    sound.setFile(0);
+                    sound.play();
+                }
             } else if (e.getKeyCode() == 40) {
                 state = CROUCH_STATE;
             }
         } else if (state == JUMP_STATE)
             if (e.getKeyCode() == 40) {
-            	if (up)
-            		yVelocity = -10;
-            	else
-            		yVelocity = 10;
+                if (up)
+                    yVelocity = -10;
+                else
+                    yVelocity = 10;
             }
     }
 
@@ -143,55 +137,45 @@ public class Dinosaur extends Rectangle {
             state = NORM_RUN_STATE;
         }
     }
-    
-    public void setDinoDead()
-    {
-    	state = DEAD_STATE;
-    	dead = true;
+
+    public void setDinoDead(boolean mute) {
+        state = DEAD_STATE;
+        if (!mute){
+            sound.setFile(1);
+            sound.play();
+        }
     }
 
     // ================================================================================
     // HELPER METHODS
     // ================================================================================
 
-   private void jump() {
-    //TODO: fix fancy jump    	
+    private void jump() {
+        //TODO: fix fancy jump
         y += yVelocity;
 
-//        // TRY to make it slow down a bit at the top
-        if ((y < UPPER_BOUND+15) && y > UPPER_BOUND)
-        	if (up)
-        	{
-        		yVelocity=-2.5;
-        	}
-        	else
-        	{
-        		yVelocity=2.5;
-        	}
-        else if ((y > UPPER_BOUND+10) && (y < LOWER_BOUND))
-        {
-        	if (yVelocity <0)
-        	{
-        		yVelocity=-10;
-        	}
-        	else
-        	{
-        		yVelocity =7; // i don't know if this is necessary given the below condition
-        	}
+        if ((y < UPPER_BOUND + 15) && y > UPPER_BOUND)
+            if (up) {
+                yVelocity = -2.5;
+            } else {
+                yVelocity = 2.5;
+            }
+        else if ((y > UPPER_BOUND + 10) && (y < LOWER_BOUND)) {
+            if (yVelocity < 0) {
+                yVelocity = -10;
+            } else {
+                yVelocity = 7;
+            }
+        } else if (y <= UPPER_BOUND) {
+            up = false;
+            yVelocity = 2.5;
+        } else if (y >= LOWER_BOUND) {
+            state = NORM_RUN_STATE;
+            yVelocity = -10;
+            up = true;
         }
-        else if (y <= UPPER_BOUND) {
-        	up = false;
-	        yVelocity = 2.5;
-	    } else if (y >= LOWER_BOUND) {
-	        state = NORM_RUN_STATE;
-	        yVelocity = -10;
-	        up = true;
-	    }
-        
-    }
 
-    
-    
+    }
 
 
 }

@@ -4,6 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 /**
@@ -20,7 +21,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     public static final int GAME_WIDTH = 1500;
     public static final int GAME_HEIGHT = 660;
     public static final Dimension SCREEN_SIZE = new Dimension(GAME_WIDTH, GAME_HEIGHT);
-    public static final int LAND_HEIGHT = 380; // FIXME change this later
+    public static final int LAND_HEIGHT = 380;
     public Thread gameThread;
     public Image image;
     public Graphics graphics;
@@ -34,55 +35,49 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private int deltaTime1;
     private long previousTime2;
     private int deltaTime2;
-//	boolean displayMenu = true;
-	public MainMenu mainMenu;
-	public boolean displayGame = false, displayWin = false;
-	public WinMenu winMenu;
-
-    // TODO states...
+    public MainMenu mainMenu;
+    public GameOverMenu gameOverMenu;
+    public PauseMenu pauseMenu;
+    public BufferedImage pauseButton;
+    public boolean mute;
+    public boolean win;
     public int state;
-    private static final int START_STATE = 0; // start button
+    private static final int MENU_STATE = 0; // start button
     private static final int GAME_STATE = 1; // game is running
     private static final int DEAD_STATE = 2; // restart, return to menu?? should we have a menu?
-    private static final int MENU_STATE = 4; // MAYbe..
-    public boolean pause = false; // pause game during game
+    private static final int PAUSE_STATE = 4; // MAYbe..
 
     // ================================================================================
     // CONSTRUCTOR
     // ================================================================================
     public GamePanel() {
-        state = START_STATE; // TODO later
-//        state = GAME_STATE;
+        // set to main menu
+        state = MENU_STATE;
+        // initialize objects
         newObjects();
-
+        // read user input
         this.setFocusable(true);
         requestFocus();
-
+        // read keyboard input
         this.addKeyListener(this);
+        // read mouse input
         addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 mousePressedAction(e);
             }
         });
-
-        addMouseListener(new MouseAdapter() {
-            public void mousePressed(MouseEvent e) {
-                mousePressedAction(e);
-            }
-        });
-
         addMouseMotionListener(new MouseAdapter() {
             public void mouseMoved(MouseEvent e) {
                 mouseHoverAction(e);
             }
         });
-
+        // set dimensions
         this.setPreferredSize(SCREEN_SIZE);
-
+        // create thread
         gameThread = new Thread(this);
         gameThread.start();
 
-    } // end of constructor
+    }
 
     // ================================================================================
     // METHODS
@@ -99,7 +94,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             if (delta >= 1) {
                 if (state == GAME_STATE) { // TODO make switch and cases later
                     updateGame();
-//                    speedUp(); (get rid of this)
                 }
                 repaint();
                 delta--;
@@ -115,68 +109,54 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     }
 
     public void draw(Graphics g) {
-    	
-    	// display main menu
-    	if (state == START_STATE) {
-    		mainMenu.render(g);
-    	}
-    	
-    	if (state == GAME_STATE || state == DEAD_STATE) { // only draw these objects if in the GAME_STATE
-	    	if (land1.x > -2400) {
-		    	land1.draw(g);
-		    	if (!dino.dead)
-		    		land1.move();
-	    	}
-	    	else 
-	    		land1.setX(2350);
-	    	if (land2.x > -2400) {
-				land2.draw(g);
-				if (!dino.dead)
-					land2.move();
-	    	}
-	    	else
-	    		land2.setX(2350);
-	    	
-	    	score.draw(g);
-	
-	        if (cactusArr != null) {
-	        	try { //FIXME: THERE'S AN ERROR THAT POPS UP
-		            for (Cactus currCactus : cactusArr) {
-		                currCactus.draw(g);
-		                if (!dino.dead)
-		                    currCactus.move();
-		
-		            }
-	        	}
-	        	catch (Exception e) { 
-	        		System.out.println("Wrong" + e.getMessage());
-	        	}
-	        }
-	        if (birdArr != null) {
-	            for (Pterodactyl bird : birdArr) {
-	                bird.draw(g);
-	                if (!dino.dead)
-	                    bird.move();
-	            }
+        // display main menu
+        if (state == MENU_STATE) {
+            mainMenu.render(g);
         }
+        // draw game
+        if (state == GAME_STATE || state == DEAD_STATE || state == PAUSE_STATE) {
+            // draw land
+            if (land1.x > -Land.LAND_WIDTH) {
+                land1.draw(g);
+            }
+            if (land2.x > -Land.LAND_WIDTH) {
+                land2.draw(g);
+            }
 
-        dino.draw(g);
-        dino.move();
-        
-        // condition: if it is dead_state, then draw win state
-        if (state == DEAD_STATE) { 
-        	winMenu.render(g);
-        	
+            // TODO draw clouds here!
+
+            // draw score
+            score.draw(g);
+            // draw cactus
+            for (Cactus cactus : cactusArr) {
+                cactus.draw(g);
+            }
+            // draw bird
+            for (Pterodactyl bird : birdArr) {
+                bird.draw(g);
+            }
+            // draw dino
+            dino.draw(g);
+            // draw pause button
+            if (state == GAME_STATE){
+                Graphics2D g2d = (Graphics2D) g;
+                g2d.drawImage(pauseButton, 30, 30, this);
+            }
+            // draw game over menu
+            if (state == DEAD_STATE) {
+                gameOverMenu.render(g, win);
+            }
+            if (state == PAUSE_STATE){
+                pauseMenu.render(g, mute);
+            }
         }
-    	}
     }
-
 
     /**
      * Invoked when mouse button is clicked.
      */
     public void mousePressedAction(MouseEvent e) {
-
+        // mouse location
         int x = e.getX();
         int y = e.getY();
         // menu
@@ -195,36 +175,58 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                     System.exit(0);
                 }
             } else { // instructions
-                // back to menu from instructions
+                // return to main menu
                 if (mainMenu.back.contains(x, y)) {
                     mainMenu.mainMenu = true;
                 }
             }
         }
-        // win message
-        // TODO: FIX THIS! THIS ISN'T WORKING!
-        if (state == DEAD_STATE) {
-            if (winMenu.returnMenu.contains(x, y)) {
-                // return to main menu
-                state = MENU_STATE;
-                mainMenu.mainMenu = true;
-                newObjects(); // idk if this needs to be called
+        if (state == GAME_STATE){
+            Rectangle rect = new Rectangle(50, 50, 40, 40);
+            if (rect.contains(x, y)){
+                state = PAUSE_STATE;
             }
-            if (winMenu.startAgain.contains(x, y)) {
+        }
+        // pause menu
+        if (state == PAUSE_STATE){
+            if (pauseMenu.resume.contains(x, y)) {
+                state = GAME_STATE;
+            }
+            if (pauseMenu.returnMenu.contains(x, y)) {
+                state = MENU_STATE;
+                newObjects();
+            }
+            if (pauseMenu.mute.contains(x, y)) {
+                if (mute){
+                    mute = false;
+                } else {
+                    mute = true;
+                }
+            }
+        }
+        // game over
+        if (state == DEAD_STATE) {
+            // return to main menu
+            if (gameOverMenu.returnMenu.contains(x, y)) {
+                state = MENU_STATE;
+                newObjects();
+            }
+            // replay
+            if (gameOverMenu.restart.contains(x, y)) {
                 newObjects();
                 state = GAME_STATE;
             }
         }
 
     }
-    
+
     /**
      * Invoked when mouse cursor hovers.
      */
     public void mouseHoverAction(MouseEvent e) {
-        // TODO button changes when hover
-		mainMenu.updateHoverState(new Point(e.getX(), e.getY()));
-		winMenu.updateHoverState(new Point(e.getX(), e.getY()));
+        mainMenu.updateHoverState(new Point(e.getX(), e.getY()));
+        pauseMenu.updateHoverState(new Point(e.getX(), e.getY()));
+        gameOverMenu.updateHoverState(new Point(e.getX(), e.getY()));
     }
 
     /**
@@ -239,9 +241,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
      */
     @Override
     public void keyPressed(KeyEvent e) {
-    	if (state == GAME_STATE)
-    		dino.keyPressed(e);
-        // TODO press space or up_arrow or enter to restart or resume game
+        if (state == GAME_STATE)
+            dino.keyPressed(e, mute);
     }
 
     /**
@@ -249,33 +250,35 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
      */
     @Override
     public void keyReleased(KeyEvent e) {
-    	if (state == GAME_STATE)
-    		dino.keyReleased(e);
+        if (state == GAME_STATE)
+            dino.keyReleased(e);
     }
 
 
     // ================================================================================
     // HELPER METHODS
     // ================================================================================
- 
+
     /**
      * create new objects to reset the game
      * only objects that move should be reset
      */
- 	public void newObjects() {
- 		score = new Score();
+    private void newObjects() {
+        score = new Score();
         xVelocity = 10; // starting speed
         dino = new Dinosaur();
         land1 = new Land(0, xVelocity);
         land2 = new Land(Land.LAND_WIDTH, xVelocity);
         mainMenu = new MainMenu();
-        winMenu = new WinMenu();
-        
+        gameOverMenu = new GameOverMenu();
+        pauseMenu = new PauseMenu();
         cactusArr = new ArrayList<>(); // set to null to choose design randomly after
         birdArr = new ArrayList<>();
         previousTime1 = 0;
         previousTime2 = 0;
-
+        mute = false;
+        win = false;
+        pauseButton = Resource.getResourceImage("game/pause_button.png");
     }
 
 
@@ -283,12 +286,43 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
      * Update the game while it is running.
      */
     private void updateGame() {
+        if (!dino.dead) {
+            move();
+        }
         handleObstacle();
         checkCollision();
         checkObstacleLeftBorder();
         score.updateScore();
         score.updateHighScore();
         speedUp();
+        if (score.currentScore()>=99999){
+            win = true;
+            state = DEAD_STATE;
+        }
+    }
+
+    private void move() {
+        // move dino
+        dino.move();
+        // move cacti
+        for (Cactus cactus : cactusArr) {
+            cactus.move();
+        }
+        // move birds
+        for (Pterodactyl bird : birdArr) {
+            bird.move();
+        }
+        // move land
+        if (land1.x > -Land.LAND_WIDTH) {
+            land1.move();
+        } else {
+            land1.setX(Land.LAND_WIDTH - 1);
+        }
+        if (land2.x > -Land.LAND_WIDTH) {
+            land2.move();
+        } else {
+            land2.setX(Land.LAND_WIDTH - 1);
+        }
     }
 
     /**
@@ -299,13 +333,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         // intersects really just determines if dino.x + dino.width <= bird.x or cactus.x
         for (Pterodactyl bird : birdArr) {
             if (dino.intersects(bird)) {
-                dino.setDinoDead();
+                dino.setDinoDead(mute);
                 state = DEAD_STATE;
             }
         }
         for (Cactus cactus : cactusArr) {
             if (dino.intersects(cactus)) {
-                dino.setDinoDead();
+                dino.setDinoDead(mute);
                 state = DEAD_STATE;
             }
         }

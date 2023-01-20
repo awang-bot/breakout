@@ -16,9 +16,9 @@ public class SoundEffect {
     // ================================================================================
     public SoundEffect() {
 
-        soundURL[0] = getClass().getResource("resources/sound/jump.wav");
-        soundURL[1] = getClass().getResource("resources/sound/dead.wav");
-        soundURL[2] = getClass().getResource("resources/sound/scoreup.wav");
+        soundURL[0] = getClass().getResource("sound/jump.wav");
+        soundURL[1] = getClass().getResource("sound/dead.wav");
+        soundURL[2] = getClass().getResource("sound/scoreup.wav");
 
     }
 
@@ -28,24 +28,18 @@ public class SoundEffect {
 
     // set audio file
     public void setFile(int i) {
-
         try {
-
             AudioInputStream ais = AudioSystem.getAudioInputStream(soundURL[i]);
             clip = AudioSystem.getClip();
             clip.open(ais);
-
         } catch (Exception e) {
             System.out.println("Error playing sound effect.");
         }
-
     }
 
     // play audio
     public void play() {
-
         clip.start();
-
     }
 
 }
