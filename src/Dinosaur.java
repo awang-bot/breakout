@@ -27,10 +27,7 @@ public class Dinosaur extends Rectangle {
     public Animation normal_animation;
     public Animation crouch_animation;
     public boolean midJump, up;
-    /**
-     * if the dino is dead, true.
-     */
-    public boolean dead;
+    
     /**
      * when true, the dino is still in the air jumping.
      */
@@ -48,10 +45,9 @@ public class Dinosaur extends Rectangle {
         crouch_animation = new Animation(150);
         midJump = false;
         up = true;
-        dead = false;
 
         y = GamePanel.LAND_HEIGHT - 67; // or 300, TODO
-        yVelocity = -15;// TODO: MAYBE WE CAN HAVE A HELPER METHOD THAT RESETS THE VELOCITY! THIS IS IMPROTANT FOR JUMP LATER unless we delete the part i put in jump because it seems to be a bit faulty
+        yVelocity = -15;
 
         sound = new SoundEffect();
 
@@ -82,9 +78,8 @@ public class Dinosaur extends Rectangle {
                 y = 315;
 
                 if (animationOn) {
-//                    y = 315;
-                normal_animation.updateFrame();
-                image = normal_animation.getFrame();
+	                normal_animation.updateFrame();
+	                image = normal_animation.getFrame();
                 }
                 break;
             }
@@ -100,7 +95,8 @@ public class Dinosaur extends Rectangle {
                 break;
             }
             case DEAD_STATE -> {
-            	y = 315;
+            	if (y > 315) // make sure the dinosaur ends up on or above the ground, not beneath
+            		y = 315;
                 image = Resource.getResourceImage("dino/dino_dead.png");
                 break;
             }
@@ -149,7 +145,6 @@ public class Dinosaur extends Rectangle {
     }
 
     public void setDinoDead(boolean mute) {
-//    	dead = true;
         state = DEAD_STATE;
 //        if (!mute){
 //            sound.setFile(1);
