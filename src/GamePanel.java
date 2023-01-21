@@ -27,6 +27,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     public Graphics graphics;
     public ArrayList<Cactus> cactusArr;
     public ArrayList<Pterodactyl> birdArr;
+    public Cloud cloud;
     public Dinosaur dino;
     public Score score;
     public Land land1, land2;
@@ -46,6 +47,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private static final int GAME_STATE = 1; // game is running
     private static final int DEAD_STATE = 2; // restart, return to menu?? should we have a menu?
     private static final int PAUSE_STATE = 4; // MAYbe..
+//	public SoundEffect sound;
 
    
     // ================================================================================
@@ -77,6 +79,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         // create thread
         gameThread = new Thread(this);
         gameThread.start();
+        
 
     }
 
@@ -93,9 +96,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             delta += (now - lastTime) / nanoseconds;
             lastTime = now;
             if (delta >= 1) {
-                if (state != MENU_STATE) 
+                if (state != MENU_STATE && (state != PAUSE_STATE)) 
                     updateGame();
-//                }
                 repaint();
                 delta--;
             }
@@ -125,10 +127,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             }
 
             // TODO draw clouds here!
-
+            if (cloud!= null)
+            	cloud.draw(g);
+            
             // draw score
             score.draw(g);
-      
+
             // draw cactus
             for (Cactus cactus : cactusArr) {
                 cactus.draw(g);
@@ -145,7 +149,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 g2d.drawImage(pauseButton, 50, 50, this); //30 30
             }
             // draw game over menu
-            if (state == DEAD_STATE) { // added dino.dead_state instead of dead_state
+            if (state == DEAD_STATE) {
                 gameOverMenu.render(g, win);
             }
             if (state == PAUSE_STATE) {
@@ -158,10 +162,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
      * Invoked when mouse button is clicked.
      */
     public void mousePressedAction(MouseEvent e) {
-    	
-    	// local variable declaration
-//      Rectangle rect = new Rectangle(50, 50, 40, 40);
-
     	
         // mouse location
         int x = e.getX();
@@ -202,7 +202,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             }
             if (pauseMenu.returnMenu.contains(x, y)) {
                 state = MENU_STATE;
-//                newObjects();
             }
             if (pauseMenu.mute.contains(x, y)) {
                 if (mute) {
@@ -216,7 +215,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         if (state == DEAD_STATE) {
             // return to main menu
             if (gameOverMenu.returnMenu.contains(x, y)) {
-//                newObjects();
                 state = MENU_STATE;
             }
             // replay
@@ -266,7 +264,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     // ================================================================================
     // HELPER METHODS
     // ================================================================================
-
+    
     /**
      * create new objects to reset the game
      * only objects that move should be reset
@@ -287,7 +285,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         mute = false;
         win = false;
         pauseButton = Resource.getResourceImage("game/pause_button.png");
-    }
+//        sound = new SoundEffect(); 
+        }
 
 
     /**
@@ -297,14 +296,15 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         handleObstacle();
         checkCollision();
         checkObstacleLeftBorder();
-//        score.updateScore(); moved below in move 
-//        score.updateHighScore();
         speedUp();
         if (score.currentScore() >= 99999) {
             win = true;
             state = DEAD_STATE;
+            dino.state = Dinosaur.DEAD_STATE; // FIXME: maybe it shouldn't be?
         }
         move();
+        if (score.currentScore()%50==0)
+        	cloud = new Cloud();
     }
 
     private void move() {
@@ -314,8 +314,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     	else 
     		dino.move(true);
 
-    	if (dino.state != Dinosaur.DEAD_STATE && state != PAUSE_STATE) { 
+    	if (state != DEAD_STATE && state != PAUSE_STATE) { // took out dino.state != Dinosaur.DEAD_STATE && 
 	        // move cacti
+    		if (cloud!= null)
+    			cloud.move();
 	        for (Cactus cactus : cactusArr) {
 	            cactus.move();
 	        }
@@ -327,12 +329,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	        if (land1.x > -Land.LAND_WIDTH) {
 	            land1.move();
 	        } else {
-	            land1.setX(Land.LAND_WIDTH - 1);
+	            land1.setX(Land.LAND_WIDTH);
 	        }
 	        if (land2.x > -Land.LAND_WIDTH) {
 	            land2.move();
 	        } else {
-	            land2.setX(Land.LAND_WIDTH - 1);
+	            land2.setX(Land.LAND_WIDTH);
 	        }
 	        score.updateScore();
 	        score.updateHighScore();
@@ -356,7 +358,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             if (dino.intersects(cactus)) {
                 dino.setDinoDead(mute);
                 dino.state = Dinosaur.DEAD_STATE;
-                state = DEAD_STATE;
+                state = DEAD_STATE;        
             }
         }
     }
@@ -399,6 +401,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         }
     }
 
+
     /**
      * This method will check if the obstacle passes the left border.
      * If so, it sets the obstacle to null.
@@ -417,6 +420,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                     bird = null;
                 }
             }
+        }
+        if (cloud !=null) {
+	        if (cloud.x < -Cloud.width)
+	        	cloud = null;
         }
     }
 
