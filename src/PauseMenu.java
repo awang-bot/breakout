@@ -4,6 +4,7 @@
  * PauseMenu
  * This class will allow the user to pause their game.
  */
+
 import java.awt.*;
 
 public class PauseMenu {  // pause button is on

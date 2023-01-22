@@ -15,8 +15,8 @@ public class SoundEffect {
     // ================================================================================
     // VARIABLES
     // ================================================================================
-    private Clip clip;
-    private static final URL[] soundURL = new URL[3];
+    public Clip clip;
+    private static final URL[] soundURL = new URL[2];
 
     // ================================================================================
     // CONSTRUCTOR
