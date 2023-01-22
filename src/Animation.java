@@ -1,7 +1,7 @@
 /* Anne Liu and Atisa Wang
-January 7, 2022
+January 7, 2023
 Animation
-This program will handle the animations of the obstacles and dinosaurs. */
+This program will handle the animations of the pterodactyls and dinosaurs. */
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -26,14 +26,16 @@ public class Animation {
     // ================================================================================
     public Animation(int deltaTime) {
         this.deltaTime = deltaTime;
-        keyFrames = new ArrayList<>(2);
+        keyFrames = new ArrayList<>(2); // initialize the ArrayList
         previousTime = 0;
     }
 
     // ================================================================================
     // METHODS
     // ================================================================================
-    public void updateFrame() {
+    
+
+    public void updateFrame() { 
         if (System.currentTimeMillis() - previousTime >= deltaTime) {
             currentFrame++;
             if (currentFrame >= keyFrames.size()) {
