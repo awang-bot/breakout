@@ -1,17 +1,12 @@
-import java.awt.*;
-
 /*
  * Anne and Atisa
- * January 19
+ * January 19, 2023
  * PauseMenu
  * This class will allow the user to pause their game.
  */
+import java.awt.*;
 
-
-public class PauseMenu {
-
-    // PAUSED resume, mute, menu
-    // pause button on
+public class PauseMenu {  // pause button is on
 
     // ================================================================================
     // VARIABLES
@@ -21,12 +16,12 @@ public class PauseMenu {
     public static final int GAME_HEIGHT = GamePanel.GAME_HEIGHT;
     public static final int BUTTON_WIDTH = 250;
     public static final int BUTTON_HEIGHT = 55;
-    Rectangle resume;
-    Rectangle mute;
-    Rectangle returnMenu;
-    boolean resumeHover = false;
-    boolean muteHover = false;
-    boolean menuHover = false;
+    public Rectangle resume;
+    public Rectangle mute;
+    public Rectangle returnMenu;
+    private boolean resumeHover = false;
+    private boolean muteHover = false;
+    private boolean menuHover = false;
 
     // ================================================================================
     // CONSTRUCTOR
@@ -34,6 +29,7 @@ public class PauseMenu {
     public PauseMenu() {
         ps2pFont = Resource.getResourceFont("game/PressStart2P.ttf", 20F);
 
+        // initialize all the rectangles that will appear as buttons
         resume = new Rectangle(((GAME_WIDTH - BUTTON_WIDTH) / 2), 260, BUTTON_WIDTH, BUTTON_HEIGHT);
         mute = new Rectangle(((GAME_WIDTH - BUTTON_WIDTH) / 2), 325, BUTTON_WIDTH, BUTTON_HEIGHT);
         returnMenu = new Rectangle(((GAME_WIDTH - BUTTON_WIDTH) / 2), 390, BUTTON_WIDTH, BUTTON_HEIGHT);
