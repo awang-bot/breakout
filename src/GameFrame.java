@@ -1,3 +1,10 @@
+/*
+ * Anne Liu and Atisa Wang
+ * January 7, 2023
+ * GameFrame
+ * GameFrame class establishes the frame (window) for the game and runs the constructor in GamePanel.
+ */
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -12,7 +19,7 @@ public class GameFrame extends JFrame {
     // CONSTRUCTOR
     // ================================================================================
     public GameFrame() {
-        this.setTitle("Dinosaur Game"); // change later
+        this.setTitle("Dinosaur Game!"); 
         this.setResizable(false);
         this.setBackground(Color.white);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -22,8 +29,6 @@ public class GameFrame extends JFrame {
 
         this.setVisible(true);
 		this.setLocationRelativeTo(null);// set window in middle of screen
-
     }
-
 
 }
