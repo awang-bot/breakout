@@ -1,3 +1,10 @@
+/*
+ * Anne Liu and Atisa Wang
+ * January 3, 2023
+ * SoundEffect
+ * This class will handle the mechanics allowing sound to play in the game.
+ */
+
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -8,8 +15,8 @@ public class SoundEffect {
     // ================================================================================
     // VARIABLES
     // ================================================================================
-    Clip clip;
-    URL[] soundURL = new URL[3];
+    private Clip clip;
+    private static final URL[] soundURL = new URL[3];
 
     // ================================================================================
     // CONSTRUCTOR
@@ -23,7 +30,10 @@ public class SoundEffect {
     // METHODS
     // ================================================================================
 
-    // set audio file
+    /**
+     * set audio file
+     * @param i
+     */
     public void setFile(int i) {
         try {
             AudioInputStream ais = AudioSystem.getAudioInputStream(soundURL[i]);
@@ -34,7 +44,9 @@ public class SoundEffect {
         }
     }
 
-    // play audio
+    /**
+     * play the audio
+     */
     public void play() {
         clip.start();
     }
