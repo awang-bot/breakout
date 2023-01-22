@@ -1,11 +1,8 @@
-/**
- * <pre>
+/*
  *     Anne Liu and Atisa Wang
  *     January 7, 2023
- *
- *     MAIN
- *     This class holds the main method.
- * </pre>
+ *     Main
+ *     This class holds the main method to run the game.
  */
 public class Main {
 
