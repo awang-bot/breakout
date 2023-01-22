@@ -1,3 +1,10 @@
+/*
+ * Anne Liu and Atisa Wang
+ * January 16, 2023
+ * MainMenu
+ * This class will manage the characteristics and text in the main menu.
+ */
+
 import java.awt.*;
 
 public class MainMenu {
@@ -5,19 +12,19 @@ public class MainMenu {
 	// ================================================================================
 	// VARIABLES
 	// ================================================================================
-	public Font ps2pFont;
-	public static final int GAME_WIDTH = GamePanel.GAME_WIDTH;
-	public static final int BUTTON_WIDTH = 475;
-	public static final int BUTTON_HEIGHT = 75;
+	private Font ps2pFont;
+	private static final int GAME_WIDTH = GamePanel.GAME_WIDTH;
+	private static final int BUTTON_WIDTH = 475;
+	private static final int BUTTON_HEIGHT = 75;
 	public Rectangle start;
 	public Rectangle instructions;
 	public Rectangle quit;
 	public Rectangle back;
-	boolean mainMenu = true;
-	boolean startHover = false;
-	boolean instructionsHover = false;
-	boolean quitHover = false;
-	boolean backHover = false;
+	public boolean mainMenu = true;
+	private boolean startHover = false;
+	private boolean instructionsHover = false;
+	private boolean quitHover = false;
+	private boolean backHover = false;
 
 	// ================================================================================
 	// CONSTRUCTOR
@@ -25,6 +32,7 @@ public class MainMenu {
 	public MainMenu() {
 		ps2pFont = Resource.getResourceFont("game/PressStart2P.ttf", 20F);
 
+		// initialize all the rectangles that will appear as buttons
 		start = new Rectangle(((GAME_WIDTH - BUTTON_WIDTH)/2), 250, BUTTON_WIDTH, BUTTON_HEIGHT);
 		instructions = new Rectangle(((GAME_WIDTH - BUTTON_WIDTH)/2), 350, BUTTON_WIDTH, BUTTON_HEIGHT);
 		quit = new Rectangle(((GAME_WIDTH - BUTTON_WIDTH)/2), 450, BUTTON_WIDTH, BUTTON_HEIGHT);
@@ -42,7 +50,6 @@ public class MainMenu {
 
 		// main menu
 		if (mainMenu) {
-
 			// game title
 			fm = g.getFontMetrics(ps2pFont.deriveFont(60F));
 			String text = "DINOSAUR GAME";
