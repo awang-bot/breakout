@@ -1,6 +1,6 @@
 /* Anne Liu and Atisa Wang
  * January 17, 2023
- * Win
+ * GameOverMenu
  * This class will manage the win menu of the game.
  */
 
@@ -12,14 +12,14 @@ public class GameOverMenu {
     // VARIABLES
     // ================================================================================
     public Font ps2pFont;
-    public static final int GAME_WIDTH = GamePanel.GAME_WIDTH;
-    public static final int GAME_HEIGHT = GamePanel.GAME_HEIGHT;
-    public static final int BUTTON_WIDTH = 250;
-    public static final int BUTTON_HEIGHT = 55;
-    Rectangle returnMenu;
-    Rectangle restart;
-    boolean menuHover = false;
-    boolean restartHover = false;
+    private static final int GAME_WIDTH = GamePanel.GAME_WIDTH;
+    private static final int GAME_HEIGHT = GamePanel.GAME_HEIGHT;
+    private static final int BUTTON_WIDTH = 250;
+    private static final int BUTTON_HEIGHT = 55;
+    public Rectangle returnMenu;
+    public Rectangle restart;
+    private boolean menuHover = false;
+    private boolean restartHover = false;
 
     // ================================================================================
     // CONSTRUCTOR
@@ -27,6 +27,7 @@ public class GameOverMenu {
     public GameOverMenu() {
         ps2pFont = Resource.getResourceFont("game/PressStart2P.ttf", 20F);
 
+        // initialize the rectangles that will appear as buttons
         returnMenu = new Rectangle(((GAME_WIDTH - BUTTON_WIDTH)/2), 300, BUTTON_WIDTH, BUTTON_HEIGHT);
         restart = new Rectangle(((GAME_WIDTH - BUTTON_WIDTH)/2), 365, BUTTON_WIDTH, BUTTON_HEIGHT);
     }
@@ -45,13 +46,13 @@ public class GameOverMenu {
         // draw rectangles
         rectDraw(g2d);
 
-        // player wins
+        // player wins (reaches the highest possible score)
         if (win) {
             g.setFont(ps2pFont.deriveFont(30F));
             fm = g.getFontMetrics(ps2pFont.deriveFont(30F));
             text = "YOU WIN!";
         }
-        // player dies
+        // player does not reach the highest score
         else {
             g.setFont(ps2pFont.deriveFont(25F));
             fm = g.getFontMetrics(ps2pFont.deriveFont(25F));
