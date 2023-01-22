@@ -9,52 +9,42 @@ import java.awt.image.BufferedImage;
 
 public class Cloud extends Rectangle {
 
-    // ================================================================================
-    // VARIABLES
-    // ================================================================================
-    public final String fileName = "background/cloud.png";
-    public final BufferedImage buffImage;
-    private int xVelocity;
-    public static final int width = 92;
+	// ================================================================================
+	// VARIABLES
+	// ================================================================================
+	private static final BufferedImage BUFF_IMAGE = Resource.getResourceImage("background/cloud.png");
+	private int xVelocity;
+	public static final int WIDTH = 92;
 
-    // ================================================================================
-    // CONSTRUCTOR
-    // ================================================================================
-    public Cloud() {
-    	// initialize the cloud position
-    	x = 1500;
-    	y = 250;
-    	xVelocity = 7;
+	// ================================================================================
+	// CONSTRUCTOR
+	// ================================================================================
+	public Cloud() {
+		// initialize the cloud position
+		x = 1500;
+		y = 250;
+		xVelocity = 7;
+	}
 
-        // initialize the cloud image
-        buffImage = Resource.getResourceImage(fileName);
-    	
-    }
+	// ================================================================================
+	// METHODS
+	// ================================================================================
 
-    // ================================================================================
-    // METHODS
-    // ================================================================================
+	/**
+	 * move the cloud to the left according to the xVelocity
+	 */
+	public void move() {
+		x -= xVelocity;
+	}
 
-    /**
-     * move the cactus 5px left
-     */
-    public void move() {
-        x -= xVelocity;
-    }
-    
-
-    public void draw(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
-        
-        g2d.drawImage(buffImage, x, y, null); // draw cactus
-    }
-
-    public void setXVelocity(int speed){
-        xVelocity = speed;
-    }
+	/**
+	 * draw the cloud onto the screen
+	 * 
+	 * @param g
+	 */
+	public void draw(Graphics g) {
+		Graphics2D g2d = (Graphics2D) g;
+		g2d.drawImage(BUFF_IMAGE, x, y, null); // draw cactus
+	}
 
 }
-
-	
-	
-	
