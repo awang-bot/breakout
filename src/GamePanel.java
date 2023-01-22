@@ -371,16 +371,20 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             if (dino.intersects(bird)) {
                 dino.state = Dinosaur.DEAD_STATE;
                 state = DEAD_STATE;
-                sound.setFile(1);
-                sound.play();
+                if (!mute) {
+                    sound.setFile(1);
+                    sound.play();
+                }
             }
         }
         for (Cactus cactus : cactusArr) {
             if (dino.intersects(cactus)) {
                 dino.state = Dinosaur.DEAD_STATE;
                 state = DEAD_STATE;
-                sound.setFile(1);
-                sound.play();
+                if (!mute) {
+                    sound.setFile(1);
+                    sound.play();
+                }
             }
         }
     }
